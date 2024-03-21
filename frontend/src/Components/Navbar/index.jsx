@@ -54,7 +54,7 @@ export default function Navbar() {
   };
   //
   return (
-    <div className={`${styles.navbar} ${stickyClass&&styles.stick}`} ref={navbar}>
+    <nav className={`${styles.navbar} ${stickyClass&&styles.stick}`} ref={navbar}>
       <Container
         sx={{
           display: "flex",
@@ -185,6 +185,6 @@ export default function Navbar() {
         mobileMenu={mobileMenu}
         handleMobileMenu={handleMobileMenu}
       />
-    </div>
+    </nav>
   );
 }

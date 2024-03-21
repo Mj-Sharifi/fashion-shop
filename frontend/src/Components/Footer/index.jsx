@@ -6,6 +6,7 @@ import React from "react";
 export default function Footer() {
   return (
     <Box
+    component={"footer"}
       sx={{
         backgroundColor: "colors.lightgray",
         paddingTop: { xs: "60px", md: "100px" },

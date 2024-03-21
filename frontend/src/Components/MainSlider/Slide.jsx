@@ -4,146 +4,109 @@ import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import Link from "next/link";
 import { SwiperSlide } from "swiper/react";
 export default function Slide({ title, subtitle, img }) {
-
   return (
-      <Container
-        sx={{
-          height: {
-            xs: "auto",
-            sm: "450px",
-            md: "520px",
-            lg: "650px",
-            xl: "750px",
-          },
-          overflow: "hidden",
-        }}
-      >
-        <Grid container height={"100%"} rowGap={4}>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            height={{ sm: "100%" }}
-            display={"flex"}
-            flexDirection={"column"}
-            justifyContent={"center !important"}
-            alignItems={{ xs: "center", sm: "inherit" }}
+    <Container
+      sx={{
+        height: {
+          xs: "auto",
+          sm: "450px",
+          md: "520px",
+          lg: "650px",
+          xl: "750px",
+        },
+        overflow: "hidden",
+      }}
+    >
+      <Grid container height={"100%"} rowGap={4}>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          height={{ sm: "100%" }}
+          display={"flex"}
+          flexDirection={"column"}
+          justifyContent={"center !important"}
+          alignItems={{ xs: "center", sm: "inherit" }}
+        >
+          <Typography variant="h3" component={"h3"} gutterBottom>
+            {subtitle}
+          </Typography>
+          <Typography
+            variant="h1"
+            component={"h2"}
+            textAlign={{ xs: "center", sm: "start" }}
+            gutterBottom
           >
-            <Typography
-              variant="h3"
-              component={"h3"}
-              gutterBottom
+            {title}
+          </Typography>
+          <Link href="/">
+            <Button
+              disableRipple
+              variant="outlined"
               sx={{
-                // "@keyframes slideup": {
-                //   from: { transform: "translateY(200%)", opacity: "0" },
-                //   to: { transform: "trasnlateY(0)", opacity: "1" },
-                // },
-                // animation: `${
-                //   slide?.current?.closest(".swiper-slide-active") &&
-                //   "slideup 0.3s ease-out"
-                // }`,
-                // animationDelay: "0.5s",
-                // animationFillMode: "backwards",
+                border: "1px solid #333",
+                color: "#010101",
+                display: "inline-block",
+                fontSize: "16px",
+                padding: "19px 50px 21px",
+                isolation: "isolate",
+                position: "relative",
+                transition: "all 0.5s ease-in-out 0s",
+                "&::before": {
+                  bottom: "0",
+                  content: "''",
+                  height: "100%",
+                  left: "0",
+                  position: " absolute",
+                  transition: "all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1)",
+                  width: "100%",
+                  zIndex: "-1",
+                },
+                "&::after": {
+                  background: "#a749ff",
+                  left: "auto",
+                  right: "0",
+                  width: "0",
+                  bottom: "0",
+                  content: "''",
+                  height: "100%",
+                  position: "absolute",
+                  transition: "all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1)",
+                  zIndex: "-1",
+                },
+                "&:hover": {
+                  border: "1px solid #a749ff",
+                  color: "#fff",
+                },
+                "&:hover::after": {
+                  left: "0",
+                  right: "auto",
+                  width: "100%",
+                },
               }}
             >
-              {subtitle}
-            </Typography>
-            <Typography
-              variant="h1"
-              component={"h2"}
-              textAlign={{ xs: "center", sm: "start" }}
-              gutterBottom
-              sx={{
-                // "@keyframes slideup": {
-                //   from: { transform: "translateY(200%)", opacity: "0" },
-                //   to: { transform: "trasnlateY(0)", opacity: "1" },
-                // },
-                // animation: `${
-                //   slide?.current?.closest(".swiper-slide-active") &&
-                //   "slideup 0.5s ease-out"
-                // }`,
-                // animationDelay: "0.8s",
-                // animationFillMode: "backwards",
-              }}
-            >
-              {title}
-            </Typography>
-            <Link href="/">
-              <Button
-                disableRipple
-                variant="outlined"
-                sx={{
-                  // "@keyframes slideup": {
-                  //   from: { transform: "translateY(150%)", opacity: "0" },
-                  //   to: { transform: "trasnlateY(0)", opacity: "1" },
-                  // },
-                  " @keyframes hover": {
-                    from: {
-                      boxShadow: "inset 0 0 0 0.01px #a749ff",
-                    },
-                    to: {
-                      boxShadow: "inset 180px 0 0 0.01px #a749ff",
-                      color: "#fff",
-                    },
-                  },
-
-                  "@keyframes leave": {
-                    from: {
-                      boxShadow: "inset -180px 0 0 0.01px #a749ff",
-                      color: "#fff",
-                    },
-                    to: {
-                      boxShadow: "inset 0 0 0 0.01px #a749ff",
-                    },
-                  },
-                  width: "180px",
-                  height: "60px",
-                  borderRadius: "2px",
-                  borderColor: "text.black",
-                  fontSize: "16px",
-                  color: "text.black",
-                  animation:"leave 0.5s forwards",
-                  // animation: `leave 0.5s forwards,${
-                  //   slide?.current?.closest(".swiper-slide-active") &&
-                  //   "slideup 0.4s ease-out 1.2s backwards"
-                  // }`,
-                  "&:hover": {
-                    animation: "hover 0.5s forwards",
-                  },
-                }}
-              >
-                SHOP NOW
-              </Button>
-            </Link>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            height={{ sm: "100%" }}
-            display={"flex"}
-            alignItems={"end"}
-          >
-            <Box
-              component={"img"}
-              src={process.env.NEXT_PUBLIC_BASE_URL + img}
-              alt={title}
-              sx={{
-                width: "100%",
-                // "@keyframes slideup": {
-                //   from: { transform: "translateY(100%)", opacity: "0.4" },
-                //   to: { transform: "trasnlateY(0)", opacity: "1" },
-                // },
-                // animation: `${
-                //   slide?.current?.closest(".swiper-slide-active") &&
-                //   "slideup 1s ease-out"
-                // }`,
-                // animationDelay: "1.5s",
-                // animationFillMode: "backwards",
-              }}
-            />
-          </Grid>
+              SHOP NOW
+            </Button>
+          </Link>
         </Grid>
-      </Container>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          height={{ sm: "100%" }}
+          display={"flex"}
+          alignItems={"end"}
+        >
+          <Box
+            component={"img"}
+            src={process.env.NEXT_PUBLIC_BASE_URL + img}
+            alt={title}
+            sx={{
+              width: "100%",
+            }}
+          />
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
