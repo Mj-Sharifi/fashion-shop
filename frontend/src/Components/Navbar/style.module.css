@@ -1,0 +1,25 @@
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.navbar{
+    min-height: 80px;
+}
+.stick {
+  animation: fadeInDown 0.7s ease-in-out 0s 1 normal none running;
+  background-color: white;
+  box-shadow: 0 0 25px 0 rgba(0,0,0,.06);
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+}

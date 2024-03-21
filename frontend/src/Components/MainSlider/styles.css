@@ -1,0 +1,88 @@
+@keyframes imgslideup {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: trasnlateY(0);
+    opacity: 1;
+  }
+}
+@keyframes h3slideup {
+  from {
+    transform: translateY(200%);
+    opacity: 0;
+  }
+  to {
+    transform: trasnlateY(0);
+    opacity: 1;
+  }
+}
+@keyframes h2slideup {
+  from {
+    transform: translateY(200%);
+    opacity: 0;
+  }
+  to {
+    transform: trasnlateY(0);
+    opacity: 1;
+  }
+}
+@keyframes buttonslideup {
+  from {
+    transform: translateY(150%);
+    opacity: 0;
+  }
+  to {
+    transform: trasnlateY(0);
+    opacity: 1;
+  }
+}
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  background: #f0e0ff;
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+} */
+.swiper-slide-active img {
+  animation: imgslideup 1s ease-out !important;
+  animation-delay: 1.5s !important;
+  animation-fill-mode: backwards !important;
+}
+.swiper-slide-active h2 {
+  animation: h2slideup 0.5s ease-out !important;
+  animation-delay: 0.8s !important;
+  animation-fill-mode: backwards !important;
+}
+.swiper-slide-active h3 {
+  animation: h3slideup 0.3s ease-out !important;
+  animation-delay: 0.5s !important;
+  animation-fill-mode: backwards !important;
+}
+.swiper-slide-active button {
+  animation: buttonslideup 0.4s ease-out 1.2s backwards !important;
+
+}
+.swiper-button-next , .swiper-button-prev  {
+  transition: all 0.5s;
+  color:#d3d3d3 !important
+}
+.swiper-button-next:hover, .swiper-button-prev:hover {
+  color:#a749ff !important
+}
+.swiper-pagination{
+  display: none;
+}
