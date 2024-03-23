@@ -6,6 +6,6 @@
 }
 a{
   text-decoration: none;
-  color: black;
+  color: #222;
 }
-input::placeholder{color: black !important;opacity: 1 !important;}
+input::placeholder{color: #222 !important;opacity: 1 !important;}

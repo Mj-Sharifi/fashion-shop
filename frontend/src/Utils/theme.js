@@ -21,15 +21,16 @@ const theme = createTheme({
       lightblack: "#343538 !important",
     },
     text: {
-      black: "#000 !important",
+      black: "#222 !important",
       white: "#fff !important",
     },
   },
 });
 theme.typography.h1 = {
+  color: "#222",
   fontSize: "30px",
   lineHeight: "42px",
-  fontWeight:"400",
+  fontWeight: "400",
   [theme.breakpoints.up("sm")]: {
     fontSize: "42px",
     lineHeight: "54px",
@@ -44,6 +45,7 @@ theme.typography.h1 = {
   },
 };
 theme.typography.h3 = {
+  color: "#222",
   fontSize: "20px",
   fontWeight: "500",
   [theme.breakpoints.up("sm")]: {
@@ -57,18 +59,21 @@ theme.typography.h3 = {
   },
 };
 theme.typography.h4 = {
+  color: "#222",
   fontSize: "20px",
   fontWeight: "500",
-  lineHeight:"30px",
+  lineHeight: "30px",
 };
 theme.typography.h5 = {
+  color: "#222",
   fontSize: "18px",
   fontWeight: "400",
-  lineHeight:"20px",
+  lineHeight: "20px",
 };
 theme.typography.body2 = {
+  color: "#222",
   fontSize: "14px",
   fontWeight: "500",
-  letterSpacing:"0.8px",
+  letterSpacing: "0.8px",
 };
 export default theme;

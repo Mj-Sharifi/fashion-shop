@@ -44,8 +44,9 @@ export default function Slide({ title, subtitle, img }) {
               disableRipple
               variant="outlined"
               sx={{
-                border: "1px solid #333",
-                color: "#010101",
+                border: "1px solid",
+                borderColor:"text.black",
+                color: "text.black",
                 display: "inline-block",
                 fontSize: "16px",
                 padding: "19px 50px 21px",
@@ -63,7 +64,7 @@ export default function Slide({ title, subtitle, img }) {
                   zIndex: "-1",
                 },
                 "&::after": {
-                  background: "#a749ff",
+                  backgroundColor: "colors.violet",
                   left: "auto",
                   right: "0",
                   width: "0",
@@ -75,7 +76,8 @@ export default function Slide({ title, subtitle, img }) {
                   zIndex: "-1",
                 },
                 "&:hover": {
-                  border: "1px solid #a749ff",
+                  border: "1px solid",
+                  borderColor:"colors.violet",
                   color: "#fff",
                 },
                 "&:hover::after": {

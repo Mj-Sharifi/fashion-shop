@@ -61,13 +61,13 @@ export default function Navbar() {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          paddingY: "10px",
+          paddingY: "5px",
         }}
       >
         <Image
           src={"/assets/fashion-logo.png"}
-          width={60}
-          height={60}
+          width={70}
+          height={70}
           alt="Fasion Shop"
         />
         <Stack direction={"row"} gap={3} display={{ xs: "none", md: "flex" }}>
