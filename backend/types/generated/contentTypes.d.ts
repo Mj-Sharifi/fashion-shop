@@ -889,6 +889,25 @@ export interface ApiProductProduct extends Schema.CollectionType {
     imageprimary: Attribute.Media;
     imagesecondary: Attribute.Media & Attribute.Required;
     imagesall: Attribute.Media;
+    bestSeller: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    isNew: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
+    rating: Attribute.Enumeration<
+      [
+        'a0',
+        'a0.5',
+        'a1',
+        'a1.5',
+        'a2',
+        'a2.5',
+        'a3',
+        'a3.5',
+        'a4',
+        'a4.5',
+        'a5'
+      ]
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

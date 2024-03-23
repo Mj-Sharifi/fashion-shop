@@ -16,6 +16,7 @@ const theme = createTheme({
     colors: {
       violet: "#a749ff !important",
       purple: "#f0e0ff !important",
+      pink:"#fa6bff",
       lightgray: "#f6f6f8 !important",
       darkgray: "#d3d3d3 !important",
       lightblack: "#343538 !important",

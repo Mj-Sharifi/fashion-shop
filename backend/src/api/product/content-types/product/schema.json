@@ -54,11 +54,38 @@
       ]
     },
     "imagesall": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": true
+      ]
+    },
+    "bestSeller": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "isNew": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "rating": {
+      "type": "enumeration",
+      "enum": [
+        "a0",
+        "a0.5",
+        "a1",
+        "a1.5",
+        "a2",
+        "a2.5",
+        "a3",
+        "a3.5",
+        "a4",
+        "a4.5",
+        "a5"
+      ]
     }
   }
 }

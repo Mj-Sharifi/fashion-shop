@@ -4,6 +4,7 @@ import Navbar from "@/Components/Navbar";
 import { Box, Container, Grid, ListItemText, Stack } from "@mui/material";
 import React from "react";
 import styles from "./page.module.css"
+import DailyDeals from "@/Components/DailyDeals";
 export default function Home() {
   return (
     <>
@@ -11,8 +12,8 @@ export default function Home() {
       <main>
         {/* main slider */}
         <MainSlider />
-        {/* features */}
         <Container>
+          {/* features */}
           <Grid
             container
             columnSpacing={2}
@@ -93,7 +94,10 @@ export default function Home() {
               />
             </Grid>
           </Grid>
+          {/* daily deals */}
+          <DailyDeals/>
         </Container>
+
       </main>
       <Footer />
     </>
