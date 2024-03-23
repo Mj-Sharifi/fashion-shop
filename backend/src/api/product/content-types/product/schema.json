@@ -86,6 +86,10 @@
         "a4.5",
         "a5"
       ]
+    },
+    "isAvailable": {
+      "type": "boolean",
+      "default": true
     }
   }
 }

@@ -16,6 +16,7 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export default function DailyDeals() {
@@ -33,13 +34,13 @@ export default function DailyDeals() {
         case 0:
           data = await fetchData(
             process.env.NEXT_PUBLIC_BASE_API +
-              `products?populate=*&filters[isNew][$eq]=true`
+              `products?populate=*&filters[isNew][$eq]=true&pagination[start]=0&pagination[limit]=8`
           );
           break;
         case 1:
           data = await fetchData(
             process.env.NEXT_PUBLIC_BASE_API +
-              `products?populate=*&filters[bestSeller][$eq]=true`
+              `products?populate=*&filters[bestSeller][$eq]=true&pagination[start]=0&pagination[limit]=8`
           );
           break;
         case 2:
@@ -98,7 +99,7 @@ export default function DailyDeals() {
           <Tab disableRipple sx={{ fontSize: "16px" }} label="Sale Items" />
         </Tabs>
       </Box>
-      <Grid container spacing={4}>
+      <Grid container spacing={4} paddingTop={{xs:2,sm:3,md:4}}>
         {products?.map((e, i) => (
           <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
             <Stack
@@ -117,7 +118,7 @@ export default function DailyDeals() {
                     opacity: "1 !important",
                     transform: "translateX(0)",
                   },
-                  "& .buttons div": {
+                  "& .buttons div, .buttons button": {
                     transform: "translateY(0)",
                     opacity: "1",
                   },
@@ -208,7 +209,7 @@ export default function DailyDeals() {
                 {e?.attributes.discount ? (
                   <Chip
                     variant="filled"
-                    label={`${e?.attributes.discount}%`}
+                    label={`-${e?.attributes.discount}%`}
                     sx={{
                       width: "60px",
                       paddingY: "3px",
@@ -228,13 +229,14 @@ export default function DailyDeals() {
                 position={"absolute"}
                 bottom={"0"}
               >
-                <Stack
+                <IconButton
+                  disableRipple
                   sx={{
                     transition: "0.3s",
-                    justifyContent: "center",
-                    alignItems: "center",
+
                     width: "20%",
                     height: "40px",
+                    borderRadius:"0",
                     bgcolor: "colors.violet",
                     color: "text.white",
                     transform: "translateY(100%)",
@@ -242,34 +244,37 @@ export default function DailyDeals() {
                   }}
                 >
                   <FavoriteBorderOutlined />
-                </Stack>
-                <Stack
-                  sx={{
-                    transition: "0.3s",
-                    transitionDelay:"0.1s",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "60%",
-                    height: "40px",
-                    bgcolor: "colors.violet",
-                    color: "text.white",
-                    border: "1px solid #ffffff90",
-                    borderBottom: "0",
-                    borderTop: "0",
-                    transform: "translateY(100%)",
-                    opacity: "0",
-                  }}
-                >
-                  More info ...
-                </Stack>
-                <Stack
+                </IconButton>
+
+                <Link href={"/s"} style={{ width: "60%" }}>
+                  <Button
+                    sx={{
+                      transition: "0.3s",
+                      transitionDelay: "0.1s",
+                      width: "100%",
+                      height: "40px",
+                      borderRadius:"0",
+                      bgcolor: "colors.violet",
+                      color: "text.white",
+                      border: "1px solid #ffffff90",
+                      borderBottom: "0",
+                      borderTop: "0",
+                      transform: "translateY(100%)",
+                      opacity: "0",
+                    }}
+                    
+                  >
+                    More info ...
+                  </Button>
+                </Link>
+                <IconButton
+                  disableRipple
                   sx={{
                     transition: "0.3s",
                     transitionDelay:"0.2s",
-                    justifyContent: "center",
-                    alignItems: "center",
                     width: "20%",
                     height: "40px",
+                    borderRadius:"0",
                     bgcolor: "colors.violet",
                     color: "text.white",
                     transform: "translateY(100%)",
@@ -277,7 +282,7 @@ export default function DailyDeals() {
                   }}
                 >
                   <VisibilityOutlined />
-                </Stack>
+                </IconButton>
               </Stack>
             </Stack>
           </Grid>

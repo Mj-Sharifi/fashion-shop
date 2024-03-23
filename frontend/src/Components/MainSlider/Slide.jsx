@@ -39,7 +39,7 @@ export default function Slide({ title, subtitle, img }) {
           >
             {title}
           </Typography>
-          <Link href="/">
+          <Link href="/shop">
             <Button
               disableRipple
               variant="outlined"
