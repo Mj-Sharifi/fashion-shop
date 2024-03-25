@@ -909,6 +909,7 @@ export interface ApiProductProduct extends Schema.CollectionType {
       ]
     >;
     isAvailable: Attribute.Boolean & Attribute.DefaultTo<true>;
+    longDescription: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

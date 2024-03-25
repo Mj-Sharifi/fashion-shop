@@ -90,6 +90,9 @@
     "isAvailable": {
       "type": "boolean",
       "default": true
+    },
+    "longDescription": {
+      "type": "text"
     }
   }
 }

@@ -205,6 +205,7 @@ export default function Home() {
                   discount={e?.attributes.discount}
                   price={e?.attributes.price}
                   isNew={e?.attributes.isNew}
+                  isAvailable={e?.attributes.isAvailable}
                 />
               </Grid>
             ))}

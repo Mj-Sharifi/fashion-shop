@@ -23,6 +23,7 @@ export default function ProductCard({
   price,
   discount,
   isNew,
+  isAvailable,
 }) {
   return (
     <Stack
@@ -159,7 +160,7 @@ export default function ProductCard({
               width: "100%",
               height: "40px",
               borderRadius: "0",
-              bgcolor: "colors.violet",
+              bgcolor: `${isAvailable?"colors.violet":"text.black"}`,
               color: "text.white",
               border: "1px solid #ffffff90",
               borderBottom: "0",
@@ -172,7 +173,7 @@ export default function ProductCard({
               },
             }}
           >
-            More info ...
+            {isAvailable?"More info ...":"Out of Stock"}
           </Button>
         </Link>
         <IconButton
