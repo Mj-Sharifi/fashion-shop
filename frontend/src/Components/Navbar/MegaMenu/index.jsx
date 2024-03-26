@@ -29,8 +29,20 @@ export default function MegaMenu() {
             </Typography>
             <Stack>
               {e?.attributes.subcategories.data.map((m, n) => (
-                <Link href={`/shop/${e?.attributes.title.toLowerCase()}/${m.attributes.title}`}>
-                  <Typography key={n}>{m.attributes.title}</Typography>
+                <Link
+                  href={`/shop/${e?.attributes.title.toLowerCase()}/${
+                    m.attributes.title
+                  }`}
+                >
+                  <Typography
+                    key={n}
+                    sx={{
+                      transition: "0.3s",
+                      "&:hover": { color: "colors.violet" },
+                    }}
+                  >
+                    {m.attributes.title}
+                  </Typography>
                 </Link>
               ))}
             </Stack>

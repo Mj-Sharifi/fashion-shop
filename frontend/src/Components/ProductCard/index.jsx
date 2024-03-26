@@ -52,7 +52,7 @@ export default function ProductCard({
       }}
     >
       <Box
-        height={"75%"}
+        height={"80%"}
         width={"100%"}
         position={"relative"}
         overflow={"hidden"}
