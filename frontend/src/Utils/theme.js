@@ -9,6 +9,16 @@ const poppins = Poppins({
 });
 
 const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+      xxl: 1920,
+    },
+  },
   typography: {
     fontFamily: poppins.style.fontFamily,
   },
@@ -16,7 +26,7 @@ const theme = createTheme({
     colors: {
       violet: "#a749ff !important",
       purple: "#f0e0ff !important",
-      pink:"#fa6bff",
+      pink: "#fa6bff",
       lightgray: "#f6f6f8 !important",
       darkgray: "#d3d3d3 !important",
       lightblack: "#343538 !important",

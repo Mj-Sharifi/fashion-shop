@@ -192,6 +192,7 @@ export default function Home() {
             {products?.map((e, i) => (
               <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
                 <ProductCard
+                  id={e.id}
                   title={e?.attributes.title}
                   rating={+e?.attributes.rating?.slice(1)}
                   imgPrimary={

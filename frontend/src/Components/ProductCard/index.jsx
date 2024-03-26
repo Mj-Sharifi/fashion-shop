@@ -16,6 +16,7 @@ import Link from "next/link";
 import React from "react";
 
 export default function ProductCard({
+  id,
   title,
   imgPrimary,
   imgSecondary,
@@ -33,6 +34,7 @@ export default function ProductCard({
       paddingBottom={"60px"}
       alignItems={"center"}
       sx={{
+        height: "380px",
         "&:hover": {
           "img:nth-child(1)": {
             transform: "translateX(-100%)",
@@ -50,15 +52,16 @@ export default function ProductCard({
       }}
     >
       <Box
-        height={"70%"}
+        height={"75%"}
         width={"100%"}
         position={"relative"}
         overflow={"hidden"}
+        mb={4}
       >
         <Box
           component={"img"}
           src={imgPrimary}
-          sx={{ width: "100%", transition: "0.5s" }}
+          sx={{ width: "100%", transition: "0.5s", objectFit: "contain" }}
         />
         <Box
           component={"img"}
@@ -152,7 +155,10 @@ export default function ProductCard({
           <FavoriteBorderOutlined />
         </IconButton>
 
-        <Link href={"/s"} style={{ width: "60%" }}>
+        <Link
+          href={`/product/${id}/${title.toLowerCase().split(" ").join("-")}`}
+          style={{ width: "60%" }}
+        >
           <Button
             sx={{
               transition: "0.3s",
@@ -160,7 +166,7 @@ export default function ProductCard({
               width: "100%",
               height: "40px",
               borderRadius: "0",
-              bgcolor: `${isAvailable?"colors.violet":"text.black"}`,
+              bgcolor: `${isAvailable ? "colors.violet" : "text.black"}`,
               color: "text.white",
               border: "1px solid #ffffff90",
               borderBottom: "0",
@@ -173,7 +179,7 @@ export default function ProductCard({
               },
             }}
           >
-            {isAvailable?"More info ...":"Out of Stock"}
+            {isAvailable ? "More info ..." : "Out of Stock"}
           </Button>
         </Link>
         <IconButton

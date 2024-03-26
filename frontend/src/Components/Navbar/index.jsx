@@ -13,6 +13,7 @@ import {
   Container,
   IconButton,
   Input,
+  Paper,
   Stack,
   Typography,
 } from "@mui/material";
@@ -20,28 +21,29 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import HamburgerMenu from "./HamburgerMenu";
-import styles from "./style.module.css"
+import styles from "./style.module.css";
+import MegaMenu from "./MegaMenu";
 const menuItems = ["Home", "Shop", "Blog", "Contact"];
 
 export default function Navbar() {
   // handle navbar position
   const navbar = useRef();
-  const [stickyClass,setSticykClass] = useState(false)
+  const [stickyClass, setSticykClass] = useState(false);
   const stickNavbar = () => {
     if (window !== undefined) {
       let windowHeight = window.scrollY;
-      if (windowHeight>80){
-        setSticykClass(true)
-      }else{
-        setSticykClass(false)
+      if (windowHeight > 80) {
+        setSticykClass(true);
+      } else {
+        setSticykClass(false);
       }
     }
   };
   useEffect(() => {
-    window.addEventListener('scroll', stickNavbar);
+    window.addEventListener("scroll", stickNavbar);
 
     return () => {
-      window.removeEventListener('scroll', stickNavbar);
+      window.removeEventListener("scroll", stickNavbar);
     };
   }, []);
 
@@ -52,9 +54,12 @@ export default function Navbar() {
   const handleMobileMenu = () => {
     setMobileMenu(!mobileMenu);
   };
-  //
+
   return (
-    <nav className={`${styles.navbar} ${stickyClass&&styles.stick}`} ref={navbar}>
+    <nav
+      className={`${styles.navbar} ${stickyClass && styles.stick}`}
+      ref={navbar}
+    >
       <Container
         sx={{
           display: "flex",
@@ -71,19 +76,57 @@ export default function Navbar() {
           alt="Fasion Shop"
         />
         <Stack direction={"row"} gap={3} display={{ xs: "none", md: "flex" }}>
-          {menuItems.map((e, i) => (
-            <Link key={i} href={`/${e.toLowerCase()}`}>
-              <Typography
-              variant="body2"
-                sx={{
-                  transition: "0.3s",
-                  "&:hover": { color: "colors.violet" },
-                }}
-              >
-                {e}
-              </Typography>
-            </Link>
-          ))}
+          {menuItems.map((e, i) => {
+            if (e != "Shop") {
+              return (
+                <Link key={i} href={`/${e.toLowerCase()}`}>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      transition: "0.3s",
+                      "&:hover": { color: "colors.violet" },
+                    }}
+                  >
+                    {e}
+                  </Typography>
+                </Link>
+              );
+            } else {
+              return (
+                <Box key={i} sx={{ "&:hover":{"& .MuiPaper-root":{visibility:"visible",opacity:"1",height:"250px"}} }}>
+                  <Typography
+                    
+                    variant="body2"
+                    sx={{
+                      transition: "0.3s",
+                      "&:hover": { color: "colors.violet" },
+                      cursor: "pointer",
+                    }}
+                  >
+                    {e}
+                  </Typography>
+                  <Paper
+                    sx={{
+                      transition:"0.3s",
+                      position: "absolute",
+                      top: "80px",
+                      left: "0",
+                      right:"0",
+                      zIndex: "1000",
+                      // width: "1000px",
+                      // transform: "translateX(-50%)",
+                      visibility:"hidden",
+                      opacity:"0",
+                      height:"0px",
+                      overflow:"hidden"
+                    }}
+                  >
+                    <MegaMenu />
+                  </Paper>
+                </Box>
+              );
+            }
+          })}
         </Stack>
         <Stack
           direction={"row"}
