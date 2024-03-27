@@ -17,12 +17,11 @@ import {
   FavoriteBorderOutlined,
   CompareArrows,
 } from "@mui/icons-material";
-import { useAppDispatch} from "@/Lib/hooks";
+import { useAppDispatch } from "@/Lib/hooks";
 
 import { addItem } from "@/Lib/Features/Cart/cartSlice";
 
 export default function ProductDetail({ params }) {
-
   const [product, setProduct] = useState();
   useEffect(() => {
     fetch(
@@ -33,6 +32,7 @@ export default function ProductDetail({ params }) {
       .then((data) => setProduct(data.data));
   }, []);
   // Hanlde Size
+
   const [size, setSize] = useState();
   //Handle Color
   const [color, setColor] = useState();
@@ -45,7 +45,7 @@ export default function ProductDetail({ params }) {
     quantity > 1 && setQuantity(quantity - 1);
   };
   const dispatch = useAppDispatch();
-  console.log(product);
+
   return (
     <>
       {product && (
@@ -98,6 +98,7 @@ export default function ProductDetail({ params }) {
               {/* Color and Size Selection */}
               {product?.attributes.isAvailable && (
                 <Stack direction={"row"} gap={5}>
+                  {/* Color */}
                   <Stack direction={"column"} gap={2}>
                     <Typography variant="body2">Color</Typography>
                     <Stack direction={"row"} gap={1}>
@@ -134,29 +135,33 @@ export default function ProductDetail({ params }) {
                       ))}
                     </Stack>
                   </Stack>
+                  {/* Size */}
                   <Stack direction={"column"} gap={2}>
                     <Typography variant="body2">Size</Typography>
                     <Stack direction={"row"} gap={1}>
-                      {product?.attributes.sizes?.data?.map((e, i) => (
-                        <Stack
-                          key={i}
-                          sx={{
-                            px: "5px",
-                            height: "25px",
-                            justifyContent: "center",
-                            borderRadius: "5px",
-                            fontSize: "14px",
-                            bgcolor: `${
-                              size === e?.attributes.size
-                                ? "colors.purple"
-                                : "colors.lightgray"
-                            }`,
-                          }}
-                          onClick={(e) => setSize(e.target.innerHTML)}
-                        >
-                          {e?.attributes.size}
-                        </Stack>
-                      ))}
+                      {product &&
+                        [...product?.attributes.sizes?.data]
+                          .sort((a, b) => a.attributes.size - b.attributes.size)
+                          ?.map((e, i) => (
+                            <Stack
+                              key={i}
+                              sx={{
+                                px: "5px",
+                                height: "25px",
+                                justifyContent: "center",
+                                borderRadius: "5px",
+                                fontSize: "14px",
+                                bgcolor: `${
+                                  size === e?.attributes.size
+                                    ? "colors.purple"
+                                    : "colors.lightgray"
+                                }`,
+                              }}
+                              onClick={(e) => setSize(e.target.innerHTML)}
+                            >
+                              {e?.attributes.size}
+                            </Stack>
+                          ))}
                     </Stack>
                   </Stack>
                 </Stack>
