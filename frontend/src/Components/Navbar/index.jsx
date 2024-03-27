@@ -79,7 +79,7 @@ export default function Navbar() {
           {menuItems.map((e, i) => {
             if (e != "Shop") {
               return (
-                <Link key={i} href={`/${e.toLowerCase()}`}>
+                <Link key={i} href={`/${e!="Home"?e.toLowerCase():""}`}>
                   <Typography
                     variant="body2"
                     sx={{

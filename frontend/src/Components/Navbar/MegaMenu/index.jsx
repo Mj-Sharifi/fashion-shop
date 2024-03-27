@@ -11,7 +11,7 @@ export default function MegaMenu() {
       .then((data) => setCategories(data.data))
       .catch((err) => console.log(err));
   }, []);
-  console.log(categories);
+
   return (
     <Grid container sx={{ height: "100%", width: "100%" }}>
       {categories?.map((e, i) => (
@@ -30,12 +30,12 @@ export default function MegaMenu() {
             <Stack>
               {e?.attributes.subcategories.data.map((m, n) => (
                 <Link
+                  key={n}
                   href={`/shop/${e?.attributes.title.toLowerCase()}/${
                     m.attributes.title
                   }`}
                 >
                   <Typography
-                    key={n}
                     sx={{
                       transition: "0.3s",
                       "&:hover": { color: "colors.violet" },

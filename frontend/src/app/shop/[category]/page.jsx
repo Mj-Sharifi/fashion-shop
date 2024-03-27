@@ -14,22 +14,13 @@ export default function Category({ params }) {
       .then((res) => res.json())
       .then((data) => setProducts(data.data)).catch(err=>console.log(err));
   }, []);
-  // const products = await fetchData(
-  //   process.env.BASE_API +
-  //     `products?populate=*&filters[categories][title][$eq]=${
-  //       params.category.charAt(0).toUpperCase() + params.category.slice(1)
-  //     }`
-  // );
-  console.log(process.env.Next_PUBLIC_BASE_API +
-    `products?populate=*&filters[categories][title][$eq]=${
-      params.category.charAt(0).toUpperCase() + params.category.slice(1)
-    }`)
+
   return (
     <Container>
       <Grid container columnSpacing={4}>
         <Grid item sm={3}></Grid>
         <Grid item sm={9}>
-          <Grid container sx={{ width: "100%" }}>
+          <Grid container sx={{ width: "100%" }} spacing={4}>
             {products?.map((e, i) => (
               <Grid key={i} item xs={12} sm={6} md={4} xxl={3}>
                 <ProductCard

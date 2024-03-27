@@ -25,7 +25,7 @@ export default function Subcategory({ params }) {
 
   return (
     <Container>
-      <Grid container columnSpacing={4}>
+      <Grid container spacing={4}>
         <Grid item sm={3}></Grid>
         <Grid item sm={9}>
           <Grid

@@ -31,10 +31,9 @@ export default function ProductCard({
       width={"100%"}
       overflow={"hidden"}
       position={"relative"}
-      paddingBottom={"60px"}
       alignItems={"center"}
       sx={{
-        height: "380px",
+        // height: "380px",
         "&:hover": {
           "img:nth-child(1)": {
             transform: "translateX(-100%)",
@@ -52,7 +51,7 @@ export default function ProductCard({
       }}
     >
       <Box
-        height={"80%"}
+        // height={"80%"}
         width={"100%"}
         position={"relative"}
         overflow={"hidden"}
@@ -77,59 +76,7 @@ export default function ProductCard({
             transform: "translateX(100%)",
           }}
         />
-      </Box>
-      <Typography>{title}</Typography>
-      <Rating readOnly precision={0.5} value={rating} />
-      <Stack direction={"row"}>
-        {discount ? (
-          <Typography>
-            ${(price - (price * discount) / 100).toFixed(2)}-
-            <span
-              style={{
-                textDecoration: "strikethrough",
-                color: "#8e8e8e",
-              }}
-            >
-              ${price.toFixed(2)}
-            </span>
-          </Typography>
-        ) : (
-          <Typography>{`$${price.toFixed(2)}`}</Typography>
-        )}
-      </Stack>
-      <Stack sx={{ position: "absolute", top: "5%", right: "5%" }} gap={1}>
-        {isNew && (
-          <Chip
-            variant="filled"
-            label="New"
-            sx={{
-              width: "65px",
-              paddingY: "3px",
-              borderRadius: "5px",
-              bgcolor: "colors.violet",
-              color: "text.white",
-              fontSize: "14px",
-              fontWeight: "500",
-            }}
-          />
-        )}
-        {discount ? (
-          <Chip
-            variant="filled"
-            label={`-${discount}%`}
-            sx={{
-              width: "65px",
-              paddingY: "3px",
-              borderRadius: "5px",
-              bgcolor: "colors.pink",
-              color: "text.white",
-              fontSize: "14px",
-              fontWeight: "500",
-            }}
-          />
-        ) : undefined}
-      </Stack>
-      <Stack
+              <Stack
         className="buttons"
         width={"100%"}
         direction={"row"}
@@ -203,6 +150,59 @@ export default function ProductCard({
           <VisibilityOutlined />
         </IconButton>
       </Stack>
+      </Box>
+      <Typography component={"h2"}>{title}</Typography>
+      <Rating readOnly precision={0.5} value={rating} />
+      <Stack direction={"row"}>
+        {discount ? (
+          <Typography>
+            ${(price - (price * discount) / 100).toFixed(2)}-
+            <span
+              style={{
+                textDecoration: "strikethrough",
+                color: "#8e8e8e",
+              }}
+            >
+              ${price.toFixed(2)}
+            </span>
+          </Typography>
+        ) : (
+          <Typography>{`$${price.toFixed(2)}`}</Typography>
+        )}
+      </Stack>
+      <Stack sx={{ position: "absolute", top: "5%", right: "5%" }} gap={1}>
+        {isNew && (
+          <Chip
+            variant="filled"
+            label="New"
+            sx={{
+              width: "65px",
+              paddingY: "3px",
+              borderRadius: "5px",
+              bgcolor: "colors.violet",
+              color: "text.white",
+              fontSize: "14px",
+              fontWeight: "500",
+            }}
+          />
+        )}
+        {discount ? (
+          <Chip
+            variant="filled"
+            label={`-${discount}%`}
+            sx={{
+              width: "65px",
+              paddingY: "3px",
+              borderRadius: "5px",
+              bgcolor: "colors.pink",
+              color: "text.white",
+              fontSize: "14px",
+              fontWeight: "500",
+            }}
+          />
+        ) : undefined}
+      </Stack>
+
     </Stack>
   );
 }

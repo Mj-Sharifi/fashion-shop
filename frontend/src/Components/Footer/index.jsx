@@ -9,6 +9,7 @@ export default function Footer() {
     component={"footer"}
       sx={{
         backgroundColor: "colors.lightgray",
+        marginTop:{xs:"50px",sm:"60px",md:"70px"},
         paddingTop: { xs: "60px", md: "100px" },
         paddingBottom: { xs: "30px", md: "70px" },
       }}

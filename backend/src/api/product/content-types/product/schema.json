@@ -91,8 +91,23 @@
       "type": "boolean",
       "default": true
     },
+    "shortDescription": {
+      "type": "text"
+    },
     "longDescription": {
       "type": "text"
+    },
+    "colors": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::color.color",
+      "mappedBy": "products"
+    },
+    "sizes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::size.size",
+      "mappedBy": "products"
     }
   }
 }
