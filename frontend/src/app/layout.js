@@ -1,8 +1,12 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import ThemeRegistry from "@/Utils/ThemeRegistry";
+import StoreProvider from "./StoreProvider";
 
-const poppins = Poppins({ subsets: ["latin"],weight:['300', '400', '500', '700'] });
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+});
 
 export const metadata = {
   title: "Fashion Shop",
@@ -13,8 +17,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <ThemeRegistry options={{ key: 'mui-theme' }}>
-          {children}
+        <ThemeRegistry options={{ key: "mui-theme" }}>
+          <StoreProvider>{children}</StoreProvider>
         </ThemeRegistry>
       </body>
     </html>

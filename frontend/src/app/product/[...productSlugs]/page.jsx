@@ -1,16 +1,28 @@
 "use client";
 import {
   Box,
+  Button,
   Container,
   Stack,
   Rating,
   Typography,
   Divider,
+  IconButton,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import ProductSlider from "./ProductSlider";
+import {
+  Add,
+  Remove,
+  FavoriteBorderOutlined,
+  CompareArrows,
+} from "@mui/icons-material";
+import { useAppDispatch} from "@/Lib/hooks";
+
+import { addItem } from "@/Lib/Features/Cart/cartSlice";
 
 export default function ProductDetail({ params }) {
+
   const [product, setProduct] = useState();
   useEffect(() => {
     fetch(
@@ -24,6 +36,15 @@ export default function ProductDetail({ params }) {
   const [size, setSize] = useState();
   //Handle Color
   const [color, setColor] = useState();
+  //Handle Quantity
+  const [quantity, setQuantity] = useState(1);
+  const handleIncrease = () => {
+    setQuantity(quantity + 1);
+  };
+  const handleDecrease = () => {
+    quantity > 1 && setQuantity(quantity - 1);
+  };
+  const dispatch = useAppDispatch();
   console.log(product);
   return (
     <>
@@ -74,6 +95,7 @@ export default function ProductDetail({ params }) {
                 {product?.attributes.shortDescription}
               </Typography>
               <Divider sx={{ marginY: "25px", bgcolor: "colors.darkgray" }} />
+              {/* Color and Size Selection */}
               {product?.attributes.isAvailable && (
                 <Stack direction={"row"} gap={5}>
                   <Stack direction={"column"} gap={2}>
@@ -139,7 +161,122 @@ export default function ProductDetail({ params }) {
                   </Stack>
                 </Stack>
               )}
-              <Stack marginY={3}></Stack>
+              {/* Add to Cart Button */}
+              <Stack direction={"row"} gap={4} marginY={3}>
+                <Stack
+                  direction={"row"}
+                  sx={{
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    border: "1px solid",
+                    borderColor: "colors.lightgray",
+                    borderRadius: "5px",
+                    height: "60px",
+                    width: "80px",
+                  }}
+                >
+                  <IconButton
+                    disableRipple
+                    sx={{ padding: "0" }}
+                    onClick={handleIncrease}
+                    disabled={!product?.attributes.isAvailable}
+                  >
+                    <Add
+                      sx={{
+                        transition: "all 0.3s",
+                        color: "colors.darkgray",
+                        "&:hover": { color: "colors.violet" },
+                      }}
+                    />
+                  </IconButton>
+                  <Typography>{quantity}</Typography>
+                  <IconButton
+                    disableRipple
+                    sx={{ padding: "0" }}
+                    onClick={handleDecrease}
+                    disabled={
+                      quantity === 1 || !product?.attributes.isAvailable
+                    }
+                  >
+                    <Remove
+                      sx={{
+                        transition: "all 0.3s",
+                        color: "colors.darkgray",
+                        "&:hover": { color: "colors.violet" },
+                      }}
+                    />
+                  </IconButton>
+                </Stack>
+                <Button
+                  onClick={() =>
+                    dispatch(addItem({ product, size, quantity, color }))
+                  }
+                  disableRipple
+                  disabled={!product?.attributes.isAvailable || !color || !size}
+                  sx={{
+                    height: "60px",
+                    width: "120px",
+                    borderRadius: "5px",
+                    color: "text.white",
+                    bgcolor: "colors.lightblack",
+                    isolation: "isolate",
+                    position: "relative",
+                    transition: "all 0.5s ease-in-out 0s",
+                    "&::before": {
+                      bottom: "0",
+                      content: "''",
+                      height: "100%",
+                      left: "0",
+                      position: " absolute",
+                      transition:
+                        "all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1)",
+                      width: "100%",
+                      zIndex: "-1",
+                    },
+                    "&::after": {
+                      backgroundColor: "colors.violet",
+                      left: "auto",
+                      right: "0",
+                      width: "0",
+                      bottom: "0",
+                      content: "''",
+                      height: "100%",
+                      borderRadius: "5px",
+                      position: "absolute",
+                      transition:
+                        "all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1)",
+                      zIndex: "-1",
+                    },
+                    "&:hover::after": {
+                      left: `${product?.attributes.isAvailable && "0"}`,
+                      right: `${product?.attributes.isAvailable && "auto"}`,
+                      width: `${product?.attributes.isAvailable && "100%"}`,
+                    },
+                  }}
+                >
+                  {product?.attributes.isAvailable
+                    ? "Add to Cart"
+                    : "Out of Stock"}
+                </Button>
+                <Stack direction={"row"} gap={1}>
+                  <IconButton disableRipple sx={{ padding: "0" }}>
+                    <FavoriteBorderOutlined
+                      sx={{
+                        transition: "all 0.3s",
+                        "&:hover": { color: "colors.violet" },
+                      }}
+                    />
+                  </IconButton>
+                  <IconButton disableRipple sx={{ padding: "0" }}>
+                    <CompareArrows
+                      sx={{
+                        transition: "all 0.3s",
+                        "&:hover": { color: "colors.violet" },
+                      }}
+                    />
+                  </IconButton>
+                </Stack>
+              </Stack>
             </Stack>
           </Stack>
         </Container>

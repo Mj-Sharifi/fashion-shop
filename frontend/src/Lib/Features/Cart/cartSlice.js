@@ -11,7 +11,7 @@ const cartSlise = createSlice({
     removeItem: (state, action) => {
       state.list.filter((e) => {
         if (
-          e.id === action.payload.item.id &&
+          e.id === action.payload.product.id &&
           e.size === action.payload.size &&
           e.color === action.payload.color
         ) {
@@ -24,7 +24,7 @@ const cartSlise = createSlice({
       let add = true;
       state.list = state.list.map((e) => {
         if (
-          e.id === action.payload.item.id &&
+          e.id === action.payload.product.id &&
           e.size === action.payload.size &&
           e.color === action.payload.color
         ) {
@@ -36,7 +36,7 @@ const cartSlise = createSlice({
       });
       add &&
         state.list.push({
-          ...action.payload.item,
+          ...action.payload.product,
           quantity: action.payload.quantity,
           color: action.payload.color,
           size: action.payload.size,
@@ -45,7 +45,7 @@ const cartSlise = createSlice({
     increaseQuantity: (state, action) => {
       state.list = state.list.map((e) => {
         if (
-          e.id === action.payload.item.id &&
+          e.id === action.payload.product.id &&
           e.size === action.payload.size &&
           e.color === action.payload.color
         ) {
@@ -58,7 +58,7 @@ const cartSlise = createSlice({
     decreaseQuantity: (state, action) => {
       state.list = state.list.map((e) => {
         if (
-          e.id === action.payload.item.id &&
+          e.id === action.payload.product.id &&
           e.size === action.payload.size &&
           e.color === action.payload.color
         ) {
