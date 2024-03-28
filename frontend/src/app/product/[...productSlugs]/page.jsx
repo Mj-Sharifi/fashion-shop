@@ -1,4 +1,5 @@
 "use client";
+// MUI components
 import {
   Box,
   Button,
@@ -8,31 +9,73 @@ import {
   Typography,
   Divider,
   IconButton,
+  Tab,
+  useMediaQuery,
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
-import ProductSlider from "./ProductSlider";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
 import {
   Add,
   Remove,
   FavoriteBorderOutlined,
   CompareArrows,
 } from "@mui/icons-material";
-import { useAppDispatch } from "@/Lib/hooks";
 
+// React
+import React, { useState, useEffect } from "react";
+
+// Custom components
+import ProductSlider from "./ProductSlider";
+import Comments from "./Comments";
+
+// Redux
+import { useAppDispatch } from "@/Lib/hooks";
 import { addItem } from "@/Lib/Features/Cart/cartSlice";
+
+// Related Products Slider
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/pagination";
+import "./styles.css";
+import ProductCard from "@/Components/ProductCard";
 
 export default function ProductDetail({ params }) {
   const [product, setProduct] = useState();
+  const [relatedProducts, setRelatedProducts] = useState();
   useEffect(() => {
-    fetch(
-      process.env.NEXT_PUBLIC_BASE_API +
-        `products/${params.productSlugs[0]}?populate=*`
-    )
-      .then((res) => res.json())
-      .then((data) => setProduct(data.data));
+    (async () => {
+      try {
+        const res = await fetch(
+          process.env.NEXT_PUBLIC_BASE_API +
+            `products/${params.productSlugs[0]}?populate=*`
+        );
+        const data = await res.json();
+        const category =
+          data.data.attributes.categories.data[0].attributes.title;
+        const subCategory =
+          data.data?.attributes.subcategories.data[0]?.attributes?.title;
+
+        setProduct(data.data);
+        const newRes = await fetch(
+          process.env.NEXT_PUBLIC_BASE_API +
+            `products?populate=*&filters[categories][title][$eq]=${category}&filters[subcategories][title][$eq]=${subCategory}`
+        );
+        let newData = await newRes.json();
+        newData = newData.data?.filter((e) => {
+          if (e.id === data.data.id) {
+            return false;
+          }else{
+            return e
+          }
+        });
+        setRelatedProducts(newData);;
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   }, []);
   // Hanlde Size
-
   const [size, setSize] = useState();
   //Handle Color
   const [color, setColor] = useState();
@@ -45,6 +88,12 @@ export default function ProductDetail({ params }) {
     quantity > 1 && setQuantity(quantity - 1);
   };
   const dispatch = useAppDispatch();
+  // Handle Tabs
+  const [tab, setTab] = useState("1");
+  const handleTab = (event, newTab) => {
+    setTab(newTab);
+  };
+  const scrollableTab = useMediaQuery("(max-width:600px)");
 
   return (
     <>
@@ -91,7 +140,7 @@ export default function ProductDetail({ params }) {
                 value={+product?.attributes.rating?.slice(1)}
                 sx={{ marginY: "25px" }}
               />
-              <Typography variant="bosy2">
+              <Typography variant="body2">
                 {product?.attributes.shortDescription}
               </Typography>
               <Divider sx={{ marginY: "25px", bgcolor: "colors.darkgray" }} />
@@ -112,12 +161,12 @@ export default function ProductDetail({ params }) {
                             height: "25px",
                             padding: "2px",
                             borderRadius: "100%",
-                            border: "1px solid",
-                            borderColor: `${
+                            border: `${
                               color === e?.attributes.color
-                                ? "colors.lightblack"
-                                : "transparent"
+                                ? "3px solid"
+                                : "1px solid"
                             }`,
+                            borderColor: "colors.lightblack",
                             overflow: "hidden",
                           }}
                         >
@@ -139,29 +188,28 @@ export default function ProductDetail({ params }) {
                   <Stack direction={"column"} gap={2}>
                     <Typography variant="body2">Size</Typography>
                     <Stack direction={"row"} gap={1}>
-                      {product &&
-                        [...product?.attributes.sizes?.data]
-                          .sort((a, b) => a.attributes.size - b.attributes.size)
-                          ?.map((e, i) => (
-                            <Stack
-                              key={i}
-                              sx={{
-                                px: "5px",
-                                height: "25px",
-                                justifyContent: "center",
-                                borderRadius: "5px",
-                                fontSize: "14px",
-                                bgcolor: `${
-                                  size === e?.attributes.size
-                                    ? "colors.purple"
-                                    : "colors.lightgray"
-                                }`,
-                              }}
-                              onClick={(e) => setSize(e.target.innerHTML)}
-                            >
-                              {e?.attributes.size}
-                            </Stack>
-                          ))}
+                      {product?.attributes.sizes?.data?.map((e, i) => (
+                        <Stack
+                          key={i}
+                          sx={{
+                            px: "5px",
+                            height: "25px",
+                            justifyContent: "center",
+                            borderRadius: "5px",
+                            fontSize: "14px",
+                            color: "cream",
+
+                            bgcolor: `${
+                              size === e?.attributes.size
+                                ? "colors.purple"
+                                : "colors.lightgray"
+                            }`,
+                          }}
+                          onClick={(e) => setSize(e.target.innerHTML)}
+                        >
+                          {e?.attributes.size}
+                        </Stack>
+                      ))}
                     </Stack>
                   </Stack>
                 </Stack>
@@ -283,6 +331,140 @@ export default function ProductDetail({ params }) {
                 </Stack>
               </Stack>
             </Stack>
+          </Stack>
+          {/* Tabs */}
+          <Box
+            sx={{
+              width: "100%",
+              marginY: { xs: "50px", sm: "70px", md: "100px" },
+            }}
+          >
+            <TabContext value={tab}>
+              <Box
+                sx={{
+                  "& .MuiTabs-root ": {
+                    borderBottom: "1px solid",
+                    borderColor: "colors.lightblack",
+                  },
+                }}
+              >
+                <TabList
+                  onChange={handleTab}
+                  aria-label="lab API tabs example"
+                  centered={!scrollableTab && true}
+                  variant={scrollableTab ? "scrollable" : "standard"}
+                  scrollButtons="auto"
+                  sx={{
+                    "& .MuiTabs-indicator": {
+                      backgroundColor: "colors.lightblack",
+                    },
+                    "& button": {
+                      fontSize: { xxs: "16px", sm: "18px", md: "20px" },
+                      opacity: "0.75",
+                      color: "text.black",
+                    },
+                    "& button.Mui-selected": { opacity: "1" },
+                  }}
+                >
+                  <Tab label="Additional Information" value="1" />
+                  <Tab label="Description" value="2" />
+                  <Tab label="Comments" value="3" />
+                </TabList>
+              </Box>
+              <TabPanel value="1">
+                <Stack direction={"row"} gap={5}>
+                  <Stack gap={2}>
+                    <Typography variant="body2" fontWeight={"500"}>
+                      Material
+                    </Typography>
+                    <Typography variant="body2" fontWeight={"500"}>
+                      Dimension
+                    </Typography>
+                    <Typography variant="body2" fontWeight={"500"}>
+                      Weight
+                    </Typography>
+                    <Typography variant="body2" fontWeight={"500"}>
+                      Other info
+                    </Typography>
+                  </Stack>
+                  <Stack gap={2}>
+                    <Typography variant="body2">
+                      60% cotton, 40% polyester
+                    </Typography>
+                    <Typography variant="body2">10 x 10 x 15 cm</Typography>
+                    <Typography variant="body2">150 g</Typography>
+                    <Typography variant="body2">
+                      American heirloom jean shorts pug seitan letterpress
+                    </Typography>
+                  </Stack>
+                </Stack>
+              </TabPanel>
+              <TabPanel value="2">
+                <Typography variant="body2">
+                  {product?.attributes.longDescription}
+                </Typography>
+              </TabPanel>
+              <TabPanel value="3">
+                <Comments />
+              </TabPanel>
+            </TabContext>
+          </Box>
+          {/* Related Products */}
+          <Stack direction={"column"} gap={2}>
+            <Typography
+              variant="h4"
+              component={"h3"}
+              textTransform={"uppercase"}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "15px",
+                "&::before": {
+                  content: "''",
+                  width: "90px",
+                  height: "2px",
+                  bgcolor: "text.black",
+                },
+                "&::after": {
+                  content: "''",
+                  width: "90px",
+                  height: "2px",
+                  bgcolor: "text.black",
+                },
+              }}
+            >
+              Related Products
+            </Typography>
+            <Swiper
+              slidesPerView={4}
+              spaceBetween={30}
+              freeMode={true}
+              modules={[FreeMode]}
+              className="mySwiper"
+            >
+              {relatedProducts?.map((e, i) => (
+                <SwiperSlide key={i}>
+                  <ProductCard
+                    id={e.id}
+                    title={e?.attributes.title}
+                    rating={+e?.attributes.rating?.slice(1)}
+                    imgPrimary={
+                      process.env.NEXT_PUBLIC_BASE_URL +
+                      e?.attributes.imageprimary.data.attributes.url
+                    }
+                    imgSecondary={
+                      process.env.NEXT_PUBLIC_BASE_URL +
+                      e?.attributes.imagesecondary.data.attributes.url
+                    }
+                    discount={e?.attributes.discount}
+                    price={e?.attributes.price}
+                    isNew={e?.attributes.isNew}
+                    isAvailable={e?.attributes.isAvailable}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </Stack>
         </Container>
       )}

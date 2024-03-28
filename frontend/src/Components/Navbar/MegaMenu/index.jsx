@@ -27,26 +27,26 @@ export default function MegaMenu() {
             >
               {e?.attributes.title}
             </Typography>
-            <Stack>
-              {e?.attributes.subcategories.data.map((m, n) => (
-                <Link
-                  key={n}
-                  href={`/shop/${e?.attributes.title.toLowerCase()}/${
-                    m.attributes.title
-                  }`}
-                >
-                  <Typography
-                    sx={{
-                      transition: "0.3s",
-                      "&:hover": { color: "colors.violet" },
-                    }}
-                  >
-                    {m.attributes.title}
-                  </Typography>
-                </Link>
-              ))}
-            </Stack>
           </Link>
+          <Stack>
+            {e?.attributes.subcategories.data.map((m, n) => (
+              <Link
+                key={n}
+                href={`/shop/${e?.attributes.title.toLowerCase()}/${
+                  m.attributes.title
+                }`}
+              >
+                <Typography
+                  sx={{
+                    transition: "0.3s",
+                    "&:hover": { color: "colors.violet" },
+                  }}
+                >
+                  {m.attributes.title}
+                </Typography>
+              </Link>
+            ))}
+          </Stack>
         </Grid>
       ))}
     </Grid>

@@ -81,10 +81,14 @@ theme.typography.h5 = {
   fontWeight: "400",
   lineHeight: "20px",
 };
+
 theme.typography.body2 = {
   color: "#222",
   fontSize: "14px",
-  fontWeight: "500",
-  letterSpacing: "0.8px",
+  lineHeight:"26px",
+  fontWeight: "400",
+  [theme.breakpoints.up("sm")]: {
+    fontSize: "16px",
+  },
 };
 export default theme;
