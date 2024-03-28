@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Chip } from "@mui/material";
+import { Box, Chip, useMediaQuery } from "@mui/material";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -11,7 +11,7 @@ import "swiper/css/pagination";
 import "./styles.css";
 
 // import required modules
-import { FreeMode } from "swiper/modules";
+import { FreeMode} from "swiper/modules";
 
 export default function ProductSlider({ images, discount }) {
   const [imgSlide, setImgSlide] = useState(0);
@@ -29,6 +29,7 @@ export default function ProductSlider({ images, discount }) {
           alt=""
           width={"100%"}
           px={"10%"}
+          pb={"30px"}
         />
         {discount ? (
           <Chip
@@ -51,12 +52,11 @@ export default function ProductSlider({ images, discount }) {
       </Box>
       <Box width={"100%"}>
         <Swiper
-          onClick={(e) => handleSlide(e.clickedIndex)}
+          onClick={(e) => handleSlide(e.clickedIndex)}    
           slidesPerView={3}
-          spaceBetween={30}
           freeMode={true}
           modules={[FreeMode]}
-          className="mySwiper"
+          className="mySwiper product-slider"
         >
           {images?.map((e, i) => (
             <SwiperSlide key={i}>

@@ -76,48 +76,70 @@ export default function ProductCard({
             transform: "translateX(100%)",
           }}
         />
-              <Stack
-        className="buttons"
-        width={"100%"}
-        direction={"row"}
-        position={"absolute"}
-        bottom={"0"}
-      >
-        <IconButton
-          disableRipple
-          sx={{
-            transition: "0.3s",
-            width: "20%",
-            height: "40px",
-            borderRadius: "0",
-            bgcolor: "colors.violet",
-            color: "text.white",
-            transform: "translateY(100%)",
-            opacity: "0",
-            "&:hover": {
-              bgcolor: "text.black",
-            },
-          }}
+        <Stack
+          className="buttons"
+          width={"100%"}
+          direction={"row"}
+          position={"absolute"}
+          bottom={"0"}
         >
-          <FavoriteBorderOutlined />
-        </IconButton>
-
-        <Link
-          href={`/product/${id}/${title.toLowerCase().split(" ").join("-")}`}
-          style={{ width: "60%" }}
-        >
-          <Button
+          <IconButton
+            disableRipple
             sx={{
               transition: "0.3s",
-              transitionDelay: "0.1s",
-              width: "100%",
+              width: "15%",
               height: "40px",
               borderRadius: "0",
-              bgcolor: `${isAvailable ? "colors.violet" : "text.black"}`,
+              bgcolor: "colors.violet",
               color: "text.white",
-              border: "1px solid #ffffff90",
-              borderBottom: "0",
-              borderTop: "0",
+              transform: "translateY(100%)",
+              opacity: "0",
+              "&:hover": {
+                bgcolor: "text.black",
+              },
+            }}
+          >
+            <FavoriteBorderOutlined />
+          </IconButton>
+
+          <Link
+            href={`/product/${id}/${title.toLowerCase().split(" ").join("-")}`}
+            style={{ width: "70%" }}
+          >
+            <Button
+              sx={{
+                transition: "0.3s",
+                transitionDelay: "0.1s",
+                width: "100%",
+                height: "40px",
+                fontSize: "14px",
+                borderRadius: "0",
+                bgcolor: `${isAvailable ? "colors.violet" : "text.black"}`,
+                color: "text.white",
+                border: "1px solid #ffffff90",
+                borderBottom: "0",
+                borderTop: "0",
+                transform: "translateY(100%)",
+                opacity: "0",
+                "&:hover": {
+                  transitionDelay: "0",
+                  bgcolor: "text.black",
+                },
+              }}
+            >
+              {isAvailable ? "More info ..." : "Out of Stock"}
+            </Button>
+          </Link>
+          <IconButton
+            disableRipple
+            sx={{
+              transition: "0.3s",
+              transitionDelay: "0.2s",
+              width: "15%",
+              height: "40px",
+              borderRadius: "0",
+              bgcolor: "colors.violet",
+              color: "text.white",
               transform: "translateY(100%)",
               opacity: "0",
               "&:hover": {
@@ -126,30 +148,9 @@ export default function ProductCard({
               },
             }}
           >
-            {isAvailable ? "More info ..." : "Out of Stock"}
-          </Button>
-        </Link>
-        <IconButton
-          disableRipple
-          sx={{
-            transition: "0.3s",
-            transitionDelay: "0.2s",
-            width: "20%",
-            height: "40px",
-            borderRadius: "0",
-            bgcolor: "colors.violet",
-            color: "text.white",
-            transform: "translateY(100%)",
-            opacity: "0",
-            "&:hover": {
-              transitionDelay: "0",
-              bgcolor: "text.black",
-            },
-          }}
-        >
-          <VisibilityOutlined />
-        </IconButton>
-      </Stack>
+            <VisibilityOutlined />
+          </IconButton>
+        </Stack>
       </Box>
       <Typography component={"h2"}>{title}</Typography>
       <Rating readOnly precision={0.5} value={rating} />
@@ -202,7 +203,6 @@ export default function ProductCard({
           />
         ) : undefined}
       </Stack>
-
     </Stack>
   );
 }

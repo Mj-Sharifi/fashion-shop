@@ -71,9 +71,12 @@ theme.typography.h3 = {
 };
 theme.typography.h4 = {
   color: "#222",
-  fontSize: "20px",
+  fontSize: "18px",
   fontWeight: "500",
   lineHeight: "30px",
+  [theme.breakpoints.up("sm")]: {
+    fontSize: "20px",
+  },
 };
 theme.typography.h5 = {
   color: "#222",

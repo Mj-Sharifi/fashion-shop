@@ -25,7 +25,7 @@ export default function MainSlider() {
     <Swiper
       navigation={true}
       modules={[Navigation ]}
-      className="mySwiper"
+      className="mySwiper main-slider"
     >
       {slides?.map((e, i) => (
         <SwiperSlide key={i}>
