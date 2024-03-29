@@ -173,6 +173,7 @@ export default function ProductDetail({ params }) {
                           <Box
                             id={e?.attributes.color}
                             sx={{
+                              cursor:"pointer",
                               width: "100%",
                               height: "100%",
                               borderRadius: "100%",
@@ -192,13 +193,13 @@ export default function ProductDetail({ params }) {
                         <Stack
                           key={i}
                           sx={{
+                            cursor:"pointer",
                             px: "5px",
                             height: "25px",
                             justifyContent: "center",
                             borderRadius: "5px",
                             fontSize: "14px",
                             color: "cream",
-
                             bgcolor: `${
                               size === e?.attributes.size
                                 ? "colors.purple"

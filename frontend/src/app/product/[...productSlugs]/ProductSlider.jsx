@@ -38,7 +38,7 @@ export default function ProductSlider({ images, discount }) {
             sx={{
               position: "absolute",
               top: "5%",
-              left: "5%",
+              left: "15%",
               width: "65px",
               paddingY: "3px",
               borderRadius: "5px",
