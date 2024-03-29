@@ -15,13 +15,7 @@ export default function Subcategory({ params }) {
       .then((res) => res.json())
       .then((data) => setProducts(data.data));
   }, []);
-  // const products = await fetchData(
-  //   process.env.BASE_API +
-  //     `products?populate=*&filters[categories][title][$eq]=${
-  //       params.subcategorySlugs[0].charAt(0).toUpperCase() +
-  //       params.subcategorySlugs[0].slice(1)
-  //     }&filters[subcategories][title][$eq]=${params.subcategorySlugs[1]}`
-  // );
+
 
   return (
     <Container>

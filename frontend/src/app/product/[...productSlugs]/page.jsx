@@ -65,11 +65,11 @@ export default function ProductDetail({ params }) {
         newData = newData.data?.filter((e) => {
           if (e.id === data.data.id) {
             return false;
-          }else{
-            return e
+          } else {
+            return e;
           }
         });
-        setRelatedProducts(newData);;
+        setRelatedProducts(newData);
       } catch (error) {
         console.log(error);
       }
@@ -422,13 +422,13 @@ export default function ProductDetail({ params }) {
                 gap: "15px",
                 "&::before": {
                   content: "''",
-                  width:{xs:"50px",sm:"90px"},
+                  width: { xs: "50px", sm: "90px" },
                   height: "2px",
                   bgcolor: "text.black",
                 },
                 "&::after": {
                   content: "''",
-                  width: {xs:"50px",sm:"90px"},
+                  width: { xs: "50px", sm: "90px" },
                   height: "2px",
                   bgcolor: "text.black",
                 },
@@ -440,12 +440,11 @@ export default function ProductDetail({ params }) {
               slidesPerView={1}
               spaceBetween={10}
               breakpoints={{
-                480:{slidesPerView:2},
-                620:{slidesPerView:3,spaceBetween:20},
-                800:{slidesPerView:4,spaceBetween:40},
-                1280:{slidesPerView:5,spaceBetween:60}
+                480: { slidesPerView: 2 },
+                620: { slidesPerView: 3, spaceBetween: 20 },
+                800: { slidesPerView: 4, spaceBetween: 40 },
+                1280: { slidesPerView: 5, spaceBetween: 60 },
               }}
-              
               freeMode={true}
               modules={[FreeMode]}
               className="mySwiper"

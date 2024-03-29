@@ -125,8 +125,6 @@ export default function Navbar() {
                         left: "0",
                         right: "0",
                         zIndex: "1000",
-                        // width: "1000px",
-                        // transform: "translateX(-50%)",
                         visibility: "hidden",
                         opacity: "0",
                         height: "0px",

@@ -38,47 +38,58 @@ const theme = createTheme({
   },
 });
 theme.typography.h1 = {
+  fontFamily: poppins.style.fontFamily,
   color: "#222",
   fontSize: "30px",
   lineHeight: "42px",
   fontWeight: "400",
   [theme.breakpoints.up("sm")]: {
+    fontFamily: poppins.style.fontFamily,
     fontSize: "42px",
     lineHeight: "54px",
   },
   [theme.breakpoints.up("md")]: {
+    fontFamily: poppins.style.fontFamily,
     fontSize: "52px",
     lineHeight: "68px",
   },
   [theme.breakpoints.up("lg")]: {
+    fontFamily: poppins.style.fontFamily,
     fontSize: "72px",
     lineHeight: "98px",
   },
 };
 theme.typography.h3 = {
+  fontFamily: poppins.style.fontFamily,
   color: "#222",
   fontSize: "20px",
   fontWeight: "500",
   [theme.breakpoints.up("sm")]: {
+    fontFamily: poppins.style.fontFamily,
     fontSize: "24px",
   },
   [theme.breakpoints.up("md")]: {
+    fontFamily: poppins.style.fontFamily,
     fontSize: "26px",
   },
   [theme.breakpoints.up("lg")]: {
+    fontFamily: poppins.style.fontFamily,
     fontSize: "30px",
   },
 };
 theme.typography.h4 = {
+  fontFamily: poppins.style.fontFamily,
   color: "#222",
   fontSize: "18px",
   fontWeight: "500",
   lineHeight: "30px",
   [theme.breakpoints.up("sm")]: {
+    fontFamily: poppins.style.fontFamily,
     fontSize: "20px",
   },
 };
 theme.typography.h5 = {
+  fontFamily: poppins.style.fontFamily,
   color: "#222",
   fontSize: "18px",
   fontWeight: "400",
@@ -86,11 +97,13 @@ theme.typography.h5 = {
 };
 
 theme.typography.body2 = {
+  fontFamily: poppins.style.fontFamily,
   color: "#222",
   fontSize: "14px",
   lineHeight:"26px",
   fontWeight: "400",
   [theme.breakpoints.up("sm")]: {
+    fontFamily: poppins.style.fontFamily,
     fontSize: "16px",
   },
 };
