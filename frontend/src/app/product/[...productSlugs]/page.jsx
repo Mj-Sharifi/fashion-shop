@@ -224,7 +224,7 @@ export default function ProductDetail({ params }) {
                     border: "1px solid",
                     borderColor: "colors.lightgray",
                     borderRadius: "5px",
-                    height: "60px",
+                    height: "50px",
                     width: "80px",
                   }}
                 >
@@ -267,8 +267,8 @@ export default function ProductDetail({ params }) {
                   disableRipple
                   disabled={!product?.attributes.isAvailable || !color || !size}
                   sx={{
-                    height: "60px",
-                    width: "120px",
+                    height: "50px",
+                    width: "150px",
                     borderRadius: "5px",
                     color: "text.white",
                     bgcolor: "colors.lightblack",

@@ -16,9 +16,8 @@ import {
   Select,
   MenuItem,
   Collapse,
-  Typography,
+  Pagination,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
 import ProductCard from "@/Components/ProductCard";
 import Loading from "@/Components/Loading";
@@ -39,10 +38,15 @@ export default function Category({ params }) {
   const [subcategories, setSubcategories] = useState();
   const [colors, setColors] = useState();
   const [sizes, setSizes] = useState();
+  // Pagination
+  const [productsNumber, setProductNumber] = useState();
+  const [page, setPage] = useState(1);
+  const handlePagination = (event, value) => {
+    setPage(value);
+  };
   //**** Filters ****//
   // Sort
   const [sortMethod, setSortMethod] = useState("");
-
   const handleSortMethod = (event) => {
     setSortMethod(event.target.value);
   };
@@ -86,27 +90,20 @@ export default function Category({ params }) {
           process.env.NEXT_PUBLIC_BASE_API +
             `products?populate=*&filters[categories][title][$eq]=${
               params.category.charAt(0).toUpperCase() + params.category.slice(1)
-            }&${
+            }${
               category === "All"
                 ? ""
-                : `filters[subcategories][title][$eq]=${category}`
-            }&${
-              color === "All" ? "" : `filters[colors][color][$eq]=${color}`
-            }&${
-              size === "All" ? "" : `filters[sizes][size][$eq]=${size}`
+                : `&filters[subcategories][title][$eq]=${category}`
+            }${
+              color === "All" ? "" : `&filters[colors][color][$eq]=${color}`
+            }${
+              size === "All" ? "" : `&filters[sizes][size][$eq]=${size}`
             }&filters[price][$gte]=${price[0]}&filters[price][$lte]=${
               price[1]
-            }&${
-              sortMethod === ""
-                ? ""
-                : sortMethod === "mostExpensive"
-                ? "sort[price]:acs"
-                : sortMethod === "cheapes"
-                ? "sort[price]:desc"
-                : ""
-            }`
+            }&sort=${sortMethod}&pagination[page]=${page}&pagination[pageSize]=12`
         );
         const data = await res.json();
+        setProductNumber(data.meta.pagination.total);
         setProducts(data.data);
       } catch (error) {
         console.log(error);
@@ -126,7 +123,7 @@ export default function Category({ params }) {
       //     }&sort=${sortMethod}`
       // );
     })();
-  }, [category, color, size, price, sortMethod]);
+  }, [category, color, size, price, sortMethod, page]);
 
   // for getting colors and subcategories
   useEffect(() => {
@@ -203,10 +200,10 @@ export default function Category({ params }) {
                     }}
                   >
                     <MenuItem value="">Default</MenuItem>
-                    <MenuItem value={"price:asc"}>Price: High to Low</MenuItem>
-                    <MenuItem value={"price:desc"}>Price: Low to High</MenuItem>
-                    <MenuItem value={"discount:asc"}>Discount</MenuItem>
-                    <MenuItem value={"rating:asc"}>Recommended</MenuItem>
+                    <MenuItem value={"price:desc"}>Price: High to Low</MenuItem>
+                    <MenuItem value={"price:asc"}>Price: Low to High</MenuItem>
+                    <MenuItem value={"discount:desc"}>Discount</MenuItem>
+                    <MenuItem value={"rating:desc"}>Recommended</MenuItem>
                   </Select>
                 </FormControl>
                 <ToggleButtonGroup
@@ -283,7 +280,7 @@ export default function Category({ params }) {
                     {mobileSize && (
                       <ExpandMore
                         sx={{
-                          cursor:"pointer",
+                          cursor: "pointer",
                           transform: `${categoryExpanded && "rotate(180deg)"}`,
                         }}
                         onClick={handleCategoryExpansion}
@@ -352,7 +349,7 @@ export default function Category({ params }) {
                       {mobileSize && (
                         <ExpandMore
                           sx={{
-                            cursor:"pointer",
+                            cursor: "pointer",
                             transform: `${
                               categoryExpanded && "rotate(180deg)"
                             }`,
@@ -444,7 +441,7 @@ export default function Category({ params }) {
                       {mobileSize && (
                         <ExpandMore
                           sx={{
-                            cursor:"pointer",
+                            cursor: "pointer",
                             transform: `${
                               categoryExpanded && "rotate(180deg)"
                             }`,
@@ -453,54 +450,59 @@ export default function Category({ params }) {
                         />
                       )}
                     </Stack>
-                    {mobileSize?<Collapse in={sizeExpanded} unmountOnExit><RadioGroup
-                      row
-                      aria-labelledby="demo-controlled-radio-buttons-group"
-                      name="controlled-radio-buttons-group"
-                      value={size}
-                      onChange={handleSize}
-                    >
-                      <FormControlLabel
-                        value="All"
-                        control={<Radio size="small" />}
-                        label="All Sizes"
-                      />
-                      {sizes?.map((e, i) => (
+                    {mobileSize ? (
+                      <Collapse in={sizeExpanded} unmountOnExit>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-controlled-radio-buttons-group"
+                          name="controlled-radio-buttons-group"
+                          value={size}
+                          onChange={handleSize}
+                        >
+                          <FormControlLabel
+                            value="All"
+                            control={<Radio size="small" />}
+                            label="All Sizes"
+                          />
+                          {sizes?.map((e, i) => (
+                            <FormControlLabel
+                              key={i}
+                              value={e.attributes.size}
+                              control={<Radio size="small" />}
+                              label={e.attributes.size}
+                            />
+                          ))}
+                        </RadioGroup>
+                      </Collapse>
+                    ) : (
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-controlled-radio-buttons-group"
+                        name="controlled-radio-buttons-group"
+                        value={size}
+                        onChange={handleSize}
+                      >
                         <FormControlLabel
-                          key={i}
-                          value={e.attributes.size}
+                          value="All"
                           control={<Radio size="small" />}
-                          label={e.attributes.size}
+                          label="All Sizes"
                         />
-                      ))}
-                    </RadioGroup></Collapse>:<RadioGroup
-                      row
-                      aria-labelledby="demo-controlled-radio-buttons-group"
-                      name="controlled-radio-buttons-group"
-                      value={size}
-                      onChange={handleSize}
-                    >
-                      <FormControlLabel
-                        value="All"
-                        control={<Radio size="small" />}
-                        label="All Sizes"
-                      />
-                      {sizes?.map((e, i) => (
-                        <FormControlLabel
-                          key={i}
-                          value={e.attributes.size}
-                          control={<Radio size="small" />}
-                          label={e.attributes.size}
-                        />
-                      ))}
-                    </RadioGroup>}
-                    
+                        {sizes?.map((e, i) => (
+                          <FormControlLabel
+                            key={i}
+                            value={e.attributes.size}
+                            control={<Radio size="small" />}
+                            label={e.attributes.size}
+                          />
+                        ))}
+                      </RadioGroup>
+                    )}
                   </FormControl>
                 )}
               </Stack>
             </Grid>
             <Grid item xs={12} display={{ sm: "none" }}>
-              <Divider sx={{marginTop:"30px"}}/>
+              <Divider sx={{ marginTop: "30px" }} />
               <Stack
                 direction={"row"}
                 justifyContent={"space-between"}
@@ -629,6 +631,24 @@ export default function Category({ params }) {
                   ))}
                 </Grid>
               )}
+            </Grid>
+          </Grid>
+          <Grid container mt={6}>
+            <Grid item xs={12} sm={3}></Grid>
+            <Grid item xs={12} sm={9}>
+              <Stack direction={"row"} width={"100%"} justifyContent={"center"}>
+                <Pagination
+                  count={Math.ceil(productsNumber / 12)}
+                  page={page}
+                  onChange={handlePagination}
+                  sx={{
+                    "& button.Mui-selected": {
+                      backgroundColor: "colors.violet",
+                      color: "text.white",
+                    },
+                  }}
+                />
+              </Stack>
             </Grid>
           </Grid>
         </>

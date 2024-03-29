@@ -118,7 +118,7 @@ export default function DetailedProductCard({
         )}
         <Rating readOnly precision={0.5} value={rating} />
         <Typography variant="body2" sx={{ opacity: "0.7" }} textAlign={{xs:"center",md:'start'}}>
-          {shortDescription.split(" ").slice(0, 20).join(" ")}...
+          {shortDescription?.split(" ").slice(0, 20).join(" ")}...
         </Typography>
         <Stack direction={"row"} gap={3}>
           <Link
