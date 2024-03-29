@@ -108,20 +108,6 @@ export default function Category({ params }) {
       } catch (error) {
         console.log(error);
       }
-      // console.log(
-      //   process.env.NEXT_PUBLIC_BASE_API +
-      //     `products?populate=*&filters[categories][title][$eq]=${
-      //       params.category.charAt(0).toUpperCase() + params.category.slice(1)
-      //     }${
-      //       category === "All"
-      //         ? ""
-      //         : `&filters[subcategories][title][$eq]=${category}`
-      //     }${color === "All" ? "" : `&filters[colors][color][$eq]=${color}`}${
-      //       size === "All" ? "" : `&filters[sizes][size][$eq]=${size}`
-      //     }&filters[price][$gte]=${price[0]}&filters[price][$lte]=${
-      //       price[1]
-      //     }&sort=${sortMethod}`
-      // );
     })();
   }, [category, color, size, price, sortMethod, page]);
 
@@ -339,7 +325,8 @@ export default function Category({ params }) {
                     </RadioGroup>
                   )}
                 </FormControl>
-                <Divider />
+                {colors && <Divider />}
+                
                 {colors && (
                   <FormControl>
                     <Stack direction={"row"} alignItems={"center"} gap={2}>
@@ -431,7 +418,7 @@ export default function Category({ params }) {
                     )}
                   </FormControl>
                 )}
-                <Divider />
+                {sizes && <Divider/>}
                 {sizes && (
                   <FormControl>
                     <Stack direction={"row"} alignItems={"center"} gap={2}>

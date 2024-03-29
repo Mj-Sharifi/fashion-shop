@@ -109,7 +109,7 @@ export default function Subcategory({ params }) {
   }, [color, size, price, sortMethod, page]);
   // for getting colors and sizes
   useEffect(() => {
-    if (params.category != "cosmetics") {
+    if (params.subcategorySlugs[0] != "cosmetics") {
       fetch(process.env.NEXT_PUBLIC_BASE_API + "colors?populate=*")
         .then((res) => res.json())
         .then((data) => setColors(data.data))
@@ -237,7 +237,7 @@ export default function Subcategory({ params }) {
                     }}
                   />
                 </Stack>
-                <Divider />
+                {colors && <Divider />}       
                 {colors && (
                   <FormControl>
                     <Stack direction={"row"} alignItems={"center"} gap={2}>
@@ -329,7 +329,7 @@ export default function Subcategory({ params }) {
                     )}
                   </FormControl>
                 )}
-                <Divider />
+                {sizes && <Divider/>}
                 {sizes && (
                   <FormControl>
                     <Stack direction={"row"} alignItems={"center"} gap={2}>
