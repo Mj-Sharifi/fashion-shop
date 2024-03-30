@@ -2,6 +2,7 @@
 import {
   CompareArrows,
   FavoriteBorderOutlined,
+  KeyboardArrowDown,
   Menu,
   Person3Outlined,
   Search,
@@ -58,55 +59,56 @@ export default function Navbar() {
   };
 
   return (
-      <nav
-        className={`${styles.navbar} ${stickyClass && styles.stick}`}
-        ref={navbar}
+    <nav
+      className={`${styles.navbar} ${stickyClass && styles.stick}`}
+      ref={navbar}
+    >
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          paddingY: "5px",
+        }}
       >
-        <Container
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingY: "5px",
-          }}
-        >
-          <Image
-            src={"/assets/fashion-logo.png"}
-            width={70}
-            height={70}
-            alt="Fasion Shop"
-          />
-          <Stack direction={"row"} gap={3} display={{ xs: "none", md: "flex" }}>
-            {menuItems.map((e, i) => {
-              if (e != "Shop") {
-                return (
-                  <Link key={i} href={`/${e != "Home" ? e.toLowerCase() : ""}`}>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        transition: "0.3s",
-                        "&:hover": { color: "colors.violet" },
-                      }}
-                    >
-                      {e}
-                    </Typography>
-                  </Link>
-                );
-              } else {
-                return (
-                  <Box
-                    key={i}
+        <Image
+          src={"/assets/fashion-logo.png"}
+          width={70}
+          height={70}
+          alt="Fasion Shop"
+        />
+        <Stack direction={"row"} gap={3} display={{ xs: "none", md: "flex" }}>
+          {menuItems.map((e, i) => {
+            if (e != "Shop") {
+              return (
+                <Link key={i} href={`/${e != "Home" ? e.toLowerCase() : ""}`}>
+                  <Typography
+                    variant="body2"
                     sx={{
-                      "&:hover": {
-                        "& .MuiPaper-root": {
-                          visibility: "visible",
-                          opacity: "1",
-                          height: "250px",
-                        },
-                      },
+                      transition: "0.3s",
+                      "&:hover": { color: "colors.violet" },
                     }}
                   >
+                    {e}
+                  </Typography>
+                </Link>
+              );
+            } else {
+              return (
+                <Box
+                  key={i}
+                  sx={{
+                    "&:hover": {
+                      "& .MuiPaper-root": {
+                        visibility: "visible",
+                        opacity: "1",
+                        height: "250px",
+                      },
+                    },
+                  }}
+                >
+                  <Stack direction={"row"} alignItems={"center"}>
                     <Typography
                       variant="body2"
                       sx={{
@@ -117,137 +119,141 @@ export default function Navbar() {
                     >
                       {e}
                     </Typography>
-                    <Paper
-                      sx={{
-                        transition: "0.3s",
-                        position: "absolute",
-                        top: "80px",
-                        left: "0",
-                        right: "0",
-                        zIndex: "1000",
-                        visibility: "hidden",
-                        opacity: "0",
-                        height: "0px",
-                        overflow: "hidden",
-                      }}
-                    >
-                      <MegaMenu />
-                    </Paper>
-                  </Box>
-                );
-              }
-            })}
-          </Stack>
-          <Stack
-            direction={"row"}
-            gap={2}
-            sx={{
-              "& button": { bgcolor: "transparent !important" },
-              "& svg": { transition: "all 0.3s", color: "text.black" },
-              "& svg:hover": { color: "colors.violet" },
-            }}
+                    <KeyboardArrowDown />
+                  </Stack>
+
+                  <Paper
+                    sx={{
+                      transition: "0.3s",
+                      position: "absolute",
+                      top: "80px",
+                      left: "2%",
+                      right: "2%",
+                      zIndex: "1000",
+                      visibility: "hidden",
+                      opacity: "0",
+                      height: "0px",
+                      overflow: "hidden",
+                      px: "1%",
+                    }}
+                  >
+                    <MegaMenu />
+                  </Paper>
+                </Box>
+              );
+            }
+          })}
+        </Stack>
+        <Stack
+          direction={"row"}
+          gap={2}
+          sx={{
+            "& button": { bgcolor: "transparent !important" },
+            "& svg": { transition: "all 0.3s", color: "text.black" },
+            "& svg:hover": { color: "colors.violet" },
+          }}
+        >
+          <Box
+            sx={{ position: "relative", display: { xs: "none", md: "flex" } }}
           >
-            <Box
-              sx={{ position: "relative", display: { xs: "none", md: "flex" } }}
+            <IconButton
+              sx={{ backgroundColor: "transparent !important" }}
+              onClick={() => setSearchOpen(!searchOpen)}
             >
-              <IconButton
-                sx={{ backgroundColor: "transparent !important" }}
-                onClick={() => setSearchOpen(!searchOpen)}
-              >
-                <Search />
-              </IconButton>
-              <Stack
-                direction={"row"}
-                sx={{
-                  padding: "10px",
-                  position: "absolute",
-                  transition: "all 0.5s",
-                  boxShadow: "0 1px 1px 1px rgba(0,0,0,.1)",
-                  visibility: `${searchOpen ? "visible" : "hidden"}`,
-                  opacity: `${searchOpen ? "1" : "0"}`,
-                  transform: `rotateX(${searchOpen ? "0" : "90deg"})`,
-                  transformOrigin: "top",
-                  right: "0",
-                  top: "165%",
-                  bgcolor: "text.white",
-                }}
-              >
-                <Input
-                  type="text"
-                  placeholder="Search"
-                  sx={{
-                    transition: "all 0.3s",
-                    height: "45px",
-                    width: "220px",
-                    paddingX: "5px",
-                    fontSize: "14px",
-                    outline: "none",
-                    border: "1px solid",
-                    borderColor: "colors.darkgray",
-                    "&::after": {
-                      border: "none !important",
-                    },
-                    "&::before": {
-                      border: "none !important",
-                    },
-                  }}
-                />
-                <Stack
-                  width={"45px"}
-                  height={"45px"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                  sx={{
-                    height: "45px",
-                    width: "60px",
-                    bgcolor: "colors.violet",
-                    "&:hover": { bgcolor: "text.black" },
-                  }}
-                >
-                  <Search sx={{ color: "text.white" }} />
-                </Stack>
-              </Stack>
-            </Box>
-            <IconButton sx={{ display: { xs: "none", md: "flex" } }}>
-              <Person3Outlined />
+              <Search />
             </IconButton>
-            <Badge>
-              <IconButton>
-                <CompareArrows />
-              </IconButton>
-            </Badge>
-            <Badge>
-              <IconButton>
-                <FavoriteBorderOutlined />
-              </IconButton>
-            </Badge>
-            <Badge
-              badgeContent={list.length}
+            <Stack
+              direction={"row"}
               sx={{
-                "& .MuiBadge-badge": {
-                  bgcolor: "colors.violet",
-                  color: "text.white",
-                  top: "10%",
-                  right: "10%",
-                },
+                padding: "10px",
+                position: "absolute",
+                transition: "all 0.5s",
+                boxShadow: "0 1px 1px 1px rgba(0,0,0,.1)",
+                visibility: `${searchOpen ? "visible" : "hidden"}`,
+                opacity: `${searchOpen ? "1" : "0"}`,
+                transform: `rotateX(${searchOpen ? "0" : "90deg"})`,
+                transformOrigin: "top",
+                right: "0",
+                top: "165%",
+                bgcolor: "text.white",
               }}
             >
-              <IconButton>
-                <ShoppingBagOutlined />
-              </IconButton>
-            </Badge>
-            <IconButton
-              sx={{ display: { xs: "block", md: "none" } }}
-              onClick={handleMobileMenu}
-            >
-              <Menu />
+              <Input
+                type="text"
+                placeholder="Search"
+                sx={{
+                  transition: "all 0.3s",
+                  height: "45px",
+                  width: "220px",
+                  paddingX: "5px",
+                  fontSize: "14px",
+                  outline: "none",
+                  border: "1px solid",
+                  borderColor: "colors.darkgray",
+                  "&::after": {
+                    border: "none !important",
+                  },
+                  "&::before": {
+                    border: "none !important",
+                  },
+                }}
+              />
+              <Stack
+                width={"45px"}
+                height={"45px"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                sx={{
+                  height: "45px",
+                  width: "60px",
+                  bgcolor: "colors.violet",
+                  "&:hover": { bgcolor: "text.black" },
+                }}
+              >
+                <Search sx={{ color: "text.white" }} />
+              </Stack>
+            </Stack>
+          </Box>
+          <IconButton sx={{ display: { xs: "none", md: "flex" } }}>
+            <Person3Outlined />
+          </IconButton>
+          <Badge>
+            <IconButton>
+              <CompareArrows />
             </IconButton>
-          </Stack>
-        </Container>
-        <HamburgerMenu
-          mobileMenu={mobileMenu}
-          handleMobileMenu={handleMobileMenu}
-        />
-      </nav>
+          </Badge>
+          <Badge>
+            <IconButton>
+              <FavoriteBorderOutlined />
+            </IconButton>
+          </Badge>
+          <Badge
+            badgeContent={list.length}
+            sx={{
+              "& .MuiBadge-badge": {
+                bgcolor: "colors.violet",
+                color: "text.white",
+                top: "10%",
+                right: "10%",
+              },
+            }}
+          >
+            <IconButton>
+              <ShoppingBagOutlined />
+            </IconButton>
+          </Badge>
+          <IconButton
+            sx={{ display: { xs: "block", md: "none" } }}
+            onClick={handleMobileMenu}
+          >
+            <Menu />
+          </IconButton>
+        </Stack>
+      </Container>
+      <HamburgerMenu
+        mobileMenu={mobileMenu}
+        handleMobileMenu={handleMobileMenu}
+      />
+    </nav>
   );
 }

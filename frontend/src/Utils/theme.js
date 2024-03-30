@@ -107,4 +107,11 @@ theme.typography.body2 = {
     fontSize: "16px",
   },
 };
+theme.typography.menuItems = {
+  fontFamily: poppins.style.fontFamily,
+  color: "#222",
+  fontSize: "15px",
+  lineHeight:"18px",
+  fontWeight: "500",
+}
 export default theme;

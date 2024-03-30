@@ -27,7 +27,7 @@ import DetailedProductCard from "@/Components/DetailedProductCard";
 export default function Category({ params }) {
   const mobileSize = useMediaQuery("(max-width:580px)");
   // Page Layout
-  const [layout, setLayout] = useState("cart");
+  const [layout, setLayout] = useState("card");
   const handleLayout = (event, newLayout) => {
     if (newLayout) {
       setLayout(newLayout);
@@ -208,7 +208,7 @@ export default function Category({ params }) {
                     },
                   }}
                 >
-                  <ToggleButton value="cart" aria-label="cart">
+                  <ToggleButton value="card" aria-label="card">
                     <Apps />
                   </ToggleButton>
                   <ToggleButton value="list" aria-label="list">
@@ -538,7 +538,7 @@ export default function Category({ params }) {
                     },
                   }}
                 >
-                  <ToggleButton value="cart" aria-label="cart">
+                  <ToggleButton value="card" aria-label="card">
                     <Apps />
                   </ToggleButton>
                   <ToggleButton value="list" aria-label="list">
@@ -556,7 +556,7 @@ export default function Category({ params }) {
               />
             </Grid>
             <Grid item xs={12} sm={9}>
-              {layout === "cart" ? (
+              {layout === "card" ? (
                 <Grid
                   container
                   sx={{ width: "100%" }}

@@ -27,7 +27,7 @@ import Loading from "@/Components/Loading";
 export default function Subcategory({ params }) {
   const mobileSize = useMediaQuery("(max-width:580px)");
   // Page Layout
-  const [layout, setLayout] = useState("cart");
+  const [layout, setLayout] = useState("card");
   const handleLayout = (event, newLayout) => {
     if (newLayout) {
       setLayout(newLayout);
@@ -53,15 +53,6 @@ export default function Subcategory({ params }) {
   const [price, setPrice] = useState([10, 1000]);
   const handlePrice = (event, newValue) => {
     setPrice(newValue);
-  };
-  // Category
-  const [category, setCategory] = useState("All");
-  const handleCategory = (event) => {
-    setCategory(event.target.value);
-  };
-  const [categoryExpanded, setCategoryExpanded] = useState(false);
-  const handleCategoryExpansion = () => {
-    setCategoryExpanded(!categoryExpanded);
   };
   // Colors
   const [color, setColor] = useState("All");
@@ -188,7 +179,7 @@ export default function Subcategory({ params }) {
                     },
                   }}
                 >
-                  <ToggleButton value="cart" aria-label="cart">
+                  <ToggleButton value="card" aria-label="card">
                     <Apps />
                   </ToggleButton>
                   <ToggleButton value="list" aria-label="list">
@@ -449,7 +440,7 @@ export default function Subcategory({ params }) {
                     },
                   }}
                 >
-                  <ToggleButton value="cart" aria-label="cart">
+                  <ToggleButton value="card" aria-label="card">
                     <Apps />
                   </ToggleButton>
                   <ToggleButton value="list" aria-label="list">
@@ -467,7 +458,7 @@ export default function Subcategory({ params }) {
               />
             </Grid>
             <Grid item xs={12} sm={9}>
-              {layout === "cart" ? (
+              {layout === "card" ? (
                 <Grid
                   container
                   sx={{ width: "100%" }}
