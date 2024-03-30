@@ -2,16 +2,7 @@ import { Box, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
-export default function MegaMenu() {
-  //Handle Categories and Subcategories
-  const [categories, setCategories] = useState();
-  useEffect(() => {
-    fetch(process.env.NEXT_PUBLIC_BASE_API + "categories?populate=*")
-      .then((res) => res.json())
-      .then((data) => setCategories(data.data))
-      .catch((err) => console.log(err));
-  }, []);
-
+export default function MegaMenu({categories}) {
   return (
     <Grid container sx={{ height: "100%", width: "100%"}} spacing={2}>
       {categories?.map((e, i) => (

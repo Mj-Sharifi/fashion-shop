@@ -57,7 +57,14 @@ export default function Navbar() {
   const handleMobileMenu = () => {
     setMobileMenu(!mobileMenu);
   };
-
+  //Handle Categories and Subcategories
+  const [categories, setCategories] = useState();
+  useEffect(() => {
+    fetch(process.env.NEXT_PUBLIC_BASE_API + "categories?populate=*")
+      .then((res) => res.json())
+      .then((data) => setCategories(data.data))
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <nav
       className={`${styles.navbar} ${stickyClass && styles.stick}`}
@@ -137,7 +144,7 @@ export default function Navbar() {
                       px: "1%",
                     }}
                   >
-                    <MegaMenu />
+                    <MegaMenu categories={categories}/>
                   </Paper>
                 </Box>
               );
@@ -253,6 +260,7 @@ export default function Navbar() {
       <HamburgerMenu
         mobileMenu={mobileMenu}
         handleMobileMenu={handleMobileMenu}
+        categories={categories}
       />
     </nav>
   );

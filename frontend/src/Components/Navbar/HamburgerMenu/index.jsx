@@ -8,26 +8,23 @@ import {
   Twitter,
   WhatsApp,
 } from "@mui/icons-material";
-import {
-  Box,
-  Input,
-  IconButton,
-  Paper,
-  Stack,
-  Typography,
-} from "@mui/material";
-import {
-  CompareArrows,
-  FavoriteBorderOutlined,
-  Menu,
-  Person3Outlined,
-  Search,
-  ShoppingBagOutlined,
-} from "@mui/icons-material";
-import React from "react";
+import { Input, IconButton, Paper, Stack, Typography } from "@mui/material";
+import { Search } from "@mui/icons-material";
+import React, { useState } from "react";
 import Link from "next/link";
-const menuItems = ["Home", "Shop", "Blog","Contact"];
-export default function HamburgerMenu({ mobileMenu, handleMobileMenu }) {
+import { SimpleTreeView, TreeItem } from "@mui/x-tree-view";
+const menuItems = ["Home", "Shop", "Blog", "Contact"];
+export default function HamburgerMenu({
+  mobileMenu,
+  handleMobileMenu,
+  categories,
+}) {
+  const [expandedItems, setExpandedItems] = useState("");
+
+  const handleExpandedItemsChange = (event, id) => {
+    console.log(id);
+    setExpandedItems(id);
+  };
   return (
     <Stack
       sx={{
@@ -87,19 +84,99 @@ export default function HamburgerMenu({ mobileMenu, handleMobileMenu }) {
           <Search sx={{ color: "#aaa" }} />
         </Stack>
         {/* Menu Items */}
-        <Stack gap={3} px={3} mt={4}>
-          {menuItems.map((e, i) => (
-            <Link key={i} href={e.toLowerCase()}>
-              <Typography
-                variant="subtitle2"
-                component={"p"}
-                fontWeight={"600"}
-                textTransform={"uppercase"}
+        <Stack
+          gap={3}
+          px={3}
+          mt={4}
+          sx={{
+            "& .MuiTypography-root:hover": {
+              transition: "all 0.3s",
+              color: "colors.violet",
+            },
+          }}
+        >
+          {menuItems.map((e, i) =>
+            e !== "Shop" ? (
+              <Link key={i} href={e.toLowerCase()}>
+                <Typography
+                  variant="body2"
+                  fontWeight={"600"}
+                  textTransform={"uppercase"}
+                >
+                  {e}
+                </Typography>
+              </Link>
+            ) : (
+              <SimpleTreeView
+                expandedItems={expandedItems}
+                onExpandedItemsChange={handleExpandedItemsChange}
+                sx={{
+                  "& .Mui-selected": {
+                    backgroundColor: "transparent !important",
+                  },
+                  "& .MuiTreeItem-content": { paddingX: "0" },
+                  "& .MuiTreeItem-content .MuiTreeItem-iconContainer": {
+                    order: "2",
+                  },
+                  "& .MuiTreeItem-content .MuiTreeItem-label": {
+                    paddingX: "0",
+                    transition: "all 0.3s",
+                    width: "auto",
+                  },
+                  "& svg": {
+                    fontSize: "24px !important",
+                    transition: "all 0.3s",
+                    "&:hover": {
+                      color: "colors.violet",
+                    },
+                  },
+                }}
               >
-                {e}
-              </Typography>
-            </Link>
-          ))}
+                <TreeItem
+                  label={
+                    <Typography variant="body2" fontWeight={"600"}>
+                      {e}
+                    </Typography>
+                  }
+                  itemId={`${e}`}
+                >
+                  {categories?.map((m, n) => (
+                    <TreeItem
+                      itemId={`${m?.attributes.title}`}
+                      key={n}
+                      label={
+                        <Link
+                          href={`/shop/${m?.attributes.title.toLowerCase()}`}
+                        >
+                          <Typography variant="body2">
+                            {m?.attributes.title}
+                          </Typography>
+                        </Link>
+                      }
+                    >
+                      {m?.attributes.subcategories.data.map((k, l) => (
+                        <TreeItem
+                          itemId={k?.attributes.title}
+                          key={l}
+                          label={
+                            <Link
+                              href={`/shop/${m?.attributes.title.toLowerCase()}/${
+                                k.attributes.title
+                              }`}
+                            >
+                              <Typography variant="body2">
+                                {k?.attributes.title}
+                              </Typography>
+                            </Link>
+                          }
+                        />
+                      ))}
+                    </TreeItem>
+                  ))}
+                </TreeItem>
+              </SimpleTreeView>
+            )
+          )}
         </Stack>
         <Stack mt={6} px={3} alignItems={"start"} gap={1}>
           <Stack
