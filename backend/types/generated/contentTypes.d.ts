@@ -863,6 +863,44 @@ export interface ApiColorColor extends Schema.CollectionType {
   };
 }
 
+export interface ApiCommentComment extends Schema.CollectionType {
+  collectionName: 'comments';
+  info: {
+    singularName: 'comment';
+    pluralName: 'comments';
+    displayName: 'Comments';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    authorName: Attribute.String;
+    email: Attribute.Email;
+    content: Attribute.RichText;
+    product: Attribute.Relation<
+      'api::comment.comment',
+      'manyToOne',
+      'api::product.product'
+    >;
+    rating: Attribute.Integer;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::comment.comment',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::comment.comment',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiMainSliderMainSlider extends Schema.CollectionType {
   collectionName: 'main_sliders';
   info: {
@@ -955,6 +993,11 @@ export interface ApiProductProduct extends Schema.CollectionType {
       'api::product.product',
       'manyToMany',
       'api::size.size'
+    >;
+    comments: Attribute.Relation<
+      'api::product.product',
+      'oneToMany',
+      'api::comment.comment'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1061,6 +1104,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::category.category': ApiCategoryCategory;
       'api::color.color': ApiColorColor;
+      'api::comment.comment': ApiCommentComment;
       'api::main-slider.main-slider': ApiMainSliderMainSlider;
       'api::product.product': ApiProductProduct;
       'api::size.size': ApiSizeSize;

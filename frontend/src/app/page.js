@@ -16,6 +16,7 @@ import fetchData from "@/Utils/fetchData";
 import styles from "./page.module.css";
 
 import ProductCard from "@/Components/ProductCard";
+import GoUp from "@/Components/GoUp";
 export default function Home() {
   //Tabs
   const [tab, setTab] = useState(0);
@@ -214,6 +215,7 @@ export default function Home() {
         </Container>
       </main>
       <Footer />
+      <GoUp/>
     </>
   );
 }

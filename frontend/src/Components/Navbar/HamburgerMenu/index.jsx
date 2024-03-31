@@ -19,10 +19,8 @@ export default function HamburgerMenu({
   handleMobileMenu,
   categories,
 }) {
-  const [expandedItems, setExpandedItems] = useState("");
-
+  const [expandedItems, setExpandedItems] = useState([""]);
   const handleExpandedItemsChange = (event, id) => {
-    console.log(id);
     setExpandedItems(id);
   };
   return (
@@ -108,6 +106,7 @@ export default function HamburgerMenu({
               </Link>
             ) : (
               <SimpleTreeView
+              key={i}
                 expandedItems={expandedItems}
                 onExpandedItemsChange={handleExpandedItemsChange}
                 sx={{

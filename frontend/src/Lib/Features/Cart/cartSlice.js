@@ -9,7 +9,7 @@ const cartSlise = createSlice({
       state.list = [];
     },
     removeItem: (state, action) => {
-      state.list.filter((e) => {
+      state.list = state.list.filter((e) => {
         if (
           e.id === action.payload.product.id &&
           e.size === action.payload.size &&

@@ -17,6 +17,7 @@ import {
   Paper,
   Stack,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,9 +26,11 @@ import HamburgerMenu from "./HamburgerMenu";
 import styles from "./style.module.css";
 import MegaMenu from "./MegaMenu";
 import { useSelector } from "react-redux";
+import Cart from "./Cart";
 const menuItems = ["Home", "Shop", "Blog", "Contact"];
 
 export default function Navbar() {
+  const tabletSize = useMediaQuery("(max-width:800px)");
   const { list } = useSelector((state) => state.cart);
   // handle navbar position
   const navbar = useRef();
@@ -57,6 +60,25 @@ export default function Navbar() {
   const handleMobileMenu = () => {
     setMobileMenu(!mobileMenu);
   };
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 800) {
+        setMobileMenu(false);
+      }
+    });
+  }, []);
+  // Handle Cart Menu
+  const [cartMenu, setCartMenu] = useState(false);
+  const handleCartMenu = () => {
+    setCartMenu(!cartMenu);
+  };
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < 800) {
+        setCartMenu(false);
+      }
+    });
+  }, []);
   //Handle Categories and Subcategories
   const [categories, setCategories] = useState();
   useEffect(() => {
@@ -67,6 +89,7 @@ export default function Navbar() {
   }, []);
   return (
     <nav
+      id="navbar"
       className={`${styles.navbar} ${stickyClass && styles.stick}`}
       ref={navbar}
     >
@@ -144,7 +167,7 @@ export default function Navbar() {
                       px: "1%",
                     }}
                   >
-                    <MegaMenu categories={categories}/>
+                    <MegaMenu categories={categories} />
                   </Paper>
                 </Box>
               );
@@ -155,9 +178,12 @@ export default function Navbar() {
           direction={"row"}
           gap={2}
           sx={{
-            "& button": { bgcolor: "transparent !important" },
-            "& svg": { transition: "all 0.3s", color: "text.black" },
-            "& svg:hover": { color: "colors.violet" },
+            "& button:not(.closeBtn)": { bgcolor: "transparent !important" },
+            "& svg:not(.closeBtn)": {
+              transition: "all 0.3s",
+              color: "text.black",
+            },
+            "& svg:not(.closeBtn):hover": { color: "colors.violet" },
           }}
         >
           <Box
@@ -245,9 +271,39 @@ export default function Navbar() {
               },
             }}
           >
-            <IconButton>
-              <ShoppingBagOutlined />
-            </IconButton>
+            <Box sx={{ position: "relative" }}>
+              {tabletSize ? (
+                <Link href="/cart">
+                  <IconButton>
+                    <ShoppingBagOutlined />
+                  </IconButton>
+                </Link>
+              ) : (
+                <IconButton onClick={handleCartMenu}>
+                  <ShoppingBagOutlined />
+                </IconButton>
+              )}
+
+              <Paper
+                className="cartMenu"
+                sx={{
+                  transition: "all 0.5s",
+                  position: "absolute",
+                  top: "60px",
+                  right: "0",
+                  width: "310px",
+                  zIndex: "1000",
+                  visibility: `${cartMenu ? "visible" : "hidden"}`,
+                  opacity: `${cartMenu ? "1" : "0"}`,
+                  transformOrigin: "top center",
+                  transform: `${cartMenu ? "rotateX(0deg)" : "rotateX(90DEG)"}`,
+                  overflow: "hidden",
+                  padding: "10px 25px",
+                }}
+              >
+                <Cart />
+              </Paper>
+            </Box>
           </Badge>
           <IconButton
             sx={{ display: { xs: "block", md: "none" } }}

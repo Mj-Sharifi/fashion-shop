@@ -108,6 +108,12 @@
       "relation": "manyToMany",
       "target": "api::size.size",
       "mappedBy": "products"
+    },
+    "comments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::comment.comment",
+      "mappedBy": "product"
     }
   }
 }

@@ -23,6 +23,7 @@ import { Apps, ExpandMore, FormatListBulleted } from "@mui/icons-material";
 import ProductCard from "@/Components/ProductCard";
 import DetailedProductCard from "@/Components/DetailedProductCard";
 import Loading from "@/Components/Loading";
+import GoUp from "@/Components/GoUp";
 
 export default function Subcategory({ params }) {
   const mobileSize = useMediaQuery("(max-width:580px)");
@@ -540,6 +541,7 @@ export default function Subcategory({ params }) {
               </Stack>
             </Grid>
           </Grid>
+          <GoUp/>
         </>
       ) : (
         <Loading />
