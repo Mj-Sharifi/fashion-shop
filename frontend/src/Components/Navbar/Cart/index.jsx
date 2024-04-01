@@ -5,16 +5,17 @@ import {
   Button,
   Divider,
   IconButton,
-  List,
   Stack,
   Typography,
 } from "@mui/material";
-import { Close, CropSquareSharp } from "@mui/icons-material";
+import { Close } from "@mui/icons-material";
 import { removeItem } from "@/Lib/Features/Cart/cartSlice";
 import Link from "next/link";
 export default function Cart() {
+  // importing Shopping List from Redux
   const { list } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
+  // Calculating the total price
   let totalPrice = 0;
   for (const i of list) {
     totalPrice +=
@@ -110,7 +111,7 @@ export default function Cart() {
               View Cart
             </Button>
           </Link>
-          <Link href={"/checkout"} style={{marginTop:"15px"}}>
+          <Link href={"/checkout"} style={{ marginTop: "15px" }}>
             <Button
               variant="outlined"
               disableRipple
@@ -127,7 +128,9 @@ export default function Cart() {
         </Stack>
       ) : (
         <Stack>
-          <Typography variant="menuItems" textAlign={"center"}>No items added to cart</Typography>
+          <Typography variant="menuItems" textAlign={"center"}>
+            No items added to cart
+          </Typography>
         </Stack>
       )}
     </>

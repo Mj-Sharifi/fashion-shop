@@ -215,7 +215,7 @@ export default function Home() {
         </Container>
       </main>
       <Footer />
-      <GoUp/>
+      <GoUp />
     </>
   );
 }
