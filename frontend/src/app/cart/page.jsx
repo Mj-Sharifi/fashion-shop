@@ -482,7 +482,7 @@ export default function Cart() {
                   }}
                 >
                   <Typography variant="body2">Total Products</Typography>
-                  <Typography variant="body2">{totalPrice}</Typography>
+                  <Typography variant="body2">$ {totalPrice}</Typography>
                 </Stack>
                 <Stack
                   sx={{
@@ -494,7 +494,7 @@ export default function Cart() {
                   }}
                 >
                   <Typography variant="h4">Grand Total</Typography>
-                  <Typography variant="h4">{totalPrice}</Typography>
+                  <Typography variant="h4">$ {totalPrice}</Typography>
                 </Stack>
                 <Button
                   disableRipple

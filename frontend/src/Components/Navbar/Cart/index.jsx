@@ -95,7 +95,7 @@ export default function Cart() {
             marginY={3}
           >
             <Typography>Total:</Typography>
-            <Typography>{totalPrice}</Typography>
+            <Typography>$ {totalPrice.toFixed(2)}</Typography>
           </Stack>
           <Link href={"/cart"}>
             <Button
@@ -106,6 +106,41 @@ export default function Cart() {
                 height: "45px",
                 color: "text.black",
                 borderColor: "colors.lightblack",
+                isolation: "isolate",
+                position: "relative",
+                transition: "all 0.5s ease-in-out 0s",
+                "&::before": {
+                  bottom: "0",
+                  content: "''",
+                  height: "100%",
+                  left: "0",
+                  position: " absolute",
+                  transition: "all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1)",
+                  width: "100%",
+                  zIndex: "-1",
+                },
+                "&::after": {
+                  backgroundColor: "colors.violet",
+                  left: "auto",
+                  right: "0",
+                  width: "0",
+                  bottom: "0",
+                  content: "''",
+                  height: "100%",
+                  position: "absolute",
+                  transition: "all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1)",
+                  zIndex: "-1",
+                },
+                "&:hover": {
+                  border: "1px solid",
+                  borderColor: "colors.violet",
+                  color: "text.white",
+                },
+                "&:hover::after": {
+                  left: "0",
+                  right: "auto",
+                  width: "100%",
+                },
               }}
             >
               View Cart
@@ -120,6 +155,41 @@ export default function Cart() {
                 height: "45px",
                 color: "text.black",
                 borderColor: "colors.lightblack",
+                isolation: "isolate",
+                position: "relative",
+                transition: "all 0.5s ease-in-out 0s",
+                "&::before": {
+                  bottom: "0",
+                  content: "''",
+                  height: "100%",
+                  left: "0",
+                  position: " absolute",
+                  transition: "all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1)",
+                  width: "100%",
+                  zIndex: "-1",
+                },
+                "&::after": {
+                  backgroundColor: "colors.violet",
+                  left: "auto",
+                  right: "0",
+                  width: "0",
+                  bottom: "0",
+                  content: "''",
+                  height: "100%",
+                  position: "absolute",
+                  transition: "all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1)",
+                  zIndex: "-1",
+                },
+                "&:hover": {
+                  border: "1px solid",
+                  borderColor: "colors.violet",
+                  color: "text.white",
+                },
+                "&:hover::after": {
+                  left: "0",
+                  right: "auto",
+                  width: "100%",
+                },
               }}
             >
               Checkout

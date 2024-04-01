@@ -356,7 +356,7 @@ export default function Checkout() {
             <Divider sx={{marginBottom:"30px",marginTop:"20px"}}/>
             <Stack direction={"row"} justifyContent={"space-between"}>
               <Typography variant="menuItems">Total</Typography>
-              <Typography variant="menuItems" sx={{color:"colors.violet"}}>{totalPrice}</Typography>
+              <Typography variant="menuItems" sx={{color:"colors.violet"}}>& {totalPrice}</Typography>
             </Stack>
           </Stack>
           <Button disableRipple sx={{width:"100%",height:"45px",borderRadius:"50px",color:"text.white",backgroundColor:"colors.violet","&:hover":{backgroundColor:"colors.lightblack"}}}>PLlace Order</Button>
