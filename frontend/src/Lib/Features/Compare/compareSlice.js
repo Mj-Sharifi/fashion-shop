@@ -5,18 +5,18 @@ const compareSlice = createSlice({
   initialState,
   name: "compare",
   reducers: {
-    addTocompare: (state, action) => {
+    addToCompare: (state, action) => {
       let add = true;
       state.compareList.map(e=>{
-        if(e.attribures.id==action.payload.product.attribures.id){
+        if(e.id==action.payload.product.id){
             add = false
         }
       })
       add && state.compareList.push(action.payload.product)
     },
-    remoceFromCompare: (state, action) => {
+    removeFromCompare: (state, action) => {
         state.compareList = state.compareList.filter(e=>{
-            if(e.attribures.id==action.payload.product.attribures.id){
+            if(e.id==action.payload.product.id){
                 return false
             }
             return e
@@ -27,5 +27,5 @@ const compareSlice = createSlice({
     }
   },
 });
-export const {addTocompare,remoceFromCompare,removeAllCopmare} = compareSlice.actions
+export const {addToCompare,removeFromCompare,removeAllCopmare} = compareSlice.actions
 export default compareSlice.reducer

@@ -12,17 +12,28 @@ import {
 import { useAppDispatch, useAppSelector } from "@/Lib/hooks";
 import { addToWishlist } from "@/Lib/Features/Wishlist/wishSlice";
 import { addItem } from "@/Lib/Features/Cart/cartSlice";
+import { addToCompare } from "@/Lib/Features/Compare/compareSlice";
 
-const isInWishlist = (id,wishlist) =>{
-  let isIn = false
+const isInWishlist = (id, wishlist) => {
+  let isIn = false;
   for (const w of wishlist) {
-    if(id==w.id){
-      isIn = true
-      break
+    if (id == w.id) {
+      isIn = true;
+      break;
     }
   }
-  return isIn
-}
+  return isIn;
+};
+const isInComparelist = (id, compareList) => {
+  let isIn = false;
+  for (const c of compareList) {
+    if (id == c.id) {
+      isIn = true;
+      break;
+    }
+  }
+  return isIn;
+};
 export default function Cart({ product }) {
   // Hanlde Size
   const [size, setSize] = useState();
@@ -36,8 +47,10 @@ export default function Cart({ product }) {
   const handleDecrease = () => {
     quantity > 1 && setQuantity(quantity - 1);
   };
+  // Handle wishlist and compare
   const dispatch = useAppDispatch();
-  const {wishlist} = useAppSelector(state=>state.wishlist)
+  const { wishlist } = useAppSelector((state) => state.wishlist);
+  const { compareList } = useAppSelector((state) => state.compare);
   return (
     <>
       {/* Color and Size Selection */}
@@ -219,7 +232,7 @@ export default function Cart({ product }) {
             onClick={() =>
               dispatch(
                 addToWishlist({
-                  id: product.attributes.id,
+                  id: product.id,
                   title: product.attributes.title,
                   imageprimary:
                     process.env.NEXT_PUBLIC_BASE_URL +
@@ -235,17 +248,37 @@ export default function Cart({ product }) {
               sx={{
                 transition: "all 0.3s",
                 cursor: `${
-                  isInWishlist(product.attributes.id, wishlist) ? "not-allowed" : "pointer"
+                  isInWishlist(product.id, wishlist)
+                    ? "not-allowed"
+                    : "pointer"
                 }`,
-                color: `${isInWishlist(product.attributes.id, wishlist) ? "colors.violet" : ""}`,
+                color: `${
+                  isInWishlist(product.id, wishlist)
+                    ? "colors.violet"
+                    : ""
+                }`,
                 "&:hover": { color: "colors.violet" },
               }}
             />
           </IconButton>
-          <IconButton disableRipple sx={{ padding: "0" }}>
+          <IconButton
+            disableRipple
+            sx={{ padding: "0" }}
+            onClick={() => dispatch(addToCompare({ product }))}
+          >
             <CompareArrows
               sx={{
                 transition: "all 0.3s",
+                cursor: `${
+                  isInComparelist(product.id, compareList)
+                    ? "not-allowed"
+                    : "pointer"
+                }`,
+                color: `${
+                  isInComparelist(product.id, compareList)
+                    ? "colors.violet"
+                    : ""
+                }`,
                 "&:hover": { color: "colors.violet" },
               }}
             />

@@ -22,11 +22,9 @@ import {
   removeAllWishlist,
   removeFromWishlist,
 } from "@/Lib/Features/Wishlist/wishSlice";
-import Image from "next/image";
 export default function page() {
   const { wishlist } = useAppSelector((state) => state.wishlist);
   const dispatch = useAppDispatch();
-  console.log(wishlist);
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
       {wishlist.length ? (
@@ -96,7 +94,7 @@ export default function page() {
                           -
                           <span
                             style={{
-                              textDecoration: "strikethrough",
+                              textDecoration: "line-through",
                               color: "#8e8e8e",
                             }}
                           >

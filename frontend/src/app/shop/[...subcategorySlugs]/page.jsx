@@ -467,7 +467,7 @@ export default function Subcategory({ params }) {
                   justifyContent={{ xs: "center", md: "start" }}
                 >
                   {products?.map((e, i) => (
-                    <Grid key={i} item xs={10} sm={6} lg={4} xxl={3}>
+                    <Grid key={i} item xs={10} sm={6} lg={4} >
                       <ProductCard
                         id={e.id}
                         title={e?.attributes.title}

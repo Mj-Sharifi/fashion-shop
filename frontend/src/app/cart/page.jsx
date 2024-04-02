@@ -148,7 +148,7 @@ export default function Cart() {
                           -
                           <span
                             style={{
-                              textDecoration: "strikethrough",
+                              textDecoration: "line-through",
                               color: "#8e8e8e",
                             }}
                           >

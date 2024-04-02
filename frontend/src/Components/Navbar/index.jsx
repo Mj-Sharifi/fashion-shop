@@ -32,8 +32,10 @@ const menuItems = ["Home", "Shop", "Blog", "Contact"];
 
 export default function Navbar() {
   const tabletSize = useMediaQuery("(max-width:800px)");
+  // handle wishlist and comparelist
   const { list } = useAppSelector((state) => state.cart);
   const { wishlist } = useAppSelector((state) => state.wishlist);
+  const { compareList } = useAppSelector((state) => state.compare);
   // handle navbar position
   const navbar = useRef();
   const [stickyClass, setSticykClass] = useState(false);
@@ -253,6 +255,7 @@ export default function Navbar() {
             <Person3Outlined />
           </IconButton>
           <Badge
+            badgeContent={compareList.length}
             sx={{
               "& .MuiBadge-badge": {
                 bgcolor: "colors.violet",
@@ -262,9 +265,11 @@ export default function Navbar() {
               },
             }}
           >
-            <IconButton>
-              <CompareArrows />
-            </IconButton>
+            <Link href={"/compare"}>
+              <IconButton>
+                <CompareArrows />
+              </IconButton>
+            </Link>
           </Badge>
           <Badge
             badgeContent={wishlist.length}
@@ -315,13 +320,13 @@ export default function Navbar() {
                   top: "60px",
                   right: "0",
                   width: "310px",
-                  height:"500px",
-                  overflowY:"scroll",
+                  maxHeight: "500px",
+                  overflowY: "auto",
                   zIndex: "1000",
                   visibility: `${cartMenu ? "visible" : "hidden"}`,
                   opacity: `${cartMenu ? "1" : "0"}`,
                   transformOrigin: "top center",
-                  transform: `${cartMenu ? "rotateX(0deg)" : "rotateX(90DEG)"}`,
+                  transform: `${cartMenu ? "rotateX(0deg)" : "rotateX(90deg)"}`,
                   overflowX: "hidden",
                   padding: "10px 25px",
                 }}

@@ -25,7 +25,7 @@ export default function Cart() {
   return (
     <>
       {list.length ? (
-        <Stack sx={{height:"100%"}}>
+        <Stack sx={{ height: "100%" }}>
           {list.map((e, i) => (
             <Box key={i}>
               <Stack
@@ -75,7 +75,7 @@ export default function Cart() {
                   }}
                   onClick={() =>
                     dispatch(
-                      removeItem({ product: e, color: e.color, size: e.size })
+                      removeItem({ id: e.id, size: e.size, color: e.color })
                     )
                   }
                 >

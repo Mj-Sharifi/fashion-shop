@@ -183,7 +183,7 @@ export default function ProductCard({
             ${(price - (price * discount) / 100).toFixed(2)}-
             <span
               style={{
-                textDecoration: "strikethrough",
+                textDecoration: "line-through",
                 color: "#8e8e8e",
               }}
             >
