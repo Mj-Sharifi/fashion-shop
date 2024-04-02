@@ -10,6 +10,18 @@ import {
 import { FavoriteBorderOutlined, CompareArrows } from "@mui/icons-material";
 import React from "react";
 import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "@/Lib/hooks";
+import { addToWishlist } from "@/Lib/Features/Wishlist/wishSlice";
+const isInWishlist = (id,wishlist) =>{
+  let isIn = false
+  for (const w of wishlist) {
+    if(id==w.id){
+      isIn = true
+      break
+    }
+  }
+  return isIn
+}
 export default function DetailedProductCard({
   id,
   title,
@@ -22,8 +34,17 @@ export default function DetailedProductCard({
   isNew,
   isAvailable,
 }) {
+  const {wishlist} = useAppSelector(state=>state.wishlist)
+  const dispatch = useAppDispatch();
   return (
-    <Stack sx={{ flexDirection: {xs:"column",md:"row"}, alignItems: "center", gap: "30px",width:"100%"}}>
+    <Stack
+      sx={{
+        flexDirection: { xs: "column", md: "row" },
+        alignItems: "center",
+        gap: "30px",
+        width: "100%",
+      }}
+    >
       <Box
         width={{ xs: "100%", md: "30%" }}
         position={"relative"}
@@ -97,7 +118,13 @@ export default function DetailedProductCard({
           ) : undefined}
         </Stack>
       </Box>
-      <Stack sx={{ width: { xs: "100%", md: "70%" }, gap: "5px", alignItems:{xs:"center",md:"start"} }}>
+      <Stack
+        sx={{
+          width: { xs: "100%", md: "70%" },
+          gap: "5px",
+          alignItems: { xs: "center", md: "start" },
+        }}
+      >
         <Typography variant="h4" component={"h2"}>
           {title}
         </Typography>
@@ -117,7 +144,11 @@ export default function DetailedProductCard({
           <Typography variant="h4">{`$${price.toFixed(2)}`}</Typography>
         )}
         <Rating readOnly precision={0.5} value={rating} />
-        <Typography variant="body2" sx={{ opacity: "0.7" }} textAlign={{xs:"center",md:'start'}}>
+        <Typography
+          variant="body2"
+          sx={{ opacity: "0.7" }}
+          textAlign={{ xs: "center", md: "start" }}
+        >
           {shortDescription?.split(" ").slice(0, 20).join(" ")}...
         </Typography>
         <Stack direction={"row"} gap={3}>
@@ -167,10 +198,27 @@ export default function DetailedProductCard({
               {isAvailable ? "More info ..." : "Out of Stock"}
             </Button>
           </Link>
-          <IconButton disableRipple sx={{ padding: "0" }}>
+          <IconButton
+            disableRipple
+            sx={{ padding: "0" }}
+            onClick={() =>
+              dispatch(
+                addToWishlist({
+                  id,
+                  title,
+                  imageprimary: imgPrimary,
+                  price,
+                  discount,
+                  isAvailable,
+                })
+              )
+            }
+          >
             <FavoriteBorderOutlined
               sx={{
                 transition: "all 0.3s",
+                cursor:`${isInWishlist(id,wishlist)?"not-allowed":"pointer"}`,
+                color:`${isInWishlist(id,wishlist)?"colors.violet":""}`,
                 "&:hover": { color: "colors.violet" },
               }}
             />

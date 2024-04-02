@@ -27,11 +27,13 @@ import styles from "./style.module.css";
 import MegaMenu from "./MegaMenu";
 import { useSelector } from "react-redux";
 import Cart from "./Cart";
+import { useAppSelector } from "@/Lib/hooks";
 const menuItems = ["Home", "Shop", "Blog", "Contact"];
 
 export default function Navbar() {
   const tabletSize = useMediaQuery("(max-width:800px)");
-  const { list } = useSelector((state) => state.cart);
+  const { list } = useAppSelector((state) => state.cart);
+  const { wishlist } = useAppSelector((state) => state.wishlist);
   // handle navbar position
   const navbar = useRef();
   const [stickyClass, setSticykClass] = useState(false);
@@ -250,15 +252,36 @@ export default function Navbar() {
           <IconButton sx={{ display: { xs: "none", md: "flex" } }}>
             <Person3Outlined />
           </IconButton>
-          <Badge>
+          <Badge
+            sx={{
+              "& .MuiBadge-badge": {
+                bgcolor: "colors.violet",
+                color: "text.white",
+                top: "10%",
+                right: "10%",
+              },
+            }}
+          >
             <IconButton>
               <CompareArrows />
             </IconButton>
           </Badge>
-          <Badge>
-            <IconButton>
-              <FavoriteBorderOutlined />
-            </IconButton>
+          <Badge
+            badgeContent={wishlist.length}
+            sx={{
+              "& .MuiBadge-badge": {
+                bgcolor: "colors.violet",
+                color: "text.white",
+                top: "10%",
+                right: "10%",
+              },
+            }}
+          >
+            <Link href={"/wishlist"}>
+              <IconButton>
+                <FavoriteBorderOutlined />
+              </IconButton>
+            </Link>
           </Badge>
           <Badge
             badgeContent={list.length}
@@ -292,12 +315,14 @@ export default function Navbar() {
                   top: "60px",
                   right: "0",
                   width: "310px",
+                  height:"500px",
+                  overflowY:"scroll",
                   zIndex: "1000",
                   visibility: `${cartMenu ? "visible" : "hidden"}`,
                   opacity: `${cartMenu ? "1" : "0"}`,
                   transformOrigin: "top center",
                   transform: `${cartMenu ? "rotateX(0deg)" : "rotateX(90DEG)"}`,
-                  overflow: "hidden",
+                  overflowX: "hidden",
                   padding: "10px 25px",
                 }}
               >

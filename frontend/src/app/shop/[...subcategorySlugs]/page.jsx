@@ -92,7 +92,6 @@ export default function Subcategory({ params }) {
         const data = await res.json();
         setProductNumber(data.meta.pagination.total);
         setProducts(data.data);
-        console.log(products)
       } catch (error) {
         console.log(error);
       }

@@ -21,8 +21,6 @@ export default function Register() {
     }),
     validateOnChange: false,
     onSubmit: () => {
-        console.log(formik.values)
-        console.log(formik.errors)
       fetch(process.env.NEXT_PUBLIC_BASE_API + "auth/local/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -133,7 +131,7 @@ export default function Register() {
       >
         Register
       </Button>
-      {/* {formik.errors && console.log(formik.errors)} */}
+      
     </Paper>
   );
 }

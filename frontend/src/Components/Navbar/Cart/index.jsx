@@ -25,7 +25,7 @@ export default function Cart() {
   return (
     <>
       {list.length ? (
-        <Stack>
+        <Stack sx={{height:"100%"}}>
           {list.map((e, i) => (
             <Box key={i}>
               <Stack

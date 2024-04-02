@@ -3,9 +3,10 @@ import {
   decreaseQuantity,
   increaseQuantity,
   removeAll,
+  removeItem,
 } from "@/Lib/Features/Cart/cartSlice";
 import { useAppSelector, useAppDispatch } from "@/Lib/hooks";
-import { Clear, ShoppingCartOutlined } from "@mui/icons-material";
+import { Clear, ShoppingCartOutlined, Add, Remove } from "@mui/icons-material";
 import {
   Input,
   Box,
@@ -34,6 +35,8 @@ export default function Cart() {
   const router = useRouter();
   // importing Shopping List from Redux
   const { list } = useAppSelector((state) => state.cart);
+  const dispatch = useAppDispatch();
+  console.log(list);
   // Calculating the total price
   let totalPrice = 0;
   for (const i of list) {
@@ -54,7 +57,7 @@ export default function Cart() {
         >
           <Typography variant="h4">Your cart items</Typography>
           <TableContainer component={Paper}>
-            <Table stickyHeader sx={{ minWidth: 650 }} aria-label="cart table">
+            <Table stickyHeader sx={{ minWidth: 800 }} aria-label="cart table">
               <TableHead>
                 <TableRow
                   sx={{
@@ -64,20 +67,20 @@ export default function Cart() {
                     },
                   }}
                 >
-                  <TableCell align="center" colSpan={1}></TableCell>
-                  <TableCell align="center" colSpan={2}>
+                  <TableCell align="center" sx={{ width: "5%" }}></TableCell>
+                  <TableCell align="center" sx={{ width: "20%" }}>
                     IMAGE
                   </TableCell>
-                  <TableCell align="center" colSpan={3}>
+                  <TableCell align="center" sx={{ width: "20%" }}>
                     PRODUCT NAME
                   </TableCell>
-                  <TableCell align="center" colSpan={2}>
+                  <TableCell align="center" sx={{ width: "20%" }}>
                     UNIT PRICE
                   </TableCell>
-                  <TableCell align="center" colSpan={2}>
+                  <TableCell align="center" sx={{ width: "25%" }}>
                     QTY
                   </TableCell>
-                  <TableCell align="center" colSpan={2}>
+                  <TableCell align="center" sx={{ width: "10%" }}>
                     SUBTOTAL
                   </TableCell>
                 </TableRow>
@@ -88,12 +91,23 @@ export default function Cart() {
                     key={i}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell colSpan={1}>
-                      <IconButton sx={{ backgroundColor: "transparent" }}>
+                    <TableCell sx={{ width: "5%" }}>
+                      <IconButton
+                        sx={{ backgroundColor: "transparent" }}
+                        onClick={() =>
+                          dispatch(
+                            removeItem({
+                              id: e.id,
+                              size: e.size,
+                              color: e.color,
+                            })
+                          )
+                        }
+                      >
                         <Clear />
                       </IconButton>
                     </TableCell>
-                    <TableCell align="center" colSpan={2}>
+                    <TableCell align="center" sx={{ width: "20%" }}>
                       <Box
                         component={"img"}
                         src={
@@ -101,22 +115,29 @@ export default function Cart() {
                           e.attributes.imageprimary.data.attributes.url
                         }
                         alt={e.attributes.title}
+                        width={"100%"}
                       />
                     </TableCell>
-                    <TableCell align="center" colSpan={3}>
-                      <Stack justifyContent={"center"} gap={1}>
-                        <Typography variant="h4" gutterBottom>
-                          {e.attributes.title}
-                        </Typography>
-                        {e.color ? (
-                          <Typography>Color: {e.color}</Typography>
-                        ) : (
-                          ""
-                        )}
-                        {e.size ? <Typography>size: {e.color}</Typography> : ""}
+                    <TableCell align="center">
+                      <Stack alignItems={"center"}>
+                        <Stack alignItems={"start"} gap={1}>
+                          <Typography variant="h4" gutterBottom>
+                            {e.attributes.title}
+                          </Typography>
+                          {e.color ? (
+                            <Typography>Color: {e.color}</Typography>
+                          ) : (
+                            ""
+                          )}
+                          {e.size ? (
+                            <Typography>Size: {e.size}</Typography>
+                          ) : (
+                            ""
+                          )}
+                        </Stack>
                       </Stack>
                     </TableCell>
-                    <TableCell align="center" colSpan={2}>
+                    <TableCell align="center" sx={{ width: "20%" }}>
                       {e.attributes.discount ? (
                         <Typography>
                           $
@@ -140,7 +161,7 @@ export default function Cart() {
                         )}`}</Typography>
                       )}
                     </TableCell>
-                    <TableCell align="center" colSpan={2}>
+                    <TableCell align="center" sx={{ width: "25%" }}>
                       <Stack
                         direction={"row"}
                         sx={{
@@ -150,15 +171,25 @@ export default function Cart() {
                           borderColor: "colors.lightgray",
                           borderRadius: "5px",
                           height: "50px",
-                          width: "80px",
+                          width: "100px",
+                          mx: "auto",
                         }}
                       >
                         <IconButton
                           disableRipple
                           sx={{ padding: "0" }}
-                          onClick={() => dispatch(increaseQuantity)}
+                          onClick={() =>
+                            dispatch(
+                              decreaseQuantity({
+                                id: e.id,
+                                size: e.size,
+                                color: e.color,
+                              })
+                            )
+                          }
+                          disabled={e.quantity === 1}
                         >
-                          <Add
+                          <Remove
                             sx={{
                               transition: "all 0.3s",
                               color: "colors.darkgray",
@@ -170,10 +201,17 @@ export default function Cart() {
                         <IconButton
                           disableRipple
                           sx={{ padding: "0" }}
-                          onClick={() => dispatch(decreaseQuantity)}
-                          disabled={quantity === 1}
+                          onClick={() =>
+                            dispatch(
+                              increaseQuantity({
+                                id: e.id,
+                                size: e.size,
+                                color: e.color,
+                              })
+                            )
+                          }
                         >
-                          <Remove
+                          <Add
                             sx={{
                               transition: "all 0.3s",
                               color: "colors.darkgray",
@@ -183,8 +221,13 @@ export default function Cart() {
                         </IconButton>
                       </Stack>
                     </TableCell>
-                    <TableCell align="center" colSpan={2}>
-                      <Typography>{e.attributes.title}</Typography>
+                    <TableCell align="center" sx={{ width: "15%" }}>
+                      <Typography>
+                        ${" "}
+                        {(e.quantity *
+                          (e.attributes.price -
+                            (e.attributes.discount / 100) * e.attributes.price)).toFixed(2)}
+                      </Typography>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -489,7 +532,7 @@ export default function Cart() {
                     width: "100%",
                     flexDirection: "row",
                     justifyContent: "space-between",
-                    marginY:"15px",
+                    marginY: "15px",
                     "& .MuiTypography-root": { color: "colors.violet" },
                   }}
                 >

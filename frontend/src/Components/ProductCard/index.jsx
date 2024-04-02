@@ -1,4 +1,6 @@
 "use client";
+import { addToWishlist } from "@/Lib/Features/Wishlist/wishSlice";
+import { useAppDispatch, useAppSelector } from "@/Lib/hooks";
 import {
   FavoriteBorderOutlined,
   VisibilityOutlined,
@@ -13,8 +15,20 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
+
 import React from "react";
 
+
+const isInWishlist = (id,wishlist) =>{
+  let isIn = false
+  for (const w of wishlist) {
+    if(id==w.id){
+      isIn = true
+      break
+    }
+  }
+  return isIn
+}
 export default function ProductCard({
   id,
   title,
@@ -26,6 +40,9 @@ export default function ProductCard({
   isNew,
   isAvailable,
 }) {
+  
+  const { wishlist } = useAppSelector((state) => state.wishlist);
+  const dispatch = useAppDispatch();
   return (
     <Stack
       width={"100%"}
@@ -33,7 +50,6 @@ export default function ProductCard({
       position={"relative"}
       alignItems={"center"}
       sx={{
-        // height: "380px",
         "&:hover": {
           "img:nth-child(1)": {
             transform: "translateX(-100%)",
@@ -50,13 +66,7 @@ export default function ProductCard({
         },
       }}
     >
-      <Box
-        // height={"80%"}
-        width={"100%"}
-        position={"relative"}
-        overflow={"hidden"}
-        mb={4}
-      >
+      <Box width={"100%"} position={"relative"} overflow={"hidden"} mb={4}>
         <Box
           component={"img"}
           src={imgPrimary}
@@ -90,16 +100,29 @@ export default function ProductCard({
               width: "15%",
               height: "40px",
               borderRadius: "0",
-              bgcolor: "colors.violet",
+              bgcolor: `${isInWishlist(id,wishlist)?"colors.lightblack":"colors.violet"}`,
               color: "text.white",
               transform: "translateY(100%)",
               opacity: "0",
               "&:hover": {
-                bgcolor: "text.black",
+                bgcolor: "colors.lightblack",
               },
             }}
+            onClick={() =>
+              dispatch(
+                addToWishlist({
+                  id,
+                  title,
+                  imageprimary: imgPrimary,
+                  price,
+                  discount,
+                  isAvailable,
+                })
+              )
+            }
+            disabled={isInWishlist(id,wishlist)}
           >
-            <FavoriteBorderOutlined />
+            <FavoriteBorderOutlined/>
           </IconButton>
 
           <Link
@@ -114,7 +137,7 @@ export default function ProductCard({
                 height: "40px",
                 fontSize: "14px",
                 borderRadius: "0",
-                bgcolor: `${isAvailable ? "colors.violet" : "text.black"}`,
+                bgcolor: `${isAvailable ? "colors.violet" : "colors.lightblack"}`,
                 color: "text.white",
                 border: "1px solid #ffffff90",
                 borderBottom: "0",
@@ -123,7 +146,7 @@ export default function ProductCard({
                 opacity: "0",
                 "&:hover": {
                   transitionDelay: "0",
-                  bgcolor: "text.black",
+                  bgcolor: "colors.lightblack",
                 },
               }}
             >
@@ -144,7 +167,7 @@ export default function ProductCard({
               opacity: "0",
               "&:hover": {
                 transitionDelay: "0",
-                bgcolor: "text.black",
+                bgcolor: "colors.lightblack",
               },
             }}
           >

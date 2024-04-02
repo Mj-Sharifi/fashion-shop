@@ -3,7 +3,6 @@ import { IconButton } from "@mui/material";
 import React, { useState, useEffect } from "react";
 
 export default function GoUp() {
-  console.log(window.innerHeight);
   const [visibility, setVisibility] = useState(false);
 
   useEffect(() => {

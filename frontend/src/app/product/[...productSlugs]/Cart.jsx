@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 // MUI components
 import { Box, Button, Stack, Typography, IconButton } from "@mui/material";
 import {
@@ -9,8 +9,20 @@ import {
 } from "@mui/icons-material";
 
 // Redux
-import { useAppDispatch } from "@/Lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/Lib/hooks";
+import { addToWishlist } from "@/Lib/Features/Wishlist/wishSlice";
 import { addItem } from "@/Lib/Features/Cart/cartSlice";
+
+const isInWishlist = (id,wishlist) =>{
+  let isIn = false
+  for (const w of wishlist) {
+    if(id==w.id){
+      isIn = true
+      break
+    }
+  }
+  return isIn
+}
 export default function Cart({ product }) {
   // Hanlde Size
   const [size, setSize] = useState();
@@ -25,6 +37,7 @@ export default function Cart({ product }) {
     quantity > 1 && setQuantity(quantity - 1);
   };
   const dispatch = useAppDispatch();
+  const {wishlist} = useAppSelector(state=>state.wishlist)
   return (
     <>
       {/* Color and Size Selection */}
@@ -200,10 +213,31 @@ export default function Cart({ product }) {
           {product?.attributes.isAvailable ? "Add to Cart" : "Out of Stock"}
         </Button>
         <Stack direction={"row"} gap={1}>
-          <IconButton disableRipple sx={{ padding: "0" }}>
+          <IconButton
+            disableRipple
+            sx={{ padding: "0" }}
+            onClick={() =>
+              dispatch(
+                addToWishlist({
+                  id: product.attributes.id,
+                  title: product.attributes.title,
+                  imageprimary:
+                    process.env.NEXT_PUBLIC_BASE_URL +
+                    product?.attributes.imageprimary.data.attributes.url,
+                  price: product.attributes,
+                  discount: product.attributes.discount,
+                  isAvailable: product.attributes.isAvailable,
+                })
+              )
+            }
+          >
             <FavoriteBorderOutlined
               sx={{
                 transition: "all 0.3s",
+                cursor: `${
+                  isInWishlist(product.attributes.id, wishlist) ? "not-allowed" : "pointer"
+                }`,
+                color: `${isInWishlist(product.attributes.id, wishlist) ? "colors.violet" : ""}`,
                 "&:hover": { color: "colors.violet" },
               }}
             />
