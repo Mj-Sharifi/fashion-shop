@@ -25,18 +25,20 @@ import React, { useEffect, useRef, useState } from "react";
 import HamburgerMenu from "./HamburgerMenu";
 import styles from "./style.module.css";
 import MegaMenu from "./MegaMenu";
-import { useSelector } from "react-redux";
 import Cart from "./Cart";
-import { useAppSelector } from "@/Lib/hooks";
+import { useAppSelector, useAppDispatch } from "@/Lib/hooks";
+import { handleLogout } from "@/Lib/Features/Auth/authSlice";
 const menuItems = ["Home", "Shop", "Blog", "Contact"];
 
 export default function Navbar() {
   const tabletSize = useMediaQuery("(max-width:800px)");
-  // handle wishlist and comparelist
+  // Handle Redux (wishlist, comparelist, cart and auth)
   const { list } = useAppSelector((state) => state.cart);
   const { wishlist } = useAppSelector((state) => state.wishlist);
   const { compareList } = useAppSelector((state) => state.compare);
-  // handle navbar position
+  const { token } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  // Handle Sticky Navbar
   const navbar = useRef();
   const [stickyClass, setSticykClass] = useState(false);
   const stickNavbar = () => {
@@ -56,10 +58,12 @@ export default function Navbar() {
       window.removeEventListener("scroll", stickNavbar);
     };
   }, []);
-
-  // handle Search
+  // Handle Search
   const [searchOpen, setSearchOpen] = useState(false);
-  // handle mobile menu
+  const handleSearch = () => {
+    setSearchOpen(!searchOpen);
+  };
+  // Handle Mobile Menu
   const [mobileMenu, setMobileMenu] = useState(false);
   const handleMobileMenu = () => {
     setMobileMenu(!mobileMenu);
@@ -71,7 +75,7 @@ export default function Navbar() {
       }
     });
   }, []);
-  // Handle Cart Menu
+  // Handle Cart Dropdown Menu
   const [cartMenu, setCartMenu] = useState(false);
   const handleCartMenu = () => {
     setCartMenu(!cartMenu);
@@ -83,6 +87,12 @@ export default function Navbar() {
       }
     });
   }, []);
+  // Handle Login/Register Dropdown Menu
+  const [loginMenu, setLoginMenu] = useState(false);
+  const handleLoginMenu = () => {
+    setLoginMenu(!loginMenu);
+  };
+
   //Handle Categories and Subcategories
   const [categories, setCategories] = useState();
   useEffect(() => {
@@ -112,6 +122,7 @@ export default function Navbar() {
           height={70}
           alt="Fasion Shop"
         />
+        {/* Menu Items (Home, Shop etc.) */}
         <Stack direction={"row"} gap={3} display={{ xs: "none", md: "flex" }}>
           {menuItems.map((e, i) => {
             if (e != "Shop") {
@@ -178,6 +189,7 @@ export default function Navbar() {
             }
           })}
         </Stack>
+        {/* Menu Icons */}
         <Stack
           direction={"row"}
           gap={2}
@@ -190,29 +202,29 @@ export default function Navbar() {
             "& svg:not(.closeBtn):hover": { color: "colors.violet" },
           }}
         >
+          {/* Search */}
           <Box
             sx={{ position: "relative", display: { xs: "none", md: "flex" } }}
           >
             <IconButton
               sx={{ backgroundColor: "transparent !important" }}
-              onClick={() => setSearchOpen(!searchOpen)}
+              onClick={handleSearch}
             >
               <Search />
             </IconButton>
-            <Stack
-              direction={"row"}
+            <Paper
               sx={{
-                padding: "10px",
-                position: "absolute",
                 transition: "all 0.5s",
-                boxShadow: "0 1px 1px 1px rgba(0,0,0,.1)",
+                position: "absolute",
+                top: "60px",
+                right: "0",
+                zIndex: "1000",
                 visibility: `${searchOpen ? "visible" : "hidden"}`,
                 opacity: `${searchOpen ? "1" : "0"}`,
-                transform: `rotateX(${searchOpen ? "0" : "90deg"})`,
-                transformOrigin: "top",
-                right: "0",
-                top: "165%",
-                bgcolor: "text.white",
+                transformOrigin: "top center",
+                transform: `${searchOpen ? "rotateX(0deg)" : "rotateX(90deg)"}`,
+                padding: "10px 25px",
+                display: "flex",
               }}
             >
               <Input
@@ -249,11 +261,59 @@ export default function Navbar() {
               >
                 <Search sx={{ color: "text.white" }} />
               </Stack>
-            </Stack>
+            </Paper>
           </Box>
-          <IconButton sx={{ display: { xs: "none", md: "flex" } }}>
-            <Person3Outlined />
-          </IconButton>
+          {/* Login/Register */}
+          <Box sx={{ position: "relative" }}>
+            <IconButton
+              sx={{ display: { xs: "none", md: "flex" } }}
+              onClick={handleLoginMenu}
+            >
+              <Person3Outlined />
+            </IconButton>
+            <Paper
+              sx={{
+                transition: "all 0.5s",
+                position: "absolute",
+                top: "60px",
+                right: "0",
+                width: "180px",
+                zIndex: "1000",
+                visibility: `${loginMenu ? "visible" : "hidden"}`,
+                opacity: `${loginMenu ? "1" : "0"}`,
+                transformOrigin: "top center",
+                transform: `${loginMenu ? "rotateX(0deg)" : "rotateX(90deg)"}`,
+                padding: "10px 25px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "10px",
+                "& p:hover":{
+                  transition:"all 0.3s",
+                  color:"colors.violet"
+                }
+              }}
+            >
+              {token ? (
+                <>
+                  <Link href={"/my-profile"}>
+                    <Typography variant="body2">Profile</Typography>
+                  </Link>
+                  <Typography
+                  variant="body2"
+                    onClick={() => dispatch(handleLogout())}
+                    sx={{ cursor: "pointer" }}
+                  >
+                    Logout
+                  </Typography>
+                </>
+              ) : (
+                <Link href={"/auth"}>
+                  <Typography variant="body2">Login / Register</Typography>
+                </Link>
+              )}
+            </Paper>
+          </Box>
+          {/* Compare */}
           <Badge
             badgeContent={compareList.length}
             sx={{
@@ -271,6 +331,7 @@ export default function Navbar() {
               </IconButton>
             </Link>
           </Badge>
+          {/* Wishlist */}
           <Badge
             badgeContent={wishlist.length}
             sx={{
@@ -288,6 +349,7 @@ export default function Navbar() {
               </IconButton>
             </Link>
           </Badge>
+          {/* Cart */}
           <Badge
             badgeContent={list.length}
             sx={{
@@ -335,6 +397,7 @@ export default function Navbar() {
               </Paper>
             </Box>
           </Badge>
+          {/* Mobile Menu */}
           <IconButton
             sx={{ display: { xs: "block", md: "none" } }}
             onClick={handleMobileMenu}

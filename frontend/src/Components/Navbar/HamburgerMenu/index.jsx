@@ -13,6 +13,7 @@ import { Search } from "@mui/icons-material";
 import React, { useState } from "react";
 import Link from "next/link";
 import { SimpleTreeView, TreeItem } from "@mui/x-tree-view";
+import { useAppDispatch, useAppSelector } from "@/Lib/hooks";
 const menuItems = ["Home", "Shop", "Blog", "Contact"];
 export default function HamburgerMenu({
   mobileMenu,
@@ -20,9 +21,23 @@ export default function HamburgerMenu({
   categories,
 }) {
   const [expandedItems, setExpandedItems] = useState([""]);
-  const handleExpandedItemsChange = (event, id) => {
-    setExpandedItems(id);
+  const handleItemExpansionToggle = (event, itemId, isExpanded) => {
+    if (isExpanded) {
+      if (itemId === "Shop") {
+        setExpandedItems([itemId]);
+      } else {
+        setExpandedItems(["Shop", itemId]);
+      }
+    } else {
+      if (itemId === "Shop") {
+        setExpandedItems([]);
+      } else {
+        setExpandedItems(["Shop"]);
+      }
+    }
   };
+  const { token } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
   return (
     <Stack
       sx={{
@@ -52,6 +67,7 @@ export default function HamburgerMenu({
         <Close sx={{ transition: "0.3s", color: "text.white" }} />
       </IconButton>
       <Paper sx={{ width: "100%", height: "100%", borderRadius: "0" }}>
+        {/* Search */}
         <Stack
           bgcolor={"colors.lightgray"}
           width={"100%"}
@@ -83,7 +99,7 @@ export default function HamburgerMenu({
         </Stack>
         {/* Menu Items */}
         <Stack
-          gap={3}
+          gap={2}
           px={3}
           mt={4}
           sx={{
@@ -106,9 +122,9 @@ export default function HamburgerMenu({
               </Link>
             ) : (
               <SimpleTreeView
-              key={i}
+                key={i}
                 expandedItems={expandedItems}
-                onExpandedItemsChange={handleExpandedItemsChange}
+                onItemExpansionToggle={handleItemExpansionToggle}
                 sx={{
                   "& .Mui-selected": {
                     backgroundColor: "transparent !important",
@@ -155,7 +171,7 @@ export default function HamburgerMenu({
                     >
                       {m?.attributes.subcategories.data.map((k, l) => (
                         <TreeItem
-                          itemId={k?.attributes.title}
+                          itemId={m?.attributes.title + k?.attributes.title}
                           key={l}
                           label={
                             <Link
@@ -177,7 +193,47 @@ export default function HamburgerMenu({
             )
           )}
         </Stack>
-        <Stack mt={6} px={3} alignItems={"start"} gap={1}>
+        {/* Login / Register */}
+        <Stack
+          my={5}
+          px={3}
+          gap={2}
+        >
+          {token ? (
+            <>
+              <Link href={"/my-profile"}>
+                <Typography
+                  variant="body2"
+                  fontWeight={"600"}
+                  textTransform={"uppercase"}
+                >
+                  Profile
+                </Typography>
+              </Link>
+              <Typography
+                variant="body2"
+                fontWeight={"600"}
+                textTransform={"uppercase"}
+                onClick={() => dispatch(handleLogout())}
+                sx={{ cursor: "pointer" }}
+              >
+                Logout
+              </Typography>
+            </>
+          ) : (
+            <Link href={"/auth"}>
+              <Typography
+                variant="body2"
+                fontWeight={"600"}
+                textTransform={"uppercase"}
+              >
+                Login / Register
+              </Typography>
+            </Link>
+          )}
+        </Stack>
+        {/* Contact Info */}
+        <Stack mt={3} px={3} alignItems={"start"} gap={1}>
           <Stack
             direction={"row"}
             justifyContent={"center"}
@@ -185,7 +241,7 @@ export default function HamburgerMenu({
             gap={1}
           >
             <Call fontSize="small" />
-            <Typography>(+98) 9039104679</Typography>{" "}
+            <Typography>(+98) 9039104679</Typography>
           </Stack>
           <Stack
             direction={"row"}
