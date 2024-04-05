@@ -77,7 +77,7 @@ export default function Slide({ title, subtitle, img }) {
                 "&:hover": {
                   border: "1px solid",
                   borderColor:"colors.violet",
-                  color: "#fff",
+                  color: "text.white",
                 },
                 "&:hover::after": {
                   left: "0",

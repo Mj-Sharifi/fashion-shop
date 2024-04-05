@@ -224,9 +224,11 @@ export default function Cart() {
                     <TableCell align="center" sx={{ width: "15%" }}>
                       <Typography>
                         ${" "}
-                        {(e.quantity *
+                        {(
+                          e.quantity *
                           (e.attributes.price -
-                            (e.attributes.discount / 100) * e.attributes.price)).toFixed(2)}
+                            (e.attributes.discount / 100) * e.attributes.price)
+                        ).toFixed(2)}
                       </Typography>
                     </TableCell>
                   </TableRow>
@@ -240,23 +242,25 @@ export default function Cart() {
             alignItems={"center"}
             rowGap={2}
           >
-            <Button
-              disableRipple
-              sx={{
-                height: "45px",
-                width: "225px",
-                borderRadius: "45px",
-                backgroundColor: "colors.darkgray",
-                color: "text.black",
-                "&:hover": {
-                  backgroundColor: "colors.violet",
-                  color: "text.white",
-                },
-              }}
-              onClick={() => router.push("/")}
-            >
-              Continue Shopping
-            </Button>
+            <Link href={"/shop"}>
+              <Button
+                disableRipple
+                sx={{
+                  height: "45px",
+                  width: "225px",
+                  borderRadius: "45px",
+                  backgroundColor: "colors.darkgray",
+                  color: "text.black",
+                  "&:hover": {
+                    backgroundColor: "colors.violet",
+                    color: "text.white",
+                  },
+                }}
+              >
+                Continue Shopping
+              </Button>
+            </Link>
+
             <Button
               disableRipple
               sx={{
@@ -539,20 +543,21 @@ export default function Cart() {
                   <Typography variant="h4">Grand Total</Typography>
                   <Typography variant="h4">$ {totalPrice}</Typography>
                 </Stack>
-                <Button
-                  disableRipple
-                  sx={{
-                    width: "100%",
-                    height: "45px",
-                    borderRadius: "45px",
-                    backgroundColor: "colors.violet",
-                    color: "text.white",
-                    "&:hover": { backgroundColor: "colors.lightblack" },
-                  }}
-                  onClick={() => router.push("/checkout")}
-                >
-                  Proceed to Checkout
-                </Button>
+                <Link href={"/checkout"}>
+                  <Button
+                    disableRipple
+                    sx={{
+                      width: "100%",
+                      height: "45px",
+                      borderRadius: "45px",
+                      backgroundColor: "colors.violet",
+                      color: "text.white",
+                      "&:hover": { backgroundColor: "colors.lightblack" },
+                    }}
+                  >
+                    Proceed to Checkout
+                  </Button>
+                </Link>
               </Stack>
             </Grid>
           </Grid>
@@ -569,7 +574,7 @@ export default function Cart() {
           <Typography variant="h5">
             No items found in cart to checkout
           </Typography>
-          <Link href={"/"}>
+          <Link href={"/shop"}>
             <Button
               disableRipple
               sx={{

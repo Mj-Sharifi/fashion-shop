@@ -172,7 +172,7 @@ export default function Home() {
               centered
               sx={{
                 "& .MuiTabs-indicator": { width: "0 !important" },
-                "& button": { opacity: "0.75", color: "text.black" },
+                "& button": { opacity: "0.6", color: "text.black" },
                 "& button.Mui-selected": { opacity: "1" },
               }}
             >

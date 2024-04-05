@@ -246,9 +246,10 @@ export default function ProductDetail({ params }) {
               {relatedProducts?.map((e, i) => (
                 <SwiperSlide key={i}>
                   <ProductCard
-                    id={e.id}
+                    id={e?.id}
                     title={e?.attributes.title}
-                    rating={+e?.attributes.rating?.slice(1)}
+                    rating={e?.attributes.rating}
+                    imgAll={e?.attributes?.imagesall}
                     imgPrimary={
                       process.env.NEXT_PUBLIC_BASE_URL +
                       e?.attributes.imageprimary.data.attributes.url
@@ -257,6 +258,9 @@ export default function ProductDetail({ params }) {
                       process.env.NEXT_PUBLIC_BASE_URL +
                       e?.attributes.imagesecondary.data.attributes.url
                     }
+                    shortDescription={e?.attributes.shortDescription}
+                    colors={e.attributes.colors}
+                    sizes={e.attributes.sizes}
                     discount={e?.attributes.discount}
                     price={e?.attributes.price}
                     isNew={e?.attributes.isNew}

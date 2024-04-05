@@ -43,7 +43,7 @@ export default function Checkout() {
           <Typography variant="h4" gutterBottom>
             Billing Details
           </Typography>
-          <Stack direction={{xs:"column",sm:"row"}} columnGap={2}>
+          <Stack direction={{ xs: "column", sm: "row" }} columnGap={2}>
             <Stack width={{ xs: "100%", sm: "50%" }}>
               First Name
               <Input
@@ -201,7 +201,7 @@ export default function Checkout() {
               }}
             />
           </Stack>
-          <Stack direction={{xs:"column",sm:"row"}} width={"100%"} gap={2}>
+          <Stack direction={{ xs: "column", sm: "row" }} width={"100%"} gap={2}>
             <Stack width={{ xs: "100%", sm: "50%" }}>
               State / County
               <Input
@@ -245,7 +245,7 @@ export default function Checkout() {
               />
             </Stack>
           </Stack>
-          <Stack direction={{xs:"column",sm:"row"}} width={"100%"} gap={2}>
+          <Stack direction={{ xs: "column", sm: "row" }} width={"100%"} gap={2}>
             <Stack width={{ xs: "100%", sm: "50%" }}>
               Phone
               <Input
@@ -325,14 +325,14 @@ export default function Checkout() {
               backgroundColor: "colors.lightgray",
               width: "100%",
               padding: "25px",
-              borderRadius:"2%"
+              borderRadius: "2%",
             }}
           >
             <Stack direction={"row"} justifyContent={"space-between"}>
               <Typography variant="menuItems">Prodcut</Typography>
               <Typography variant="menuItems">Total</Typography>
             </Stack>
-            <Divider sx={{marginBottom:"30px",marginTop:"20px"}}/>
+            <Divider sx={{ marginBottom: "30px", marginTop: "20px" }} />
             {list.map((e, i) => (
               <Stack key={i} direction={"row"} justifyContent={"space-between"}>
                 <Typography variant="body2">
@@ -348,21 +348,34 @@ export default function Checkout() {
                 </Typography>
               </Stack>
             ))}
-            <Divider sx={{marginBottom:"30px",marginTop:"20px"}}/>
+            <Divider sx={{ marginBottom: "30px", marginTop: "20px" }} />
             <Stack direction={"row"} justifyContent={"space-between"}>
               <Typography variant="body2">Shipping</Typography>
               <Typography variant="body2">Free Shipping</Typography>
             </Stack>
-            <Divider sx={{marginBottom:"30px",marginTop:"20px"}}/>
+            <Divider sx={{ marginBottom: "30px", marginTop: "20px" }} />
             <Stack direction={"row"} justifyContent={"space-between"}>
               <Typography variant="menuItems">Total</Typography>
-              <Typography variant="menuItems" sx={{color:"colors.violet"}}>& {totalPrice}</Typography>
+              <Typography variant="menuItems" sx={{ color: "colors.violet" }}>
+                & {totalPrice}
+              </Typography>
             </Stack>
           </Stack>
-          <Button disableRipple sx={{width:"100%",height:"45px",borderRadius:"50px",color:"text.white",backgroundColor:"colors.violet","&:hover":{backgroundColor:"colors.lightblack"}}}>PLlace Order</Button>
+          <Button
+            disableRipple
+            sx={{
+              width: "100%",
+              height: "45px",
+              borderRadius: "50px",
+              color: "text.white",
+              backgroundColor: "colors.violet",
+              "&:hover": { backgroundColor: "colors.lightblack" },
+            }}
+          >
+            PLace Order
+          </Button>
         </Grid>
       </Grid>
-      
     </Container>
   );
 }

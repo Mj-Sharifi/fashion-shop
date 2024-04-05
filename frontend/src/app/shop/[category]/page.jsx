@@ -568,9 +568,10 @@ export default function Category({ params }) {
                   {products?.map((e, i) => (
                     <Grid key={i} item xs={10} sm={6} lg={4}>
                       <ProductCard
-                        id={e.id}
+                        id={e?.id}
                         title={e?.attributes.title}
-                        rating={+e?.attributes.rating?.slice(1)}
+                        rating={e?.attributes.rating}
+                        imgAll={e?.attributes?.imagesall}
                         imgPrimary={
                           process.env.NEXT_PUBLIC_BASE_URL +
                           e?.attributes.imageprimary.data.attributes.url
@@ -579,6 +580,9 @@ export default function Category({ params }) {
                           process.env.NEXT_PUBLIC_BASE_URL +
                           e?.attributes.imagesecondary.data.attributes.url
                         }
+                        shortDescription={e?.attributes.shortDescription}
+                        colors={e.attributes.colors}
+                        sizes={e.attributes.sizes}
                         discount={e?.attributes.discount}
                         price={e?.attributes.price}
                         isNew={e?.attributes.isNew}

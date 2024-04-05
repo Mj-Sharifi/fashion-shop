@@ -1,5 +1,4 @@
 "use client";
-import React, { useState, useEffect } from "react";
 import {
   Container,
   Grid,
@@ -19,13 +18,14 @@ import {
   Collapse,
   Pagination,
 } from "@mui/material";
-import { Apps, ExpandMore, FormatListBulleted } from "@mui/icons-material";
+import React, { useEffect, useState } from "react";
 import ProductCard from "@/Components/ProductCard";
-import DetailedProductCard from "@/Components/DetailedProductCard";
 import Loading from "@/Components/Loading";
+import { Apps, ExpandMore, FormatListBulleted } from "@mui/icons-material";
+import DetailedProductCard from "@/Components/DetailedProductCard";
 import GoUp from "@/Components/GoUp";
 
-export default function Subcategory({ params }) {
+export default function Collection() {
   const mobileSize = useMediaQuery("(max-width:580px)");
   // Page Layout
   const [layout, setLayout] = useState("card");
@@ -34,8 +34,10 @@ export default function Subcategory({ params }) {
       setLayout(newLayout);
     }
   };
-  //
+  // Main States
   const [products, setProducts] = useState();
+  const [subcategories, setSubcategories] = useState();
+  const [categories, setCategories] = useState();
   const [colors, setColors] = useState();
   const [sizes, setSizes] = useState();
   // Pagination
@@ -55,6 +57,25 @@ export default function Subcategory({ params }) {
   const handlePrice = (event, newValue) => {
     setPrice(newValue);
   };
+  // Category
+  const [category, setCategory] = useState("All");
+  const handleCategory = (event) => {
+    setCategory(event.target.value);
+  };
+  const [categoryExpanded, setCategoryExpanded] = useState(false);
+  const handleCategoryExpansion = () => {
+    setCategoryExpanded(!categoryExpanded);
+  };
+  // SubCategory
+  const [subcategory, setSubcategory] = useState("All");
+  const handleSubcategory = (event) => {
+    setSubcategory(event.target.value);
+  };
+  const [subcategoryExpanded, setSubcategoryExpanded] = useState(false);
+  const handleSubcategoryExpansion = () => {
+    setSubcategoryExpanded(!subcategoryExpanded);
+  };
+
   // Colors
   const [color, setColor] = useState("All");
   const handleColor = (event) => {
@@ -73,17 +94,21 @@ export default function Subcategory({ params }) {
   const handleSizeExpansion = () => {
     setSizeExpanded(!sizeExpanded);
   };
+  // for getting products
   useEffect(() => {
     (async () => {
       try {
         const res = await fetch(
           process.env.NEXT_PUBLIC_BASE_API +
-            `products?populate=*&filters[categories][title][$eq]=${
-              params.subcategorySlugs[0].charAt(0).toUpperCase() +
-              params.subcategorySlugs[0].slice(1)
-            }&filters[subcategories][title][$eq]=${params.subcategorySlugs[1]}${
-              color === "All" ? "" : `&filters[colors][color][$eq]=${color}`
+            `products?populate=*${
+              category === "All"
+                ? ""
+                : `&filters[categories][title][$eq]=${category}`
             }${
+              subcategory === "All"
+                ? ""
+                : `&filters[subcategories][title][$eq]=${subcategory}`
+            }${color === "All" ? "" : `&filters[colors][color][$eq]=${color}`}${
               size === "All" ? "" : `&filters[sizes][size][$eq]=${size}`
             }&filters[price][$gte]=${price[0]}&filters[price][$lte]=${
               price[1]
@@ -96,27 +121,52 @@ export default function Subcategory({ params }) {
         console.log(error);
       }
     })();
-  }, [color, size, price, sortMethod, page]);
-  // for getting colors and sizes
+  }, [category, subcategory, color, size, price, sortMethod, page]);
+
+  // for getting colors and categories
   useEffect(() => {
-    if (params.subcategorySlugs[0] != "cosmetics") {
+    fetch(process.env.NEXT_PUBLIC_BASE_API + `categories?populate=*`)
+      .then((res) => res.json())
+      .then((data) => setCategories(data.data))
+      .catch((err) => console.log(err));
+
+    if (category != "cosmetics") {
       fetch(process.env.NEXT_PUBLIC_BASE_API + "colors?populate=*")
         .then((res) => res.json())
         .then((data) => setColors(data.data))
         .catch((err) => console.log(err));
-
+    }
+  }, []);
+  // for getting subcategories related to categories
+  useEffect(() => {
+    if (category === "All") {
+      fetch(process.env.NEXT_PUBLIC_BASE_API + "subcategories")
+        .then((res) => res.json())
+        .then((data) => setSubcategories(data?.data));
+    } else {
+      fetch(
+        process.env.NEXT_PUBLIC_BASE_API +
+          `subcategories?populate=*&filters[categories][title][$eq]=${category}`
+      )
+        .then((res) => res.json())
+        .then((data) => setSubcategories(data?.data));
+    }
+  }, [category]);
+  // for geeting sizes related to product category
+  useEffect(() => {
+    if (category != "cosmetics") {
       fetch(process.env.NEXT_PUBLIC_BASE_API + "sizes?populate=*")
         .then((res) => res.json())
         .then((data) =>
           setSizes(
-            ["Jeans", "Jacket"].includes(params.subcategorySlugs[1])
+            ["Jeans"].includes(category)
               ? data.data.filter((e) => +e.attributes.size > 0)
-              : data.data.filter((e) => !(+e.attributes.size > 0))
+              : data.data
           )
         )
         .catch((err) => console.log(err));
     }
-  }, []);
+  }, [category]);
 
   return (
     <Container sx={{ marginTop: { xs: "50px", sm: "70px", md: "90px" } }}>
@@ -227,7 +277,148 @@ export default function Subcategory({ params }) {
                     }}
                   />
                 </Stack>
+                <Divider />
+                {/* Categories */}
+                <FormControl>
+                  <Stack direction={"row"} alignItems={"center"} gap={2}>
+                    <FormLabel id="category-radio-buttons-group-label">
+                      Category
+                    </FormLabel>
+                    {mobileSize && (
+                      <ExpandMore
+                        sx={{
+                          cursor: "pointer",
+                          transform: `${categoryExpanded && "rotate(180deg)"}`,
+                        }}
+                        onClick={handleCategoryExpansion}
+                      />
+                    )}
+                  </Stack>
+                  {mobileSize ? (
+                    <Collapse
+                      in={categoryExpanded}
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      <RadioGroup
+                        row={mobileSize ? true : false}
+                        aria-labelledby="category-controlled-radio-buttons-group"
+                        name="category-controlled-radio-buttons-group"
+                        value={category}
+                        onChange={handleCategory}
+                      >
+                        <FormControlLabel
+                          value="All"
+                          control={<Radio size="small" />}
+                          label="All Categories"
+                        />
+                        {categories?.map((e, i) => (
+                          <FormControlLabel
+                            key={i}
+                            value={e.attributes.title}
+                            control={<Radio size="small" />}
+                            label={e.attributes.title}
+                          />
+                        ))}
+                      </RadioGroup>
+                    </Collapse>
+                  ) : (
+                    <RadioGroup
+                      row={mobileSize ? true : false}
+                      aria-labelledby="category-controlled-radio-buttons-group"
+                      name="category-controlled-radio-buttons-group"
+                      value={category}
+                      onChange={handleCategory}
+                    >
+                      <FormControlLabel
+                        value="All"
+                        control={<Radio size="small" />}
+                        label="All Categories"
+                      />
+                      {categories?.map((e, i) => (
+                        <FormControlLabel
+                          key={i}
+                          value={e.attributes.title}
+                          control={<Radio size="small" />}
+                          label={e.attributes.title}
+                        />
+                      ))}
+                    </RadioGroup>
+                  )}
+                </FormControl>
+                <Divider />
+                {/* Subcategories */}
+                <FormControl>
+                  <Stack direction={"row"} alignItems={"center"} gap={2}>
+                    <FormLabel id="subcategory-radio-buttons-group-label">
+                      Subcategory
+                    </FormLabel>
+                    {mobileSize && (
+                      <ExpandMore
+                        sx={{
+                          cursor: "pointer",
+                          transform: `${
+                            subcategoryExpanded && "rotate(180deg)"
+                          }`,
+                        }}
+                        onClick={handleSubcategoryExpansion}
+                      />
+                    )}
+                  </Stack>
+                  {mobileSize ? (
+                    <Collapse
+                      in={subcategoryExpanded}
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      <RadioGroup
+                        row={mobileSize ? true : false}
+                        aria-labelledby="subcategory-controlled-radio-buttons-group"
+                        name="subcategory-controlled-radio-buttons-group"
+                        value={subcategory}
+                        onChange={handleSubcategory}
+                      >
+                        <FormControlLabel
+                          value="All"
+                          control={<Radio size="small" />}
+                          label="All Subcategories"
+                        />
+                        {subcategories?.map((e, i) => (
+                          <FormControlLabel
+                            key={i}
+                            value={e.attributes.title}
+                            control={<Radio size="small" />}
+                            label={e.attributes.title}
+                          />
+                        ))}
+                      </RadioGroup>
+                    </Collapse>
+                  ) : (
+                    <RadioGroup
+                      row={mobileSize ? true : false}
+                      aria-labelledby="subcategory-controlled-radio-buttons-group"
+                      name="subcategory-controlled-radio-buttons-group"
+                      value={subcategory}
+                      onChange={handleSubcategory}
+                    >
+                      <FormControlLabel
+                        value="All"
+                        control={<Radio size="small" />}
+                        label="All Subcategories"
+                      />
+                      {subcategories?.map((e, i) => (
+                        <FormControlLabel
+                          key={i}
+                          value={e.attributes.title}
+                          control={<Radio size="small" />}
+                          label={e.attributes.title}
+                        />
+                      ))}
+                    </RadioGroup>
+                  )}
+                </FormControl>
                 {colors && <Divider />}
+
                 {colors && (
                   <FormControl>
                     <Stack direction={"row"} alignItems={"center"} gap={2}>
@@ -525,6 +716,7 @@ export default function Subcategory({ params }) {
               )}
             </Grid>
           </Grid>
+          {/* Pagination */}
           <Grid container mt={6}>
             <Grid item xs={12} sm={3}></Grid>
             <Grid item xs={12} sm={9}>
