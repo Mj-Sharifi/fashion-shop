@@ -1,4 +1,3 @@
-import { createStore } from "redux";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import sessionStorage from "redux-persist/es/storage/session";
@@ -14,14 +13,27 @@ const persistConfig = {
 };
 const rootReducer = combineReducers({
   cart: cartSliceReducer,
-  auth: authSliceReducer,
   wishlist: wishSliceReducer,
   compare: compareSliceReducer,
 });
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedCartReducer = persistReducer(persistConfig, cartSliceReducer);
+const persistedWishlistReducer = persistReducer(
+  persistConfig,
+  wishSliceReducer
+);
+const persistedCompareReducer = persistReducer(
+  persistConfig,
+  compareSliceReducer
+);
+const persistedAuthReducer = persistReducer(persistConfig, authSliceReducer);
 
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: {
+    cart: persistedCartReducer,
+    wishlist: persistedWishlistReducer,
+    compare: persistedCompareReducer,
+    auth: persistedAuthReducer,
+  },
   middleware: () => [thunk],
 });
 export const persistor = persistStore(store);

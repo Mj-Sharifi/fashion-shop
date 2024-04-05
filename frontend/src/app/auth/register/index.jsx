@@ -111,9 +111,6 @@ export default function Register() {
           height: "45px",
           px: "10px",
         }}
-        // value={formik.values.email}
-        // onChange={formik.handleChange}
-        // onBlur={formik.handleBlur}
       />
 
       <Button

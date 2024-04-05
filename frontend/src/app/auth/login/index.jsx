@@ -13,8 +13,10 @@ import * as Yup from "yup";
 import React from "react";
 import { useAppDispatch } from "@/Lib/hooks";
 import { handleLogin } from "@/Lib/Features/Auth/authSlice";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const formik = useFormik({
     initialValues: {
@@ -34,6 +36,7 @@ export default function Login() {
       })
         .then((res) => res.json())
         .then((data) => dispatch(handleLogin(data)))
+        .then((path) => router.push("/my-profile"))
         .catch((err) => console.log(err));
     },
   });
