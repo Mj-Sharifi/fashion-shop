@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "@/Lib/hooks";
 import { addToWishlist } from "@/Lib/Features/Wishlist/wishSlice";
 import { addItem } from "@/Lib/Features/Cart/cartSlice";
 import { addToCompare } from "@/Lib/Features/Compare/compareSlice";
+import Toast from "@/Components/Toast";
 
 const isInWishlist = (id, wishlist) => {
   let isIn = false;
@@ -34,7 +35,9 @@ const isInComparelist = (id, compareList) => {
   }
   return isIn;
 };
-export default function Cart({ product }) {
+export default function ProductCart({ product }) {
+  // Toast
+  const [toastMessage, setToastMessage] = useState("");
   // Hanlde Size
   const [size, setSize] = useState();
   //Handle Color
@@ -47,10 +50,33 @@ export default function Cart({ product }) {
   const handleDecrease = () => {
     quantity > 1 && setQuantity(quantity - 1);
   };
+  const addToCart = () => {
+    dispatch(addItem({ product, size, quantity, color }));
+    setToastMessage(`${product.attributes.title} added to cart`);
+  };
   // Handle wishlist and compare
   const dispatch = useAppDispatch();
   const { wishlist } = useAppSelector((state) => state.wishlist);
   const { compareList } = useAppSelector((state) => state.compare);
+  const handleWishlist = () => {
+    dispatch(
+      addToWishlist({
+        id: product.id,
+        title: product.attributes.title,
+        imageprimary:
+          process.env.NEXT_PUBLIC_BASE_URL +
+          product?.attributes.imageprimary.data.attributes.url,
+        price: product.attributes,
+        discount: product.attributes.discount,
+        isAvailable: product.attributes.isAvailable,
+      })
+    );
+    setToastMessage(`${product.attributes.title} added to wishlist`);
+  };
+  const handleCompare = () => {
+    dispatch(addToCompare({ product }));
+    setToastMessage(`${product.attributes.title} added to compare`);
+  };
   return (
     <>
       {/* Color and Size Selection */}
@@ -177,7 +203,7 @@ export default function Cart({ product }) {
           </IconButton>
         </Stack>
         <Button
-          onClick={() => dispatch(addItem({ product, size, quantity, color }))}
+          onClick={addToCart}
           disableRipple
           disabled={
             !product?.attributes.isAvailable ||
@@ -229,33 +255,16 @@ export default function Cart({ product }) {
           <IconButton
             disableRipple
             sx={{ padding: "0" }}
-            onClick={() =>
-              dispatch(
-                addToWishlist({
-                  id: product.id,
-                  title: product.attributes.title,
-                  imageprimary:
-                    process.env.NEXT_PUBLIC_BASE_URL +
-                    product?.attributes.imageprimary.data.attributes.url,
-                  price: product.attributes,
-                  discount: product.attributes.discount,
-                  isAvailable: product.attributes.isAvailable,
-                })
-              )
-            }
+            onClick={handleWishlist}
           >
             <FavoriteBorderOutlined
               sx={{
                 transition: "all 0.3s",
                 cursor: `${
-                  isInWishlist(product.id, wishlist)
-                    ? "not-allowed"
-                    : "pointer"
+                  isInWishlist(product.id, wishlist) ? "not-allowed" : "pointer"
                 }`,
                 color: `${
-                  isInWishlist(product.id, wishlist)
-                    ? "colors.violet"
-                    : ""
+                  isInWishlist(product.id, wishlist) ? "colors.violet" : ""
                 }`,
                 "&:hover": { color: "colors.violet" },
               }}
@@ -264,7 +273,7 @@ export default function Cart({ product }) {
           <IconButton
             disableRipple
             sx={{ padding: "0" }}
-            onClick={() => dispatch(addToCompare({ product }))}
+            onClick={handleCompare}
           >
             <CompareArrows
               sx={{
@@ -285,6 +294,7 @@ export default function Cart({ product }) {
           </IconButton>
         </Stack>
       </Stack>
+      <Toast type={"success"} message={toastMessage} />
     </>
   );
 }

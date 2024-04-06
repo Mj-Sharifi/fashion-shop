@@ -19,6 +19,7 @@ import {
 import Link from "next/link";
 import QuickView from "./QuickView";
 import React, { useState } from "react";
+import Toast from "../Toast";
 
 const isInWishlist = (id, wishlist) => {
   let isIn = false;
@@ -45,8 +46,9 @@ export default function ProductCard({
   sizes,
   shortDescription,
 }) {
-  console.log(rating);
   const clickableImage = useMediaQuery("(max-width:580px)");
+  // Toast
+  const [toastMessage, setToastMessage] = useState("");
   // Quick View
   const [quickView, setQuickView] = useState(false);
   const handleQuickViewOpen = () => {
@@ -58,6 +60,20 @@ export default function ProductCard({
   // Wishlist
   const { wishlist } = useAppSelector((state) => state.wishlist);
   const dispatch = useAppDispatch();
+  const handleWishlist = () => {
+    dispatch(
+      addToWishlist({
+        id,
+        title,
+        imageprimary: imgPrimary,
+        price,
+        discount,
+        isAvailable,
+      })
+    );
+    setToastMessage(`${title} added to wishlist`)
+  };
+
   return (
     <>
       <Stack
@@ -138,18 +154,7 @@ export default function ProductCard({
                   bgcolor: "colors.lightblack",
                 },
               }}
-              onClick={() =>
-                dispatch(
-                  addToWishlist({
-                    id,
-                    title,
-                    imageprimary: imgPrimary,
-                    price,
-                    discount,
-                    isAvailable,
-                  })
-                )
-              }
+              onClick={handleWishlist}
               disabled={isInWishlist(id, wishlist)}
             >
               <FavoriteBorderOutlined />
@@ -212,7 +217,7 @@ export default function ProductCard({
           </Stack>
         </Box>
         <Typography component={"h2"}>{title}</Typography>
-        <Rating readOnly precision={0.5} value={+rating.slice(1)} />
+        <Rating readOnly precision={0.5} value={+rating} />
         <Stack direction={"row"}>
           {discount ? (
             <Typography>
@@ -282,6 +287,7 @@ export default function ProductCard({
         }}
         handleQuickViewClose={handleQuickViewClose}
       />
+      <Toast type={"success"} message={toastMessage} />
     </>
   );
 }

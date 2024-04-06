@@ -10,9 +10,10 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import ProductSlider from "./ProductSlider";
-import Cart from "./Cart";
+import ProductCart from "./Cart";
 
 export default function QuickView({ quickView, product,handleQuickViewClose }) {
+
   return (
     <Dialog
       open={quickView}
@@ -85,7 +86,7 @@ export default function QuickView({ quickView, product,handleQuickViewClose }) {
           <Divider sx={{ marginY: "25px", bgcolor: "colors.darkgray" }} />
 
           {/* Add to Cart Button */}
-          <Cart product={product} />
+          <ProductCart product={product} />
         </Stack>
       </Stack>
     </Dialog>

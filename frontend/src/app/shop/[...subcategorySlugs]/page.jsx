@@ -81,9 +81,10 @@ export default function Subcategory({ params }) {
             `products?populate=*&filters[categories][title][$eq]=${
               params.subcategorySlugs[0].charAt(0).toUpperCase() +
               params.subcategorySlugs[0].slice(1)
-            }&filters[subcategories][title][$eq]=${params.subcategorySlugs[1]}${
-              color === "All" ? "" : `&filters[colors][color][$eq]=${color}`
-            }${
+            }&filters[subcategories][title][$eq]=${
+              params.subcategorySlugs[1].charAt(0).toUpperCase() +
+              params.subcategorySlugs[1].slice(1)
+            }${color === "All" ? "" : `&filters[colors][color][$eq]=${color}`}${
               size === "All" ? "" : `&filters[sizes][size][$eq]=${size}`
             }&filters[price][$gte]=${price[0]}&filters[price][$lte]=${
               price[1]
@@ -470,7 +471,7 @@ export default function Subcategory({ params }) {
                       <ProductCard
                         id={e?.id}
                         title={e?.attributes.title}
-                        rating={e?.attributes.rating}
+                        rating={e?.attributes.rating?.slice(1)}
                         imgAll={e?.attributes?.imagesall}
                         imgPrimary={
                           process.env.NEXT_PUBLIC_BASE_URL +

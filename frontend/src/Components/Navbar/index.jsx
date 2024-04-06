@@ -25,7 +25,7 @@ import React, { useEffect, useRef, useState } from "react";
 import HamburgerMenu from "./HamburgerMenu";
 import styles from "./style.module.css";
 import MegaMenu from "./MegaMenu";
-import Cart from "./Cart";
+import NavCart from "./NavCart";
 import { useAppSelector, useAppDispatch } from "@/Lib/hooks";
 import { handleLogout } from "@/Lib/Features/Auth/authSlice";
 const menuItems = ["Home", "Shop", "Blog", "Contact"];
@@ -38,6 +38,7 @@ export default function Navbar() {
   const { compareList } = useAppSelector((state) => state.compare);
   const { token } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+
   // Handle Sticky Navbar
   const navbar = useRef();
   const [stickyClass, setSticykClass] = useState(false);
@@ -373,7 +374,6 @@ export default function Navbar() {
                   <ShoppingBagOutlined />
                 </IconButton>
               )}
-
               <Paper
                 className="cartMenu"
                 sx={{
@@ -393,7 +393,7 @@ export default function Navbar() {
                   padding: "10px 25px",
                 }}
               >
-                <Cart />
+                <NavCart/>
               </Paper>
             </Box>
           </Badge>

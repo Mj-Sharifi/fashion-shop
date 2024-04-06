@@ -140,7 +140,7 @@ export default function Category({ params }) {
         .then((res) => res.json())
         .then((data) =>
           setSizes(
-            ["Jeans"].includes(category)
+            ["Jeans","Jacket"].includes(category)
               ? data.data.filter((e) => +e.attributes.size > 0)
               : data.data
           )
@@ -570,7 +570,7 @@ export default function Category({ params }) {
                       <ProductCard
                         id={e?.id}
                         title={e?.attributes.title}
-                        rating={e?.attributes.rating}
+                        rating={e?.attributes.rating?.slice(1)}
                         imgAll={e?.attributes?.imagesall}
                         imgPrimary={
                           process.env.NEXT_PUBLIC_BASE_URL +

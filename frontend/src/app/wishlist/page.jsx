@@ -25,6 +25,7 @@ import {
 export default function page() {
   const { wishlist } = useAppSelector((state) => state.wishlist);
   const dispatch = useAppDispatch();
+  console.log(wishlist);
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
       {wishlist.length ? (
@@ -158,7 +159,7 @@ export default function page() {
                   color: "text.white",
                 },
               }}
-              onClick={() => router.push("/")}
+              onClick={() => router.push("/shop")}
             >
               Continue Shopping
             </Button>
@@ -175,7 +176,7 @@ export default function page() {
                   color: "text.white",
                 },
               }}
-              onClick={() => dispatch(removeAllWishlist)}
+              onClick={()=>dispatch(removeAllWishlist())}
             >
               Clear Wishlist
             </Button>

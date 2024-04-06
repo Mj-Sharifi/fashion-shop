@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/Lib/hooks";
-import React from "react";
+import React, { useState,useEffect } from "react";
 import {
   Box,
   Button,
@@ -11,17 +11,27 @@ import {
 import { Close } from "@mui/icons-material";
 import { removeItem } from "@/Lib/Features/Cart/cartSlice";
 import Link from "next/link";
-export default function Cart() {
+import Toast from "@/Components/Toast";
+export default function NavCart() {
+  // Toast
+  const [toastMessage, setToastMessage] = useState();
   // importing Shopping List from Redux
   const { list } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
+  const removeFromCart = (title, id, size, color) => {
+    dispatch(removeItem({ id, size, color }));
+    setToastMessage(`${title} removed from cart`);
+  };
   // Calculating the total price
   let totalPrice = 0;
-  for (const i of list) {
-    totalPrice +=
-      i.quantity *
-      (i.attributes.price - (i.attributes.discount / 100) * i.attributes.price);
-  }
+  useEffect(() => {
+    for (const i of list) {
+      totalPrice +=
+        i.quantity *
+        (i.attributes.price -
+          (i.attributes.discount / 100) * i.attributes.price);
+    }
+  }, [list]);
   return (
     <>
       {list.length ? (
@@ -34,14 +44,14 @@ export default function Cart() {
                 gap={1}
                 alignItems={"start"}
               >
-                <Box
+                {/* <Box
                   component={"img"}
                   src={
                     process.env.NEXT_PUBLIC_BASE_URL +
                     e.attributes.imageprimary.data.attributes.url
                   }
                   sx={{ width: "40%" }}
-                />
+                /> */}
                 <Stack width={"50%"} alignItems={"start"} gap={"5px"}>
                   <Typography variant="h4" gutterBottom>
                     {e.attributes.title}
@@ -73,11 +83,12 @@ export default function Cart() {
                     backgroundColor: "colors.violet",
                     "&:hover": { backgroundColor: "colors.lightblack" },
                   }}
-                  onClick={() =>
-                    dispatch(
-                      removeItem({ id: e.id, size: e.size, color: e.color })
-                    )
-                  }
+                  onClick={removeFromCart(
+                    e.attributes.title,
+                    e.id,
+                    e.size,
+                    e.color
+                  )}
                 >
                   <Close
                     className="closeBtn"
@@ -86,6 +97,7 @@ export default function Cart() {
                 </IconButton>
               </Stack>
               <Divider sx={{ marginY: "10px" }} />
+              <Toast type={"error"} message={toastMessage} />
             </Box>
           ))}
           <Stack

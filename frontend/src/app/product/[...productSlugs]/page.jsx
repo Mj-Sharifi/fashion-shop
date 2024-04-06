@@ -28,6 +28,7 @@ import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import "./styles.css";
 import ProductCard from "@/Components/ProductCard";
+import GoUp from "@/Components/GoUp";
 
 export default function ProductDetail({ params }) {
   const [product, setProduct] = useState();
@@ -248,7 +249,7 @@ export default function ProductDetail({ params }) {
                   <ProductCard
                     id={e?.id}
                     title={e?.attributes.title}
-                    rating={e?.attributes.rating}
+                    rating={e?.attributes.rating.slice(1)}
                     imgAll={e?.attributes?.imagesall}
                     imgPrimary={
                       process.env.NEXT_PUBLIC_BASE_URL +
@@ -272,6 +273,7 @@ export default function ProductDetail({ params }) {
           </Stack>
         </Container>
       )}
+      <GoUp/>
     </>
   );
 }

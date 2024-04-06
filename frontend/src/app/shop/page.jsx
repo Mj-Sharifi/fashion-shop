@@ -24,6 +24,7 @@ import Loading from "@/Components/Loading";
 import { Apps, ExpandMore, FormatListBulleted } from "@mui/icons-material";
 import DetailedProductCard from "@/Components/DetailedProductCard";
 import GoUp from "@/Components/GoUp";
+import Toast from "@/Components/Toast";
 
 export default function Collection() {
   const mobileSize = useMediaQuery("(max-width:580px)");
@@ -129,15 +130,8 @@ export default function Collection() {
       .then((res) => res.json())
       .then((data) => setCategories(data.data))
       .catch((err) => console.log(err));
-
-    if (category != "cosmetics") {
-      fetch(process.env.NEXT_PUBLIC_BASE_API + "colors?populate=*")
-        .then((res) => res.json())
-        .then((data) => setColors(data.data))
-        .catch((err) => console.log(err));
-    }
   }, []);
-  // for getting subcategories related to categories
+  // for getting subcategories and colors related to categories
   useEffect(() => {
     if (category === "All") {
       fetch(process.env.NEXT_PUBLIC_BASE_API + "subcategories")
@@ -151,22 +145,34 @@ export default function Collection() {
         .then((res) => res.json())
         .then((data) => setSubcategories(data?.data));
     }
+
+    if (category != "Cosmetics") {
+      fetch(process.env.NEXT_PUBLIC_BASE_API + "colors?populate=*")
+        .then((res) => res.json())
+        .then((data) => setColors(data.data))
+        .catch((err) => console.log(err));
+    } else {
+      setColors("");
+    }
   }, [category]);
   // for geeting sizes related to product category
   useEffect(() => {
-    if (category != "cosmetics") {
+    const cosmeticsSubcategories = ["Skin Care","Face","Nail Care","Hair Care","Eye and Eyebrow"];
+    if (category != "Cosmetics" && !cosmeticsSubcategories.includes(subcategory)) {
       fetch(process.env.NEXT_PUBLIC_BASE_API + "sizes?populate=*")
         .then((res) => res.json())
         .then((data) =>
           setSizes(
-            ["Jeans"].includes(category)
+            ["Jeans", "Jacket"].includes(subcategory)
               ? data.data.filter((e) => +e.attributes.size > 0)
               : data.data
           )
         )
         .catch((err) => console.log(err));
+    } else {
+      setSizes("");
     }
-  }, [category]);
+  }, [category, subcategory]);
 
   return (
     <Container sx={{ marginTop: { xs: "50px", sm: "70px", md: "90px" } }}>
@@ -661,7 +667,7 @@ export default function Collection() {
                       <ProductCard
                         id={e?.id}
                         title={e?.attributes.title}
-                        rating={e?.attributes.rating}
+                        rating={e?.attributes.rating?.slice(1)}
                         imgAll={e?.attributes?.imagesall}
                         imgPrimary={
                           process.env.NEXT_PUBLIC_BASE_URL +

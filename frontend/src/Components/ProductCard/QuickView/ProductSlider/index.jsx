@@ -17,6 +17,7 @@ export default function ProductSlider({ images, discount }) {
   const handleSlide = (s) => {
     setImgSlide(s);
   };
+
   return (
     <>
       <Box width={"100%"} position={"relative"}>

@@ -274,7 +274,7 @@ export default function Cart() {
                   color: "text.white",
                 },
               }}
-              onClick={() => dispatch(removeAll)}
+              onClick={() => dispatch(removeAll())}
             >
               Clear Shopping Cart
             </Button>
