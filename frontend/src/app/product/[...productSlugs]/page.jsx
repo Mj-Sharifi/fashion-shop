@@ -71,7 +71,7 @@ export default function ProductDetail({ params }) {
   const handleTab = (event, newTab) => {
     setTab(newTab);
   };
-  const scrollableTab = useMediaQuery("(max-width:600px)");
+  const scrollableTab = useMediaQuery("(max-width:580px)");
 
   return (
     <>
@@ -200,7 +200,7 @@ export default function ProductDetail({ params }) {
                 </Typography>
               </TabPanel>
               <TabPanel value="3">
-                <Comments />
+                <Comments productId={product?.id}/>
               </TabPanel>
             </TabContext>
           </Box>

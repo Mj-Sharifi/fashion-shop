@@ -871,6 +871,7 @@ export interface ApiCommentComment extends Schema.CollectionType {
     singularName: 'comment';
     pluralName: 'comments';
     displayName: 'Comments';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -878,13 +879,18 @@ export interface ApiCommentComment extends Schema.CollectionType {
   attributes: {
     authorName: Attribute.String;
     email: Attribute.Email;
-    content: Attribute.RichText;
     product: Attribute.Relation<
       'api::comment.comment',
       'manyToOne',
       'api::product.product'
     >;
     rating: Attribute.Integer;
+    content: Attribute.Text;
+    replies: Attribute.Relation<
+      'api::comment.comment',
+      'oneToMany',
+      'api::reply.reply'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1019,6 +1025,45 @@ export interface ApiProductProduct extends Schema.CollectionType {
   };
 }
 
+export interface ApiReplyReply extends Schema.CollectionType {
+  collectionName: 'replies';
+  info: {
+    singularName: 'reply';
+    pluralName: 'replies';
+    displayName: 'Replies';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    content: Attribute.Text;
+    authorName: Attribute.String;
+    email: Attribute.Email;
+    rating: Attribute.Integer;
+    comment: Attribute.Relation<
+      'api::reply.reply',
+      'manyToOne',
+      'api::comment.comment'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::reply.reply',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::reply.reply',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiSizeSize extends Schema.CollectionType {
   collectionName: 'sizes';
   info: {
@@ -1111,6 +1156,7 @@ declare module '@strapi/types' {
       'api::comment.comment': ApiCommentComment;
       'api::main-slider.main-slider': ApiMainSliderMainSlider;
       'api::product.product': ApiProductProduct;
+      'api::reply.reply': ApiReplyReply;
       'api::size.size': ApiSizeSize;
       'api::subcategory.subcategory': ApiSubcategorySubcategory;
     }

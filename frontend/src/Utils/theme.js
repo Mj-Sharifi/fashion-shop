@@ -99,7 +99,7 @@ theme.typography.body2 = {
   fontFamily: poppins.style.fontFamily,
   color: "#222",
   fontSize: "14px",
-  lineHeight:"26px",
+  lineHeight:"24px",
   fontWeight: "400",
   [theme.breakpoints.up("sm")]: {
     fontFamily: poppins.style.fontFamily,
