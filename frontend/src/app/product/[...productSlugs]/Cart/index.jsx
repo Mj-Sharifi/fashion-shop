@@ -13,7 +13,6 @@ import { useAppDispatch, useAppSelector } from "@/Lib/hooks";
 import { addToWishlist } from "@/Lib/Features/Wishlist/wishSlice";
 import { addItem } from "@/Lib/Features/Cart/cartSlice";
 import { addToCompare } from "@/Lib/Features/Compare/compareSlice";
-import Toast from "@/Components/Toast";
 
 const isInWishlist = (id, wishlist) => {
   let isIn = false;
@@ -35,9 +34,8 @@ const isInComparelist = (id, compareList) => {
   }
   return isIn;
 };
-export default function Cart({ product }) {
-  // Toast
-  const [toastMessage, setToastMessage] = useState(false);
+export default function Cart({ product, handleToast }) {
+  console.log(product);
   // Hanlde Size
   const [size, setSize] = useState();
   //Handle Color
@@ -52,7 +50,7 @@ export default function Cart({ product }) {
   };
   const addToCart = () => {
     dispatch(addItem({ product, size, quantity, color }));
-    setToastMessage(`${product.attributes.title} added to cart`)
+    handleToast(`${product.attributes.title} added to cart`);
   };
   // Handle wishlist and compare
   const dispatch = useAppDispatch();
@@ -71,12 +69,13 @@ export default function Cart({ product }) {
         isAvailable: product.attributes.isAvailable,
       })
     );
-    setToastMessage(`${product.attributes.title} added to wishlist`);
+    handleToast(`${product.attributes.title} added to wishlist`);
   };
   const handleCompare = () => {
-    dispatch(addToCompare({ product }));
-    setToastMessage(`${product.attributes.title} added to compare`);
+    dispatch(addToCompare({product}));
+    handleToast(`${product?.attributes.title} added to compare`);
   };
+
   return (
     <>
       {/* Color and Size Selection */}
@@ -113,7 +112,7 @@ export default function Cart({ product }) {
                         width: "100%",
                         height: "100%",
                         borderRadius: "100%",
-                        bgcolor: e?.attributes.color,
+                        bgcolor: e?.attributes.color.toLowerCase().replace(/ /g,""),
                       }}
                       onClick={(e) => setColor(e.target.id)}
                     ></Box>
@@ -124,7 +123,6 @@ export default function Cart({ product }) {
           ) : (
             ""
           )}
-
           {/* Size */}
           {product?.attributes.sizes?.data.length ? (
             <Stack direction={"column"} gap={2}>
@@ -294,7 +292,6 @@ export default function Cart({ product }) {
           </IconButton>
         </Stack>
       </Stack>
-      <Toast type="success" message={toastMessage} />
     </>
   );
 }

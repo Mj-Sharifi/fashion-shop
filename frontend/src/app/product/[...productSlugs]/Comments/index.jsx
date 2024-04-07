@@ -44,7 +44,7 @@ export default function Comments({ productId }) {
                 <Stack gap={2} width={{ xs: "100%", sm: "80%" }}>
                   <Stack direction={"row"} justifyContent={"space-between"}>
                     <Stack direction={"row"} gap={{xs:1,sm:2,md:3}}>
-                      <Typography>{e.attributes.authorName}</Typography>
+                      <Typography variant="h5">{e.attributes.authorName}</Typography>
                       <Rating size={mobileSize?"small":"medium"} value={+e.attributes.rating} />
                     </Stack>
                     <Button
@@ -65,7 +65,7 @@ export default function Comments({ productId }) {
                       Reply
                     </Button>
                   </Stack>
-                  <Typography textAlign={"justify"}>
+                  <Typography variant="body2" textAlign={"justify"}>
                     {e.attributes.content}
                   </Typography>
                 </Stack>

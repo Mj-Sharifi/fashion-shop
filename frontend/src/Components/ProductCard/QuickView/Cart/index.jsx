@@ -13,7 +13,6 @@ import { useAppDispatch, useAppSelector } from "@/Lib/hooks";
 import { addToWishlist } from "@/Lib/Features/Wishlist/wishSlice";
 import { addItem } from "@/Lib/Features/Cart/cartSlice";
 import { addToCompare } from "@/Lib/Features/Compare/compareSlice";
-import Toast from "@/Components/Toast";
 
 const isInWishlist = (id, wishlist) => {
   let isIn = false;
@@ -35,9 +34,7 @@ const isInComparelist = (id, compareList) => {
   }
   return isIn;
 };
-export default function ProductCart({ product }) {
-  // Toast
-  const [toastMessage, setToastMessage] = useState(false);
+export default function ProductCart({ product, handleToast }) {
   // Hanlde Size
   const [size, setSize] = useState();
   //Handle Color
@@ -52,7 +49,7 @@ export default function ProductCart({ product }) {
   };
   const addToCart = () => {
     dispatch(addItem({ product, size, quantity, color }));
-    setToastMessage(`${product.attributes.title} added to cart`);
+    handleToast(`${product.attributes.title} added to cart`);
   };
   // Handle wishlist and compare
   const dispatch = useAppDispatch();
@@ -63,19 +60,18 @@ export default function ProductCart({ product }) {
       addToWishlist({
         id: product.id,
         title: product.attributes.title,
-        imageprimary:
-          process.env.NEXT_PUBLIC_BASE_URL +
-          product?.attributes.imageprimary.data.attributes.url,
-        price: product.attributes,
+        imageprimary: product?.attributes?.imageprimary,       
+        price: product.attributes.price,
         discount: product.attributes.discount,
         isAvailable: product.attributes.isAvailable,
       })
     );
-    setToastMessage(`${product.attributes.title} added to wishlist`);
+    handleToast(`${product.attributes.title} added to wishlist`);
   };
   const handleCompare = () => {
+    console.log(product);
     dispatch(addToCompare({ product }));
-    setToastMessage(`${product.attributes.title} added to compare`);
+    handleToast(`${product.attributes.title} added to compare`);
   };
   return (
     <>
@@ -294,7 +290,6 @@ export default function ProductCart({ product }) {
           </IconButton>
         </Stack>
       </Stack>
-      {/* <Toast type={"success"} message={toastMessage} /> */}
     </>
   );
 }

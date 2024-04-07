@@ -24,9 +24,15 @@ import ProductCard from "@/Components/ProductCard";
 import DetailedProductCard from "@/Components/DetailedProductCard";
 import Loading from "@/Components/Loading";
 import GoUp from "@/Components/GoUp";
+import Toast from "@/Components/Toast";
 
 export default function Subcategory({ params }) {
   const mobileSize = useMediaQuery("(max-width:580px)");
+  // Toast
+  const [toast, setToast] = useState(false);
+  const handleToast = (message) => {
+    setToast(message);
+  };
   // Page Layout
   const [layout, setLayout] = useState("card");
   const handleLayout = (event, newLayout) => {
@@ -487,6 +493,7 @@ export default function Subcategory({ params }) {
                         price={e?.attributes.price}
                         isNew={e?.attributes.isNew}
                         isAvailable={e?.attributes.isAvailable}
+                        handleToast={handleToast}
                       />
                     </Grid>
                   ))}
@@ -545,6 +552,7 @@ export default function Subcategory({ params }) {
             </Grid>
           </Grid>
           <GoUp />
+          <Toast type="success" message={toast}/>
         </>
       ) : (
         <Loading />

@@ -33,6 +33,7 @@ export default function Wishlist() {
     dispatch(removeFromWishlist({ id }));
     setToastMessage(`${title} removed from wishlist`);
   };
+  console.log(wishlist);
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
       {wishlist.length ? (

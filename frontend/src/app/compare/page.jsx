@@ -16,7 +16,6 @@ import {
   Rating,
 } from "@mui/material";
 import React, { useState } from "react";
-import Link from "next/link";
 import { CompareArrows, Clear } from "@mui/icons-material";
 import { removeFromCompare } from "@/Lib/Features/Compare/compareSlice";
 import { useRouter } from "next/navigation";
@@ -33,6 +32,7 @@ export default function Compare() {
     dispatch(removeFromCompare({ product }));
     setToastMessage(`${title} removed from wishlist`);
   };
+
   return (
     <Container>
       {compareList.length ? (
@@ -59,7 +59,7 @@ export default function Compare() {
                     <Typography>Product Info</Typography>
                   </TableCell>
                   {compareList.map((m, n) => (
-                    <TableCell key={m} sx={{ maxWidth: "150px" }}>
+                    <TableCell key={n} sx={{ maxWidth: "150px" }}>
                       <Stack
                         sx={{
                           width: "100%",
@@ -77,10 +77,12 @@ export default function Compare() {
                         </IconButton>
                         <Box
                           component={"img"}
-                          src={
-                            process.env.NEXT_PUBLIC_BASE_URL +
-                            m.attributes.imageprimary.data.attributes.url
-                          }
+                          src={`${
+                            typeof m.attributes.imageprimary==="string"
+                              ? m.attributes.imageprimary
+                              : process.env.NEXT_PUBLIC_BASE_URL +
+                                m.attributes.imageprimary.data.attributes.url
+                          }`}
                           alt={m.attributes.title}
                           width={"100%"}
                           maxHeight={"400px"}
@@ -136,7 +138,7 @@ export default function Compare() {
                     <Typography>Price</Typography>
                   </TableCell>
                   {compareList.map((e, i) => (
-                    <TableCell key={i} align="center">
+                    <TableCell key={e+i} align="center">
                       {e.attributes.discount ? (
                         <Typography>
                           $
@@ -176,7 +178,7 @@ export default function Compare() {
                     <Typography>Description</Typography>
                   </TableCell>
                   {compareList.map((e, i) => (
-                    <TableCell key={i}>
+                    <TableCell key={e+i}>
                       <Typography variant="body2">
                         {e.attributes.shortDescription}
                       </Typography>
@@ -197,7 +199,7 @@ export default function Compare() {
                     <Typography>Rating</Typography>
                   </TableCell>
                   {compareList.map((e, i) => (
-                    <TableCell key={i} align="center">
+                    <TableCell key={e+i} align="center">
                       <Rating
                         readOnly
                         precision={0.5}

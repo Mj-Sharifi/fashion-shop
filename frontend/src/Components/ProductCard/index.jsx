@@ -19,7 +19,7 @@ import {
 import Link from "next/link";
 import QuickView from "./QuickView";
 import React, { useState } from "react";
-import Toast from "../Toast";
+
 
 const isInWishlist = (id, wishlist) => {
   let isIn = false;
@@ -33,7 +33,6 @@ const isInWishlist = (id, wishlist) => {
 };
 export default function ProductCard({
   id,
-  slug,
   title,
   imgAll,
   imgPrimary,
@@ -46,10 +45,9 @@ export default function ProductCard({
   colors,
   sizes,
   shortDescription,
+  handleToast,
 }) {
   const clickableImage = useMediaQuery("(max-width:580px)");
-  // Toast
-  const [toastMessage, setToastMessage] = useState(false);
   // Quick View
   const [quickView, setQuickView] = useState(false);
   const handleQuickViewOpen = () => {
@@ -72,9 +70,9 @@ export default function ProductCard({
         isAvailable,
       })
     );
-    setToastMessage(`${title} added to wishlist`)
+    handleToast(`${title} added to wishlist`)
   };
-
+  
   return (
     <>
       <Stack
@@ -103,7 +101,7 @@ export default function ProductCard({
           <Link
             href={`${
               clickableImage
-                ? `/product/${id}/${title.toLowerCase().replace(/ /g,"-")}`
+                ? `/product/${id}/${title.toLowerCase().trim().replace(/ /g,"-")}`
                 : "#"
             }`}
             style={{ width: "100%" }}
@@ -162,7 +160,7 @@ export default function ProductCard({
             </IconButton>
 
             <Link
-              href={`/product/${id}/${title.toLowerCase().replace(/ /g,"-")}`}
+              href={`/product/${id}/${title.toLowerCase().trim().replace(/ /g,"-")}`}
               style={{ width: "70%" }}
             >
               <Button
@@ -277,15 +275,17 @@ export default function ProductCard({
             discount,
             colors,
             sizes,
+            imageprimary:imgPrimary,
             imagesall: imgAll,
             shortDescription,
             isNew,
             isAvailable,
+            
           },
         }}
         handleQuickViewClose={handleQuickViewClose}
+        handleToast={handleToast}
       />
-      {/* <Toast type={"success"} message={toastMessage} /> */}
     </>
   );
 }

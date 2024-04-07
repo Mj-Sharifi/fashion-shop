@@ -29,8 +29,15 @@ import "swiper/css/pagination";
 import "./styles.css";
 import ProductCard from "@/Components/ProductCard";
 import GoUp from "@/Components/GoUp";
+import Toast from "@/Components/Toast";
 
 export default function ProductDetail({ params }) {
+  // Toast
+  const [toast,setToast] = useState(false)
+  const handleToast = (message)=>{
+    setToast(message)
+  }
+  //
   const [product, setProduct] = useState();
   const [relatedProducts, setRelatedProducts] = useState();
   useEffect(() => {
@@ -124,7 +131,7 @@ export default function ProductDetail({ params }) {
               <Divider sx={{ marginY: "25px", bgcolor: "colors.darkgray" }} />
 
               {/* Add to Cart Button */}
-              <Cart product={product} />
+              <Cart product={product} handleToast={handleToast} />
             </Stack>
           </Stack>
           {/* Tabs */}
@@ -267,6 +274,7 @@ export default function ProductDetail({ params }) {
                     price={e?.attributes.price}
                     isNew={e?.attributes.isNew}
                     isAvailable={e?.attributes.isAvailable}
+                    handleToast={handleToast}
                   />
                 </SwiperSlide>
               ))}
@@ -275,6 +283,7 @@ export default function ProductDetail({ params }) {
         </Container>
       )}
       <GoUp/>
+      <Toast type="success" message={toast}/>
     </>
   );
 }

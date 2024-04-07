@@ -17,7 +17,14 @@ import styles from "./page.module.css";
 
 import ProductCard from "@/Components/ProductCard";
 import GoUp from "@/Components/GoUp";
+import Toast from "@/Components/Toast";
 export default function Home() {
+  // Toast
+  const [toast, setToast] = useState(false);
+  const handleToast = (message) => {
+    setToast(message);
+  };
+
   //Tabs
   const [tab, setTab] = useState(0);
   const handleTab = (event, newtab) => {
@@ -213,6 +220,7 @@ export default function Home() {
                   price={e?.attributes.price}
                   isNew={e?.attributes.isNew}
                   isAvailable={e?.attributes.isAvailable}
+                  handleToast={handleToast}
                 />
               </Grid>
             ))}
@@ -221,6 +229,7 @@ export default function Home() {
       </main>
       <Footer />
       <GoUp />
+      <Toast type="success" message={toast}/>
     </>
   );
 }

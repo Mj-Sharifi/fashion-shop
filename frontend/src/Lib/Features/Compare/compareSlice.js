@@ -8,6 +8,7 @@ const compareSlice = createSlice({
     addToCompare: (state, action) => {
       let add = true;
       state.compareList.map(e=>{
+        
         if(e.id==action.payload.product.id){
             add = false
         }
