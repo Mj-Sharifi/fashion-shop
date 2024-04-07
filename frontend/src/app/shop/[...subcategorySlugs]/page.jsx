@@ -78,13 +78,11 @@ export default function Subcategory({ params }) {
       try {
         const res = await fetch(
           process.env.NEXT_PUBLIC_BASE_API +
-            `products?populate=*&filters[categories][title][$eq]=${
-              params.subcategorySlugs[0].charAt(0).toUpperCase() +
-              params.subcategorySlugs[0].slice(1)
-            }&filters[subcategories][title][$eq]=${
-              params.subcategorySlugs[1].charAt(0).toUpperCase() +
-              params.subcategorySlugs[1].slice(1)
-            }${color === "All" ? "" : `&filters[colors][color][$eq]=${color}`}${
+            `products?populate=*&filters[categories][slug][$eq]=${
+              params.subcategorySlugs[0]
+            }&filters[subcategories][slug][$eq]=${params.subcategorySlugs[1]}${
+              color === "All" ? "" : `&filters[colors][color][$eq]=${color}`
+            }${
               size === "All" ? "" : `&filters[sizes][size][$eq]=${size}`
             }&filters[price][$gte]=${price[0]}&filters[price][$lte]=${
               price[1]
@@ -470,6 +468,7 @@ export default function Subcategory({ params }) {
                     <Grid key={i} item xs={10} sm={6} lg={4}>
                       <ProductCard
                         id={e?.id}
+                        slug={e.slug}
                         title={e?.attributes.title}
                         rating={e?.attributes.rating?.slice(1)}
                         imgAll={e?.attributes?.imagesall}
@@ -504,6 +503,7 @@ export default function Subcategory({ params }) {
                     <Grid key={i} item xs={10} sm={12}>
                       <DetailedProductCard
                         id={e.id}
+                        slug={e.slug}
                         title={e?.attributes.title}
                         rating={+e?.attributes.rating?.slice(1)}
                         imgPrimary={

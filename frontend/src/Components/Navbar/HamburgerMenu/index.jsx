@@ -161,7 +161,7 @@ export default function HamburgerMenu({
                       key={n}
                       label={
                         <Link
-                          href={`/shop/${m?.attributes.title.toLowerCase()}`}
+                          href={`/shop/${m?.attributes.slug}`}
                         >
                           <Typography variant="body2">
                             {m?.attributes.title}
@@ -175,8 +175,8 @@ export default function HamburgerMenu({
                           key={l}
                           label={
                             <Link
-                              href={`/shop/${m?.attributes.title.toLowerCase()}/${
-                                k.attributes.title
+                              href={`/shop/${m?.attributes.slug}/${
+                                k?.attributes.slug
                               }`}
                             >
                               <Typography variant="body2">

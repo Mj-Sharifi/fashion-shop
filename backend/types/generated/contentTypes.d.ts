@@ -794,6 +794,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
     singularName: 'category';
     pluralName: 'categories';
     displayName: 'Category';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -810,6 +811,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       'manyToMany',
       'api::subcategory.subcategory'
     >;
+    slug: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1050,6 +1052,7 @@ export interface ApiSubcategorySubcategory extends Schema.CollectionType {
     singularName: 'subcategory';
     pluralName: 'subcategories';
     displayName: 'Subcategory';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -1066,6 +1069,7 @@ export interface ApiSubcategorySubcategory extends Schema.CollectionType {
       'manyToMany',
       'api::product.product'
     >;
+    slug: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

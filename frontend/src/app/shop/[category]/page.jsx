@@ -89,15 +89,13 @@ export default function Category({ params }) {
       try {
         const res = await fetch(
           process.env.NEXT_PUBLIC_BASE_API +
-            `products?populate=*&filters[categories][title][$eq]=${
-              params.category.charAt(0).toUpperCase() + params.category.slice(1)
+            `products?populate=*&filters[categories][slug][$eq]=${
+              params.category
             }${
               category === "All"
                 ? ""
                 : `&filters[subcategories][title][$eq]=${category}`
-            }${
-              color === "All" ? "" : `&filters[colors][color][$eq]=${color}`
-            }${
+            }${color === "All" ? "" : `&filters[colors][color][$eq]=${color}`}${
               size === "All" ? "" : `&filters[sizes][size][$eq]=${size}`
             }&filters[price][$gte]=${price[0]}&filters[price][$lte]=${
               price[1]
@@ -140,7 +138,7 @@ export default function Category({ params }) {
         .then((res) => res.json())
         .then((data) =>
           setSizes(
-            ["Jeans","Jacket"].includes(category)
+            ["Jeans", "Jacket"].includes(category)
               ? data.data.filter((e) => +e.attributes.size > 0)
               : data.data
           )
@@ -327,7 +325,7 @@ export default function Category({ params }) {
                   )}
                 </FormControl>
                 {colors && <Divider />}
-                
+
                 {colors && (
                   <FormControl>
                     <Stack direction={"row"} alignItems={"center"} gap={2}>
@@ -419,7 +417,7 @@ export default function Category({ params }) {
                     )}
                   </FormControl>
                 )}
-                {sizes && <Divider/>}
+                {sizes && <Divider />}
                 {sizes && (
                   <FormControl>
                     <Stack direction={"row"} alignItems={"center"} gap={2}>
@@ -569,6 +567,7 @@ export default function Category({ params }) {
                     <Grid key={i} item xs={10} sm={6} lg={4}>
                       <ProductCard
                         id={e?.id}
+                        slug={e.slug}
                         title={e?.attributes.title}
                         rating={e?.attributes.rating?.slice(1)}
                         imgAll={e?.attributes?.imagesall}
@@ -603,6 +602,7 @@ export default function Category({ params }) {
                     <Grid key={i} item xs={10} sm={12}>
                       <DetailedProductCard
                         id={e.id}
+                        slug={e.slug}
                         title={e?.attributes.title}
                         rating={+e?.attributes.rating?.slice(1)}
                         imgPrimary={
@@ -643,7 +643,7 @@ export default function Category({ params }) {
               </Stack>
             </Grid>
           </Grid>
-          <GoUp/>
+          <GoUp />
         </>
       ) : (
         <Loading />

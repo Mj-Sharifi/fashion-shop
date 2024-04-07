@@ -37,7 +37,7 @@ const isInComparelist = (id, compareList) => {
 };
 export default function ProductCart({ product }) {
   // Toast
-  const [toastMessage, setToastMessage] = useState("");
+  const [toastMessage, setToastMessage] = useState(false);
   // Hanlde Size
   const [size, setSize] = useState();
   //Handle Color
@@ -294,7 +294,7 @@ export default function ProductCart({ product }) {
           </IconButton>
         </Stack>
       </Stack>
-      <Toast type={"success"} message={toastMessage} />
+      {/* <Toast type={"success"} message={toastMessage} /> */}
     </>
   );
 }

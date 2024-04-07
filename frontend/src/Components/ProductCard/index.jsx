@@ -33,6 +33,7 @@ const isInWishlist = (id, wishlist) => {
 };
 export default function ProductCard({
   id,
+  slug,
   title,
   imgAll,
   imgPrimary,
@@ -48,7 +49,7 @@ export default function ProductCard({
 }) {
   const clickableImage = useMediaQuery("(max-width:580px)");
   // Toast
-  const [toastMessage, setToastMessage] = useState("");
+  const [toastMessage, setToastMessage] = useState(false);
   // Quick View
   const [quickView, setQuickView] = useState(false);
   const handleQuickViewOpen = () => {
@@ -102,7 +103,7 @@ export default function ProductCard({
           <Link
             href={`${
               clickableImage
-                ? `/product/${id}/${title.toLowerCase().split(" ").join("-")}`
+                ? `/product/${id}/${title.toLowerCase().replace(/ /g,"-")}`
                 : "#"
             }`}
             style={{ width: "100%" }}
@@ -161,10 +162,7 @@ export default function ProductCard({
             </IconButton>
 
             <Link
-              href={`/product/${id}/${title
-                .toLowerCase()
-                .split(" ")
-                .join("-")}`}
+              href={`/product/${id}/${title.toLowerCase().replace(/ /g,"-")}`}
               style={{ width: "70%" }}
             >
               <Button
@@ -287,7 +285,7 @@ export default function ProductCard({
         }}
         handleQuickViewClose={handleQuickViewClose}
       />
-      <Toast type={"success"} message={toastMessage} />
+      {/* <Toast type={"success"} message={toastMessage} /> */}
     </>
   );
 }

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useAppSelector, useAppDispatch } from "@/Lib/hooks";
 import { Clear, FavoriteBorderOutlined } from "@mui/icons-material";
@@ -22,10 +22,17 @@ import {
   removeAllWishlist,
   removeFromWishlist,
 } from "@/Lib/Features/Wishlist/wishSlice";
-export default function page() {
+import Toast from "@/Components/Toast";
+export default function Wishlist() {
+  // Toast
+  const [toastMessage, setToastMessage] = useState();
+  //
   const { wishlist } = useAppSelector((state) => state.wishlist);
   const dispatch = useAppDispatch();
-  console.log(wishlist);
+  const handleRemoveFromWishlist = (id, title) => {
+    dispatch(removeFromWishlist({ id }));
+    setToastMessage(`${title} removed from wishlist`);
+  };
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
       {wishlist.length ? (
@@ -42,17 +49,17 @@ export default function page() {
                     },
                   }}
                 >
-                  <TableCell align="center" sx={{width:"5%"}}></TableCell>
-                  <TableCell align="center" sx={{width:"20%"}}>
+                  <TableCell align="center" sx={{ width: "5%" }}></TableCell>
+                  <TableCell align="center" sx={{ width: "20%" }}>
                     IMAGE
                   </TableCell>
-                  <TableCell align="center" sx={{width:"25%"}}>
+                  <TableCell align="center" sx={{ width: "25%" }}>
                     PRODUCT NAME
                   </TableCell>
-                  <TableCell align="center" sx={{width:"25%"}}>
+                  <TableCell align="center" sx={{ width: "25%" }}>
                     UNIT PRICE
                   </TableCell>
-                  <TableCell align="center" sx={{width:"25%"}}>
+                  <TableCell align="center" sx={{ width: "25%" }}>
                     ADD TO CART
                   </TableCell>
                 </TableRow>
@@ -63,17 +70,15 @@ export default function page() {
                     key={i}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell >
+                    <TableCell>
                       <IconButton
                         sx={{ backgroundColor: "transparent" }}
-                        onClick={() =>
-                          dispatch(removeFromWishlist({ id: e.id }))
-                        }
+                        onClick={()=>handleRemoveFromWishlist(e.id,e.title)}
                       >
                         <Clear />
                       </IconButton>
                     </TableCell>
-                    <TableCell align="center" >
+                    <TableCell align="center">
                       <Box
                         component={"img"}
                         src={e.imageprimary}
@@ -81,14 +86,14 @@ export default function page() {
                         width={"100%"}
                       />
                     </TableCell>
-                    <TableCell align="center" >
+                    <TableCell align="center">
                       <Stack justifyContent={"center"} gap={1}>
                         <Typography variant="h4" gutterBottom>
                           {e.title}
                         </Typography>
                       </Stack>
                     </TableCell>
-                    <TableCell align="center" >
+                    <TableCell align="center">
                       {e.discount ? (
                         <Typography>
                           ${(e.price - (e.price * e.discount) / 100).toFixed(2)}
@@ -109,17 +114,14 @@ export default function page() {
 
                     <TableCell align="center">
                       <Link
-                        href={`/product/${e.id}/${e.title
-                          .toLowerCase()
-                          .split(" ")
-                          .join("-")}`}
+                        href={`/product/${e.id}/${e.slug}`}
                       >
                         <Button
                           disableRipple
                           sx={{
                             width: "135px",
                             widht: "35px",
-                            borderRadius:"35px",
+                            borderRadius: "35px",
                             backgroundColor: `${
                               e.isAvailable
                                 ? "colors.violet"
@@ -176,7 +178,7 @@ export default function page() {
                   color: "text.white",
                 },
               }}
-              onClick={()=>dispatch(removeAllWishlist())}
+              onClick={() => dispatch(removeAllWishlist())}
             >
               Clear Wishlist
             </Button>
@@ -192,7 +194,7 @@ export default function page() {
         >
           <FavoriteBorderOutlined sx={{ fontSize: "100px", mb: "30px" }} />
           <Typography variant="h5">No items found in wishlist</Typography>
-          <Link href={"/"}>
+          <Link href={"/shop"}>
             <Button
               disableRipple
               sx={{
@@ -208,6 +210,7 @@ export default function page() {
           </Link>
         </Stack>
       )}
+      <Toast type="error" message={toastMessage} />
     </Container>
   );
 }

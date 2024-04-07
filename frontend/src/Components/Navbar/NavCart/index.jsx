@@ -14,7 +14,7 @@ import Link from "next/link";
 import Toast from "@/Components/Toast";
 export default function NavCart() {
   // Toast
-  const [toastMessage, setToastMessage] = useState();
+  const [toastMessage, setToastMessage] = useState(false);
   // importing Shopping List from Redux
   const { list } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
@@ -97,7 +97,7 @@ export default function NavCart() {
                 </IconButton>
               </Stack>
               <Divider sx={{ marginY: "10px" }} />
-              <Toast type={"error"} message={toastMessage} />
+              {/* <Toast type={"error"} message={toastMessage} /> */}
             </Box>
           ))}
           <Stack

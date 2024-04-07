@@ -194,6 +194,7 @@ export default function Home() {
               <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
                 <ProductCard
                   id={e?.id}
+                  slug={e?.slug}
                   title={e?.attributes.title}
                   rating={e?.attributes.rating?.slice(1)}
                   imgAll={e?.attributes?.imagesall}

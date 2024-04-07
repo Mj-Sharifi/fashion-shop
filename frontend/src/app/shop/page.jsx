@@ -666,6 +666,7 @@ export default function Collection() {
                     <Grid key={i} item xs={10} sm={6} lg={4}>
                       <ProductCard
                         id={e?.id}
+                        slug={e.slug}
                         title={e?.attributes.title}
                         rating={e?.attributes.rating?.slice(1)}
                         imgAll={e?.attributes?.imagesall}
@@ -700,6 +701,7 @@ export default function Collection() {
                     <Grid key={i} item xs={10} sm={12}>
                       <DetailedProductCard
                         id={e.id}
+                        slug={e.slug}
                         title={e?.attributes.title}
                         rating={+e?.attributes.rating?.slice(1)}
                         imgPrimary={

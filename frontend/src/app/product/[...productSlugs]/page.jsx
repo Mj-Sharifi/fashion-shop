@@ -248,6 +248,7 @@ export default function ProductDetail({ params }) {
                 <SwiperSlide key={i}>
                   <ProductCard
                     id={e?.id}
+                    slug={e.slug}
                     title={e?.attributes.title}
                     rating={e?.attributes.rating.slice(1)}
                     imgAll={e?.attributes?.imagesall}

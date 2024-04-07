@@ -12,18 +12,19 @@ import React from "react";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/Lib/hooks";
 import { addToWishlist } from "@/Lib/Features/Wishlist/wishSlice";
-const isInWishlist = (id,wishlist) =>{
-  let isIn = false
+const isInWishlist = (id, wishlist) => {
+  let isIn = false;
   for (const w of wishlist) {
-    if(id==w.id){
-      isIn = true
-      break
+    if (id == w.id) {
+      isIn = true;
+      break;
     }
   }
-  return isIn
-}
+  return isIn;
+};
 export default function DetailedProductCard({
   id,
+  slug,
   title,
   imgPrimary,
   imgSecondary,
@@ -34,7 +35,7 @@ export default function DetailedProductCard({
   isNew,
   isAvailable,
 }) {
-  const {wishlist} = useAppSelector(state=>state.wishlist)
+  const { wishlist } = useAppSelector((state) => state.wishlist);
   const dispatch = useAppDispatch();
   return (
     <Stack
@@ -152,9 +153,7 @@ export default function DetailedProductCard({
           {shortDescription?.split(" ").slice(0, 20).join(" ")}...
         </Typography>
         <Stack direction={"row"} gap={3}>
-          <Link
-            href={`/product/${id}/${title.toLowerCase().split(" ").join("-")}`}
-          >
+          <Link href={`/product/${id}/${title.toLowerCase().replace(/ /g,"-")}`}>
             <Button
               sx={{
                 height: "40px",
@@ -217,8 +216,10 @@ export default function DetailedProductCard({
             <FavoriteBorderOutlined
               sx={{
                 transition: "all 0.3s",
-                cursor:`${isInWishlist(id,wishlist)?"not-allowed":"pointer"}`,
-                color:`${isInWishlist(id,wishlist)?"colors.violet":""}`,
+                cursor: `${
+                  isInWishlist(id, wishlist) ? "not-allowed" : "pointer"
+                }`,
+                color: `${isInWishlist(id, wishlist) ? "colors.violet" : ""}`,
                 "&:hover": { color: "colors.violet" },
               }}
             />

@@ -1,6 +1,6 @@
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 export default function MegaMenu({categories}) {
   return (
@@ -9,7 +9,7 @@ export default function MegaMenu({categories}) {
         <Grid key={i} item md={3}>
           <Stack direction={"row"} spacing={2} width={"100%"} marginTop={1} paddingRight={1} borderRight={`${i!==3&&"1px solid"}`} borderColor={"colors.darkgray"}>
             <Box width={"40%"}>
-              <Link href={`/shop/${e?.attributes.title.toLowerCase()}`}>
+              <Link href={`/shop/${e?.attributes.slug}`}>
                 <Typography
                   variant="menuItems"
                   sx={{
@@ -27,8 +27,8 @@ export default function MegaMenu({categories}) {
                 {e?.attributes.subcategories.data.map((m, n) => (
                   <Link
                     key={n}
-                    href={`/shop/${e?.attributes.title.toLowerCase()}/${
-                      m.attributes.title.toLowerCase()
+                    href={`/shop/${e?.attributes.slug}/${
+                      m.attributes.slug
                     }`}
                   >
                     <Typography
