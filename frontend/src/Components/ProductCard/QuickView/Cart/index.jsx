@@ -69,7 +69,7 @@ export default function ProductCart({ product, handleToast }) {
     handleToast(`${product.attributes.title} added to wishlist`);
   };
   const handleCompare = () => {
-    console.log(product);
+  
     dispatch(addToCompare({ product }));
     handleToast(`${product.attributes.title} added to compare`);
   };

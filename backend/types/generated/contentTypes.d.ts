@@ -362,6 +362,351 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiCategoryCategory extends Schema.CollectionType {
+  collectionName: 'categories';
+  info: {
+    singularName: 'category';
+    pluralName: 'categories';
+    displayName: 'Category';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required;
+    products: Attribute.Relation<
+      'api::category.category',
+      'manyToMany',
+      'api::product.product'
+    >;
+    subcategories: Attribute.Relation<
+      'api::category.category',
+      'manyToMany',
+      'api::subcategory.subcategory'
+    >;
+    slug: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::category.category',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiColorColor extends Schema.CollectionType {
+  collectionName: 'colors';
+  info: {
+    singularName: 'color';
+    pluralName: 'colors';
+    displayName: 'Colors';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    color: Attribute.String;
+    products: Attribute.Relation<
+      'api::color.color',
+      'manyToMany',
+      'api::product.product'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::color.color',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::color.color',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCommentComment extends Schema.CollectionType {
+  collectionName: 'comments';
+  info: {
+    singularName: 'comment';
+    pluralName: 'comments';
+    displayName: 'Comments';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    authorName: Attribute.String;
+    email: Attribute.Email;
+    product: Attribute.Relation<
+      'api::comment.comment',
+      'manyToOne',
+      'api::product.product'
+    >;
+    rating: Attribute.Integer;
+    content: Attribute.Text;
+    replies: Attribute.Relation<
+      'api::comment.comment',
+      'oneToMany',
+      'api::reply.reply'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::comment.comment',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::comment.comment',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiMainSliderMainSlider extends Schema.CollectionType {
+  collectionName: 'main_sliders';
+  info: {
+    singularName: 'main-slider';
+    pluralName: 'main-sliders';
+    displayName: 'Main Slider';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    subtitle: Attribute.String;
+    image: Attribute.Media;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::main-slider.main-slider',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::main-slider.main-slider',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProductProduct extends Schema.CollectionType {
+  collectionName: 'products';
+  info: {
+    singularName: 'product';
+    pluralName: 'products';
+    displayName: 'Products';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    price: Attribute.Decimal & Attribute.Required;
+    discount: Attribute.Decimal & Attribute.Required & Attribute.DefaultTo<0>;
+    title: Attribute.String & Attribute.Required;
+    categories: Attribute.Relation<
+      'api::product.product',
+      'manyToMany',
+      'api::category.category'
+    >;
+    subcategories: Attribute.Relation<
+      'api::product.product',
+      'manyToMany',
+      'api::subcategory.subcategory'
+    >;
+    imageprimary: Attribute.Media;
+    imagesecondary: Attribute.Media & Attribute.Required;
+    imagesall: Attribute.Media;
+    bestSeller: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    isNew: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
+    rating: Attribute.Enumeration<
+      [
+        'a0',
+        'a0.5',
+        'a1',
+        'a1.5',
+        'a2',
+        'a2.5',
+        'a3',
+        'a3.5',
+        'a4',
+        'a4.5',
+        'a5'
+      ]
+    >;
+    isAvailable: Attribute.Boolean & Attribute.DefaultTo<true>;
+    shortDescription: Attribute.Text;
+    longDescription: Attribute.Text;
+    colors: Attribute.Relation<
+      'api::product.product',
+      'manyToMany',
+      'api::color.color'
+    >;
+    sizes: Attribute.Relation<
+      'api::product.product',
+      'manyToMany',
+      'api::size.size'
+    >;
+    comments: Attribute.Relation<
+      'api::product.product',
+      'oneToMany',
+      'api::comment.comment'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::product.product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::product.product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiReplyReply extends Schema.CollectionType {
+  collectionName: 'replies';
+  info: {
+    singularName: 'reply';
+    pluralName: 'replies';
+    displayName: 'Replies';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    content: Attribute.Text;
+    authorName: Attribute.String;
+    email: Attribute.Email;
+    rating: Attribute.Integer;
+    comment: Attribute.Relation<
+      'api::reply.reply',
+      'manyToOne',
+      'api::comment.comment'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::reply.reply',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::reply.reply',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiSizeSize extends Schema.CollectionType {
+  collectionName: 'sizes';
+  info: {
+    singularName: 'size';
+    pluralName: 'sizes';
+    displayName: 'Sizes';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    size: Attribute.String;
+    products: Attribute.Relation<
+      'api::size.size',
+      'manyToMany',
+      'api::product.product'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::size.size', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::size.size', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiSubcategorySubcategory extends Schema.CollectionType {
+  collectionName: 'subcategories';
+  info: {
+    singularName: 'subcategory';
+    pluralName: 'subcategories';
+    displayName: 'Subcategory';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required;
+    categories: Attribute.Relation<
+      'api::subcategory.subcategory',
+      'manyToMany',
+      'api::category.category'
+    >;
+    products: Attribute.Relation<
+      'api::subcategory.subcategory',
+      'manyToMany',
+      'api::product.product'
+    >;
+    slug: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::subcategory.subcategory',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::subcategory.subcategory',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -788,351 +1133,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface ApiCategoryCategory extends Schema.CollectionType {
-  collectionName: 'categories';
-  info: {
-    singularName: 'category';
-    pluralName: 'categories';
-    displayName: 'Category';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String & Attribute.Required;
-    products: Attribute.Relation<
-      'api::category.category',
-      'manyToMany',
-      'api::product.product'
-    >;
-    subcategories: Attribute.Relation<
-      'api::category.category',
-      'manyToMany',
-      'api::subcategory.subcategory'
-    >;
-    slug: Attribute.String;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::category.category',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::category.category',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiColorColor extends Schema.CollectionType {
-  collectionName: 'colors';
-  info: {
-    singularName: 'color';
-    pluralName: 'colors';
-    displayName: 'Colors';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    color: Attribute.String;
-    products: Attribute.Relation<
-      'api::color.color',
-      'manyToMany',
-      'api::product.product'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::color.color',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::color.color',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiCommentComment extends Schema.CollectionType {
-  collectionName: 'comments';
-  info: {
-    singularName: 'comment';
-    pluralName: 'comments';
-    displayName: 'Comments';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    authorName: Attribute.String;
-    email: Attribute.Email;
-    product: Attribute.Relation<
-      'api::comment.comment',
-      'manyToOne',
-      'api::product.product'
-    >;
-    rating: Attribute.Integer;
-    content: Attribute.Text;
-    replies: Attribute.Relation<
-      'api::comment.comment',
-      'oneToMany',
-      'api::reply.reply'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::comment.comment',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::comment.comment',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiMainSliderMainSlider extends Schema.CollectionType {
-  collectionName: 'main_sliders';
-  info: {
-    singularName: 'main-slider';
-    pluralName: 'main-sliders';
-    displayName: 'Main Slider';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String;
-    subtitle: Attribute.String;
-    image: Attribute.Media;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::main-slider.main-slider',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::main-slider.main-slider',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiProductProduct extends Schema.CollectionType {
-  collectionName: 'products';
-  info: {
-    singularName: 'product';
-    pluralName: 'products';
-    displayName: 'Products';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    price: Attribute.Decimal & Attribute.Required;
-    discount: Attribute.Decimal & Attribute.Required & Attribute.DefaultTo<0>;
-    title: Attribute.String & Attribute.Required;
-    categories: Attribute.Relation<
-      'api::product.product',
-      'manyToMany',
-      'api::category.category'
-    >;
-    subcategories: Attribute.Relation<
-      'api::product.product',
-      'manyToMany',
-      'api::subcategory.subcategory'
-    >;
-    imageprimary: Attribute.Media;
-    imagesecondary: Attribute.Media & Attribute.Required;
-    imagesall: Attribute.Media;
-    bestSeller: Attribute.Boolean &
-      Attribute.Required &
-      Attribute.DefaultTo<false>;
-    isNew: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
-    rating: Attribute.Enumeration<
-      [
-        'a0',
-        'a0.5',
-        'a1',
-        'a1.5',
-        'a2',
-        'a2.5',
-        'a3',
-        'a3.5',
-        'a4',
-        'a4.5',
-        'a5'
-      ]
-    >;
-    isAvailable: Attribute.Boolean & Attribute.DefaultTo<true>;
-    shortDescription: Attribute.Text;
-    longDescription: Attribute.Text;
-    colors: Attribute.Relation<
-      'api::product.product',
-      'manyToMany',
-      'api::color.color'
-    >;
-    sizes: Attribute.Relation<
-      'api::product.product',
-      'manyToMany',
-      'api::size.size'
-    >;
-    comments: Attribute.Relation<
-      'api::product.product',
-      'oneToMany',
-      'api::comment.comment'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::product.product',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::product.product',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiReplyReply extends Schema.CollectionType {
-  collectionName: 'replies';
-  info: {
-    singularName: 'reply';
-    pluralName: 'replies';
-    displayName: 'Replies';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    content: Attribute.Text;
-    authorName: Attribute.String;
-    email: Attribute.Email;
-    rating: Attribute.Integer;
-    comment: Attribute.Relation<
-      'api::reply.reply',
-      'manyToOne',
-      'api::comment.comment'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::reply.reply',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::reply.reply',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiSizeSize extends Schema.CollectionType {
-  collectionName: 'sizes';
-  info: {
-    singularName: 'size';
-    pluralName: 'sizes';
-    displayName: 'Sizes';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    size: Attribute.String;
-    products: Attribute.Relation<
-      'api::size.size',
-      'manyToMany',
-      'api::product.product'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::size.size', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::size.size', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
-export interface ApiSubcategorySubcategory extends Schema.CollectionType {
-  collectionName: 'subcategories';
-  info: {
-    singularName: 'subcategory';
-    pluralName: 'subcategories';
-    displayName: 'Subcategory';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String & Attribute.Required;
-    categories: Attribute.Relation<
-      'api::subcategory.subcategory',
-      'manyToMany',
-      'api::category.category'
-    >;
-    products: Attribute.Relation<
-      'api::subcategory.subcategory',
-      'manyToMany',
-      'api::product.product'
-    >;
-    slug: Attribute.String;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::subcategory.subcategory',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::subcategory.subcategory',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1143,14 +1143,6 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
-      'plugin::upload.file': PluginUploadFile;
-      'plugin::upload.folder': PluginUploadFolder;
-      'plugin::content-releases.release': PluginContentReleasesRelease;
-      'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
-      'plugin::i18n.locale': PluginI18NLocale;
-      'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
-      'plugin::users-permissions.role': PluginUsersPermissionsRole;
-      'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::category.category': ApiCategoryCategory;
       'api::color.color': ApiColorColor;
       'api::comment.comment': ApiCommentComment;
@@ -1159,6 +1151,14 @@ declare module '@strapi/types' {
       'api::reply.reply': ApiReplyReply;
       'api::size.size': ApiSizeSize;
       'api::subcategory.subcategory': ApiSubcategorySubcategory;
+      'plugin::upload.file': PluginUploadFile;
+      'plugin::upload.folder': PluginUploadFolder;
+      'plugin::content-releases.release': PluginContentReleasesRelease;
+      'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::i18n.locale': PluginI18NLocale;
+      'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
+      'plugin::users-permissions.role': PluginUsersPermissionsRole;
+      'plugin::users-permissions.user': PluginUsersPermissionsUser;
     }
   }
 }

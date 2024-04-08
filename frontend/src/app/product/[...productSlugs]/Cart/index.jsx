@@ -35,11 +35,10 @@ const isInComparelist = (id, compareList) => {
   return isIn;
 };
 export default function Cart({ product, handleToast }) {
-  console.log(product);
   // Hanlde Size
-  const [size, setSize] = useState();
+  const [size, setSize] = useState("");
   //Handle Color
-  const [color, setColor] = useState();
+  const [color, setColor] = useState("");
   //Handle Quantity
   const [quantity, setQuantity] = useState(1);
   const handleIncrease = () => {
@@ -72,10 +71,9 @@ export default function Cart({ product, handleToast }) {
     handleToast(`${product.attributes.title} added to wishlist`);
   };
   const handleCompare = () => {
-    dispatch(addToCompare({product}));
+    dispatch(addToCompare({ product }));
     handleToast(`${product?.attributes.title} added to compare`);
   };
-
   return (
     <>
       {/* Color and Size Selection */}
@@ -112,7 +110,9 @@ export default function Cart({ product, handleToast }) {
                         width: "100%",
                         height: "100%",
                         borderRadius: "100%",
-                        bgcolor: e?.attributes.color.toLowerCase().replace(/ /g,""),
+                        bgcolor: e?.attributes.color
+                          .toLowerCase()
+                          .replace(/ /g, ""),
                       }}
                       onClick={(e) => setColor(e.target.id)}
                     ></Box>
@@ -204,9 +204,12 @@ export default function Cart({ product, handleToast }) {
           onClick={addToCart}
           disableRipple
           disabled={
-            !product?.attributes.isAvailable ||
-            (product?.attributes.colors.data.length && !color) ||
-            (product?.attributes.colors.data.length && !size)
+            product.attributes.categories.data[0].attributes.title !==
+            "Cosmetics"
+              ? !product?.attributes.isAvailable ||
+                (product?.attributes?.colors?.data.length && !color) ||
+                (product?.attributes?.sizes?.data.length && !size)
+              : false
           }
           sx={{
             height: "50px",

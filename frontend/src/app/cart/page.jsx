@@ -36,7 +36,7 @@ export default function Cart() {
   // importing Shopping List from Redux
   const { list } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
-  console.log(list);
+
   // Calculating the total price
   let totalPrice = 0;
   for (const i of list) {

@@ -25,6 +25,7 @@ import DetailedProductCard from "@/Components/DetailedProductCard";
 import Loading from "@/Components/Loading";
 import GoUp from "@/Components/GoUp";
 import Toast from "@/Components/Toast";
+import SearchBar from "@/Components/SearchBar";
 
 export default function Subcategory({ params }) {
   const mobileSize = useMediaQuery("(max-width:580px)");
@@ -209,7 +210,11 @@ export default function Subcategory({ params }) {
                   },
                 }}
               >
+                {/* Search Bar */}
+                <SearchBar endpoint={"products"} />
+                <Divider />
                 <Stack>
+                  {/* Price Range */}
                   <FormLabel>Price Range</FormLabel>
                   <Slider
                     getAriaLabel={() => "Price range"}
@@ -232,6 +237,7 @@ export default function Subcategory({ params }) {
                     }}
                   />
                 </Stack>
+                {/* Colors Selection */}
                 {colors && <Divider />}
                 {colors && (
                   <FormControl>
@@ -324,6 +330,7 @@ export default function Subcategory({ params }) {
                     )}
                   </FormControl>
                 )}
+                {/* Sizes Selection */}
                 {sizes && <Divider />}
                 {sizes && (
                   <FormControl>
@@ -552,7 +559,7 @@ export default function Subcategory({ params }) {
             </Grid>
           </Grid>
           <GoUp />
-          <Toast type="success" message={toast}/>
+          <Toast type="success" message={toast} />
         </>
       ) : (
         <Loading />

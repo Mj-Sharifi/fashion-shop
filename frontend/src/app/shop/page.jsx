@@ -25,6 +25,8 @@ import { Apps, ExpandMore, FormatListBulleted } from "@mui/icons-material";
 import DetailedProductCard from "@/Components/DetailedProductCard";
 import GoUp from "@/Components/GoUp";
 import Toast from "@/Components/Toast";
+import Search from "@/Components/SearchBar";
+import SearchBar from "@/Components/SearchBar";
 
 export default function Collection() {
   const mobileSize = useMediaQuery("(max-width:580px)");
@@ -150,8 +152,8 @@ export default function Collection() {
         .then((res) => res.json())
         .then((data) => setSubcategories(data?.data));
     }
-
-    if (category != "Cosmetics") {
+    const cosmeticsSubcategories = ["Skin Care","Face","Nail Care","Hair Care","Eye and Eyebrow"];
+    if (category != "Cosmetics" && !cosmeticsSubcategories.includes(subcategory)) {
       fetch(process.env.NEXT_PUBLIC_BASE_API + "colors?populate=*")
         .then((res) => res.json())
         .then((data) => setColors(data.data))
@@ -265,6 +267,10 @@ export default function Collection() {
                   },
                 }}
               >
+                {/* Search Bar */}
+                <SearchBar endpoint={"products"}/>
+                <Divider />
+                {/* Price Range */}
                 <Stack>
                   <FormLabel>Price Range</FormLabel>
                   <Slider

@@ -64,6 +64,19 @@ export default function Navbar() {
   const handleSearch = () => {
     setSearchOpen(!searchOpen);
   };
+  const [searchText, setSearchText] = useState("");
+  const [searchResult, setSearchResult] = useState();
+  useEffect(() => {
+    if (searchText.length > 2) {
+      fetch(
+        process.env.NEXT_PUBLIC_BASE_API +
+          `products?filters[title][$containsi]=${searchText}&populate=*`
+      )
+        .then((res) => res.json())
+        .then((data) => setSearchResult(data.data))
+        .catch((err) => console.log(err));
+    }
+  }, [searchText]);
   // Handle Mobile Menu
   const [mobileMenu, setMobileMenu] = useState(false);
   const handleMobileMenu = () => {
@@ -167,7 +180,6 @@ export default function Navbar() {
                     </Typography>
                     <KeyboardArrowDown />
                   </Stack>
-
                   <Paper
                     sx={{
                       transition: "0.3s",
@@ -247,6 +259,7 @@ export default function Navbar() {
                     border: "none !important",
                   },
                 }}
+                onKeyUp={(e) => setSearchText(e.target.value)}
               />
               <Stack
                 width={"45px"}
@@ -262,6 +275,67 @@ export default function Navbar() {
               >
                 <Search sx={{ color: "text.white" }} />
               </Stack>
+            </Paper>
+            <Paper
+              sx={{
+                transition: "all 0.3s",
+                position: "absolute",
+                visibility: `${searchText.length > 1 ? "visible" : "hidden"}`,
+                opacity: `${searchText.length > 1 ? "1" : "0"}`,
+                backgroundColor: "colors.lightgray",
+                height: `${searchText.length > 1 ? "auto" : "0"}`,
+                width: "300px",
+                padding: "10px",
+                top: "130px",
+                right: "15px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "5px",
+                zIndex: "800",
+              }}
+            >
+              {searchResult?.map((e, i) => (
+                <Link
+                  key={i}
+                  href={`/product/${e?.id}/${e.attributes?.title
+                    .toLowerCase()
+                    .trim()
+                    .replace(/ /g, "-")}`}
+                >
+                  <Stack
+                    direction={"row"}
+                    width={"100%"}
+                    alignItems={"center"}
+                    gap={1}
+                    sx={{
+                      "&:hover p": {
+                        transition: "all 0.3s",
+                        color: "colors.violet",
+                      },
+                    }}
+                  >
+                    <Box
+                      component={"img"}
+                      src={
+                        process.env.NEXT_PUBLIC_BASE_URL +
+                        e.attributes.imageprimary.data.attributes.formats.small
+                          .url
+                      }
+                      sx={{
+                        width: "30%",
+                        maxHeight: "60px",
+                        objectFit: "cover",
+                      }}
+                    />
+                    <Typography
+                      variant="h4"
+                      sx={{ "&:hover": { color: "colors.violet" } }}
+                    >
+                      {e.attributes?.title}
+                    </Typography>
+                  </Stack>
+                </Link>
+              ))}
             </Paper>
           </Box>
           {/* Login/Register */}
@@ -288,10 +362,10 @@ export default function Navbar() {
                 display: "flex",
                 flexDirection: "column",
                 gap: "10px",
-                "& p:hover":{
-                  transition:"all 0.3s",
-                  color:"colors.violet"
-                }
+                "& p:hover": {
+                  transition: "all 0.3s",
+                  color: "colors.violet",
+                },
               }}
             >
               {token ? (
@@ -300,7 +374,7 @@ export default function Navbar() {
                     <Typography variant="body2">Profile</Typography>
                   </Link>
                   <Typography
-                  variant="body2"
+                    variant="body2"
                     onClick={() => dispatch(handleLogout())}
                     sx={{ cursor: "pointer" }}
                   >
@@ -393,7 +467,7 @@ export default function Navbar() {
                   padding: "10px 25px",
                 }}
               >
-                <NavCart/>
+                <NavCart />
               </Paper>
             </Box>
           </Badge>

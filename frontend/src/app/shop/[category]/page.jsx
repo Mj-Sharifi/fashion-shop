@@ -25,6 +25,7 @@ import { Apps, ExpandMore, FormatListBulleted } from "@mui/icons-material";
 import DetailedProductCard from "@/Components/DetailedProductCard";
 import GoUp from "@/Components/GoUp";
 import Toast from "@/Components/Toast";
+import SearchBar from "@/Components/SearchBar";
 
 export default function Category({ params }) {
   const mobileSize = useMediaQuery("(max-width:580px)");
@@ -239,6 +240,10 @@ export default function Category({ params }) {
                   },
                 }}
               >
+                {/* Search Bar */}
+                <SearchBar endpoint={"products"}/>
+                <Divider />
+                {/* Price Range */}
                 <Stack>
                   <FormLabel>Price Range</FormLabel>
                   <Slider
@@ -263,6 +268,7 @@ export default function Category({ params }) {
                   />
                 </Stack>
                 <Divider />
+                {/* Category Selection */}
                 <FormControl>
                   <Stack direction={"row"} alignItems={"center"} gap={2}>
                     <FormLabel id="demo-radio-buttons-group-label">
@@ -330,8 +336,8 @@ export default function Category({ params }) {
                     </RadioGroup>
                   )}
                 </FormControl>
+                {/* Colors Selection */}
                 {colors && <Divider />}
-
                 {colors && (
                   <FormControl>
                     <Stack direction={"row"} alignItems={"center"} gap={2}>
@@ -423,6 +429,7 @@ export default function Category({ params }) {
                     )}
                   </FormControl>
                 )}
+                {/* Sizes Selection */}
                 {sizes && <Divider />}
                 {sizes && (
                   <FormControl>
@@ -651,7 +658,7 @@ export default function Category({ params }) {
             </Grid>
           </Grid>
           <GoUp />
-          <Toast type="success" message={toast}/>
+          <Toast type="success" message={toast} />
         </>
       ) : (
         <Loading />
