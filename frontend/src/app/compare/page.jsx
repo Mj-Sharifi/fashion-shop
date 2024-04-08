@@ -32,7 +32,6 @@ export default function Compare() {
     dispatch(removeFromCompare({ product }));
     setToastMessage(`${title} removed from wishlist`);
   };
-
   return (
     <Container>
       {compareList.length ? (
@@ -203,7 +202,7 @@ export default function Compare() {
                       <Rating
                         readOnly
                         precision={0.5}
-                        value={+e?.attributes.rating?.slice(1)}
+                        value={e?.attributes.rating.startsWith("a")?+e?.attributes.rating?.slice(1):+e?.attributes.rating}
                       />
                     </TableCell>
                   ))}
