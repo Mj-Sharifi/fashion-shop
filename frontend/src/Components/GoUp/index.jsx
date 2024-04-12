@@ -37,7 +37,7 @@ export default function GoUp() {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }}
     >
-      <KeyboardDoubleArrowUp fontSize="larger" sx={{ color: "white" }} />
+      <KeyboardDoubleArrowUp sx={{ color: "white" }} />
     </IconButton>
   );
 }
