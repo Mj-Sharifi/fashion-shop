@@ -28,6 +28,7 @@ import MegaMenu from "./MegaMenu";
 import NavCart from "./NavCart";
 import { useAppSelector, useAppDispatch } from "@/Lib/hooks";
 import { handleLogout } from "@/Lib/Features/Auth/authSlice";
+import Toast from "../Toast";
 const menuItems = ["Home", "Shop", "Blog", "Contact"];
 
 export default function Navbar() {
@@ -42,23 +43,16 @@ export default function Navbar() {
   // Handle Sticky Navbar
   const navbar = useRef();
   const [stickyClass, setSticykClass] = useState(false);
-  const stickNavbar = () => {
-    if (window !== undefined) {
-      let windowHeight = window.scrollY;
-      if (windowHeight > 80) {
-        setSticykClass(true);
-      } else {
-        setSticykClass(false);
+  useEffect(()=>{
+    window.addEventListener("scroll",()=>{
+      if(window.scrollY>80){
+        setSticykClass(true)
+      }else{
+        setSticykClass(false)
       }
-    }
-  };
-  useEffect(() => {
-    window.addEventListener("scroll", stickNavbar);
-
-    return () => {
-      window.removeEventListener("scroll", stickNavbar);
-    };
-  }, []);
+    })
+  },[])
+  
   // Handle Search
   const [searchOpen, setSearchOpen] = useState(false);
   const handleSearch = () => {
@@ -115,6 +109,11 @@ export default function Navbar() {
       .then((data) => setCategories(data.data))
       .catch((err) => console.log(err));
   }, []);
+  // Toast
+  const [toast, setToast] = useState(false);
+  const handleToast = (message) => {
+    setToast(message);
+  };
   return (
     <nav
       id="navbar"
@@ -456,18 +455,16 @@ export default function Navbar() {
                   top: "60px",
                   right: "0",
                   width: "310px",
-                  maxHeight: "500px",
-                  overflowY: "auto",
                   zIndex: "1000",
                   visibility: `${cartMenu ? "visible" : "hidden"}`,
                   opacity: `${cartMenu ? "1" : "0"}`,
                   transformOrigin: "top center",
                   transform: `${cartMenu ? "rotateX(0deg)" : "rotateX(90deg)"}`,
                   overflowX: "hidden",
-                  padding: "10px 25px",
+                  paddingY:"10px"
                 }}
               >
-                <NavCart />
+                <NavCart handleToast={handleToast}/>
               </Paper>
             </Box>
           </Badge>
@@ -485,6 +482,7 @@ export default function Navbar() {
         handleMobileMenu={handleMobileMenu}
         categories={categories}
       />
+      <Toast type="error" message={toast} />
     </nav>
   );
 }

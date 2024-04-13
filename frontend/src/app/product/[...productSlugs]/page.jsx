@@ -152,7 +152,6 @@ export default function ProductDetail({ params }) {
               >
                 <TabList
                   onChange={handleTab}
-                  aria-label="lab API tabs example"
                   centered={!scrollableTab && true}
                   variant={scrollableTab ? "scrollable" : "standard"}
                   scrollButtons="auto"

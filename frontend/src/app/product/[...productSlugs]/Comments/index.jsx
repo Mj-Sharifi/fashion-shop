@@ -7,10 +7,10 @@ import {
   Input,
   Box,
   Button,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 export default function Comments({ productId }) {
-  const mobileSize =  useMediaQuery("(max-width:580px)")
+  const mobileSize = useMediaQuery("(max-width:580px)");
   const [comments, setComments] = useState([]);
   useEffect(() => {
     fetch(
@@ -43,9 +43,14 @@ export default function Comments({ productId }) {
                 />
                 <Stack gap={2} width={{ xs: "100%", sm: "80%" }}>
                   <Stack direction={"row"} justifyContent={"space-between"}>
-                    <Stack direction={"row"} gap={{xs:1,sm:2,md:3}}>
-                      <Typography variant="h5">{e.attributes.authorName}</Typography>
-                      <Rating size={mobileSize?"small":"medium"} value={+e.attributes.rating} />
+                    <Stack direction={"row"} gap={{ xs: 1, sm: 2, md: 3 }}>
+                      <Typography variant="h5">
+                        {e.attributes.authorName}
+                      </Typography>
+                      <Rating
+                        size={mobileSize ? "small" : "medium"}
+                        value={+e.attributes.rating}
+                      />
                     </Stack>
                     <Button
                       sx={{
@@ -73,33 +78,36 @@ export default function Comments({ productId }) {
               {e.attributes.replies.data?.map((m, n) => (
                 <Stack
                   key={n}
-                  direction={{xs:"column",sm:"row"}}
+                  direction={{ xs: "column", sm: "row" }}
                   gap={2}
-                  paddingLeft={{xs:3,sm:5}}
+                  paddingLeft={{ xs: 3, sm: 5 }}
                   width={"100%"}
                 >
                   <Box
                     component={"img"}
                     src={`/assets/comments/${i + 1}${n + 1}.jpg`}
                     alt={m.attributes.authorName}
-                    width={{xs:"30%",sm:"20%"}}
+                    width={{ xs: "30%", sm: "20%" }}
                     sx={{
                       objectFit: "cover",
                       objectPosition: "center top",
                       maxHeight: "120px",
                     }}
                   />
-                  <Stack gap={2} width={{xs:"100%",sm:"80%"}}>
+                  <Stack gap={2} width={{ xs: "100%", sm: "80%" }}>
                     <Stack
                       direction={"row"}
                       justifyContent={"space-between"}
                       width={"100%"}
                     >
-                      <Stack direction={"row"} gap={{xs:1,sm:2,md:3}}>
+                      <Stack direction={"row"} gap={{ xs: 1, sm: 2, md: 3 }}>
                         <Typography variant="h5">
                           {m.attributes.authorName}
                         </Typography>
-                        <Rating size={mobileSize?"small":"medium"} value={+m.attributes.rating} />
+                        <Rating
+                          size={mobileSize ? "small" : "medium"}
+                          value={+m.attributes.rating}
+                        />
                       </Stack>
                       <Button
                         sx={{
