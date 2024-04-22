@@ -17,21 +17,38 @@ import {
   TableBody,
   Typography,
   IconButton,
+  useMediaQuery,
 } from "@mui/material";
 import {
   removeAllWishlist,
   removeFromWishlist,
 } from "@/Lib/Features/Wishlist/wishSlice";
+import { toast,Slide, ToastContainer } from "react-toastify";
 import Toast from "@/Components/Toast";
 export default function Wishlist() {
+  const mobileSize = useMediaQuery("(max-width:580px)");
   // Toast
-  const [toastMessage, setToastMessage] = useState();
+  // const [toastMessage, setToastMessage] = useState();
   //
   const { wishlist } = useAppSelector((state) => state.wishlist);
   const dispatch = useAppDispatch();
   const handleRemoveFromWishlist = (id, title) => {
     dispatch(removeFromWishlist({ id }));
-    setToastMessage(`${title} removed from wishlist`);
+    toast.error(`${product.attributes.title} removed from wishlist`, {
+      position: mobileSize ? "bottom-center" : "bottom-left",
+      autoClose: 3000,
+      hideProgressBar: true,
+      newestOnTop: true,
+      closeOnClick: false,
+      closeButton: false,
+      rtl: false,
+      pauseOnFocusLoss: false,
+      draggable: false,
+      pauseOnHover: false,
+      theme: "light",
+      transition: Slide,
+    });
+    // setToastMessage(`${title} removed from wishlist`);
   };
 
   return (
@@ -74,7 +91,7 @@ export default function Wishlist() {
                     <TableCell>
                       <IconButton
                         sx={{ backgroundColor: "transparent" }}
-                        onClick={()=>handleRemoveFromWishlist(e.id,e.title)}
+                        onClick={() => handleRemoveFromWishlist(e.id, e.title)}
                       >
                         <Clear />
                       </IconButton>
@@ -114,9 +131,7 @@ export default function Wishlist() {
                     </TableCell>
 
                     <TableCell align="center">
-                      <Link
-                        href={`/product/${e.id}/${e.slug}`}
-                      >
+                      <Link href={`/product/${e.id}/${e.slug}`}>
                         <Button
                           disableRipple
                           sx={{
@@ -211,7 +226,8 @@ export default function Wishlist() {
           </Link>
         </Stack>
       )}
-      <Toast type="error" message={toastMessage} />
+      {/* <Toast type="error" message={toastMessage} /> */}
+      <ToastContainer/>
     </Container>
   );
 }

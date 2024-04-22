@@ -7,17 +7,36 @@ import {
   IconButton,
   Stack,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { removeItem } from "@/Lib/Features/Cart/cartSlice";
+import { toast, Slide } from "react-toastify";
 import Link from "next/link";
 export default function NavCart({ handleToast }) {
+  const mobileSize = useMediaQuery("(max-width:580px)");
   // importing Shopping List from Redux
   const { list } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
   const removeFromCart = (title, id, size, color) => {
     dispatch(removeItem({ id, size, color }));
-    handleToast(`${title} removed from cart`);
+    toast.error(`${title} removed from cart`, {
+      position: mobileSize ? "bottom-center" : "bottom-left",
+      autoClose: 3000,
+      hideProgressBar: true,
+      newestOnTop: true,
+      closeOnClick: false,
+      closeButton: false,
+      rtl: false,
+      pauseOnFocusLoss: false,
+      draggable: false,
+      pauseOnHover: false,
+      theme: "light",
+      transition: Slide,
+    });
+
+    console.log(`${title} removed from cart`);
+    // handleToast(`${title} removed from cart`);
   };
   // Calculating the total price
   let totalPrice = 0;
@@ -29,6 +48,7 @@ export default function NavCart({ handleToast }) {
           (i.attributes.discount / 100) * i.attributes.price);
     }
   }, [list]);
+  console.log(typeof list[0].attributes.imageprimary);
   return (
     <>
       {list.length ? (
@@ -54,8 +74,10 @@ export default function NavCart({ handleToast }) {
                   <Box
                     component={"img"}
                     src={
-                      process.env.NEXT_PUBLIC_BASE_URL +
-                      e.attributes.imageprimary.data.attributes.url
+                      typeof e.attributes.imageprimary === "string"
+                        ? e.attributes.imageprimary
+                        : process.env.NEXT_PUBLIC_BASE_URL +
+                          e.attributes?.imageprimary?.data.attributes.url
                     }
                     sx={{ width: "40%" }}
                   />
@@ -226,7 +248,6 @@ export default function NavCart({ handleToast }) {
           </Typography>
         </Stack>
       )}
-      {/* <Toast type="error" message={toastMessage}/> */}
     </>
   );
 }

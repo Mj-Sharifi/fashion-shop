@@ -27,14 +27,15 @@ import GoUp from "@/Components/GoUp";
 import Toast from "@/Components/Toast";
 import Search from "@/Components/SearchBar";
 import SearchBar from "@/Components/SearchBar";
+import { ToastContainer } from "react-toastify";
 
 export default function Collection() {
   const mobileSize = useMediaQuery("(max-width:580px)");
     // Toast
-    const [toast,setToast] = useState(false)
-    const handleToast = (message)=>{
-      setToast(message)
-    }
+    // const [toast,setToast] = useState(false)
+    // const handleToast = (message)=>{
+    //   setToast(message)
+    // }
   // Page Layout
   const [layout, setLayout] = useState("card");
   const handleLayout = (event, newLayout) => {
@@ -756,7 +757,9 @@ export default function Collection() {
             </Grid>
           </Grid>
           <GoUp />
-          <Toast type="success" message={toast}/>
+          {/* <Toast type="success" message={toast}/> */}
+
+          <ToastContainer/>
         </>
       ) : (
         <Loading />

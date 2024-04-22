@@ -18,6 +18,7 @@ import {
 
 import Link from "next/link";
 import QuickView from "./QuickView";
+import { toast,Slide } from "react-toastify";
 import React, { useState } from "react";
 
 
@@ -45,9 +46,8 @@ export default function ProductCard({
   colors,
   sizes,
   shortDescription,
-  handleToast,
 }) {
-  const clickableImage = useMediaQuery("(max-width:580px)");
+  const mobileSize = useMediaQuery("(max-width:580px)");
   // Quick View
   const [quickView, setQuickView] = useState(false);
   const handleQuickViewOpen = () => {
@@ -70,7 +70,21 @@ export default function ProductCard({
         isAvailable,
       })
     );
-    handleToast(`${title} added to wishlist`)
+    toast.success(`${title} added to wishlist`, {
+      position: mobileSize ? "bottom-center" : "bottom-left",
+      autoClose: 3000,
+      hideProgressBar: true,
+      newestOnTop: true,
+      closeOnClick: false,
+      closeButton: false,
+      rtl: false,
+      pauseOnFocusLoss: false,
+      draggable: false,
+      pauseOnHover: false,
+      theme: "light",
+      transition: Slide,
+    });
+    // handleToast(`${title} added to wishlist`)
   };
   
   return (
@@ -100,7 +114,7 @@ export default function ProductCard({
         <Box width={"100%"} position={"relative"} overflow={"hidden"} mb={4}>
           <Link
             href={`${
-              clickableImage
+              mobileSize
                 ? `/product/${id}/${title.toLowerCase().trim().replace(/ /g,"-")}`
                 : "#"
             }`}
@@ -280,11 +294,9 @@ export default function ProductCard({
             shortDescription,
             isNew,
             isAvailable,
-            
           },
         }}
         handleQuickViewClose={handleQuickViewClose}
-        handleToast={handleToast}
       />
     </>
   );

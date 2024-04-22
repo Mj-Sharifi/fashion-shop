@@ -25,15 +25,16 @@ import { Apps, ExpandMore, FormatListBulleted } from "@mui/icons-material";
 import DetailedProductCard from "@/Components/DetailedProductCard";
 import GoUp from "@/Components/GoUp";
 import Toast from "@/Components/Toast";
+import { toast,Slide, ToastContainer } from "react-toastify";
 import SearchBar from "@/Components/SearchBar";
 
 export default function Category({ params }) {
   const mobileSize = useMediaQuery("(max-width:580px)");
   // Toast
-  const [toast, setToast] = useState(false);
-  const handleToast = (message) => {
-    setToast(message);
-  };
+  // const [toast, setToast] = useState(false);
+  // const handleToast = (message) => {
+  //   setToast(message);
+  // };
   // Page Layout
   const [layout, setLayout] = useState("card");
   const handleLayout = (event, newLayout) => {
@@ -599,7 +600,7 @@ export default function Category({ params }) {
                         price={e?.attributes.price}
                         isNew={e?.attributes.isNew}
                         isAvailable={e?.attributes.isAvailable}
-                        handleToast={handleToast}
+                        // handleToast={handleToast}
                       />
                     </Grid>
                   ))}
@@ -658,7 +659,8 @@ export default function Category({ params }) {
             </Grid>
           </Grid>
           <GoUp />
-          <Toast type="success" message={toast} />
+          <ToastContainer/>
+          {/* <Toast type="success" message={toast} /> */}
         </>
       ) : (
         <Loading />

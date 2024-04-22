@@ -14,23 +14,40 @@ import {
   TableRow,
   TableCell,
   Rating,
+  useMediaQuery
 } from "@mui/material";
+import { toast,Slide, ToastContainer } from "react-toastify";
 import React, { useState } from "react";
 import { CompareArrows, Clear } from "@mui/icons-material";
 import { removeFromCompare } from "@/Lib/Features/Compare/compareSlice";
 import { useRouter } from "next/navigation";
-import Toast from "@/Components/Toast";
+// import Toast from "@/Components/Toast";
 
 export default function Compare() {
+  const mobileSize = useMediaQuery("(max-width:580px)");
   // Toast
-  const [toastMessage, setToastMessage] = useState();
+  // const [toastMessage, setToastMessage] = useState();
   //
   const router = useRouter();
   const { compareList } = useAppSelector((state) => state.compare);
   const dispatch = useAppDispatch();
   const handleRemoveFromCompare = (product, title) => {
     dispatch(removeFromCompare({ product }));
-    setToastMessage(`${title} removed from wishlist`);
+    toast.error(`${title} removed from compare`, {
+      position: mobileSize ? "bottom-center" : "bottom-left",
+      autoClose: 3000,
+      hideProgressBar: true,
+      newestOnTop: true,
+      closeOnClick: false,
+      closeButton: false,
+      rtl: false,
+      pauseOnFocusLoss: false,
+      draggable: false,
+      pauseOnHover: false,
+      theme: "light",
+      transition: Slide,
+    });
+    // setToastMessage(`${title} removed from wishlist`);
   };
   return (
     <Container>
@@ -236,7 +253,8 @@ export default function Compare() {
           </Button>
         </Stack>
       )}
-      <Toast type="error" message={toastMessage} />
+      {/* <Toast type="error" message={toastMessage} /> */}
+      <ToastContainer/>
     </Container>
   );
 }

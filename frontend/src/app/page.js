@@ -18,6 +18,7 @@ import styles from "./page.module.css";
 import ProductCard from "@/Components/ProductCard";
 import GoUp from "@/Components/GoUp";
 import Toast from "@/Components/Toast";
+import { ToastContainer } from "react-toastify";
 export default function Home() {
   // Toast
   const [toast, setToast] = useState(false);
@@ -229,7 +230,8 @@ export default function Home() {
       </main>
       <Footer />
       <GoUp />
-      <Toast type="success" message={toast}/>
+      {/* <Toast type="success" message={toast}/> */}
+      <ToastContainer/>
     </>
   );
 }

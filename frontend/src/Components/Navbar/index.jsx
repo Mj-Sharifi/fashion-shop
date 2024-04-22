@@ -110,10 +110,10 @@ export default function Navbar() {
       .catch((err) => console.log(err));
   }, []);
   // Toast
-  const [toast, setToast] = useState(false);
-  const handleToast = (message) => {
-    setToast(message);
-  };
+  // const [toast, setToast] = useState(false);
+  // const handleToast = (message) => {
+  //   setToast(message);
+  // };
   return (
     <nav
       id="navbar"
@@ -464,7 +464,8 @@ export default function Navbar() {
                   paddingY:"10px"
                 }}
               >
-                <NavCart handleToast={handleToast}/>
+                {/* <NavCart handleToast={handleToast}/> */}
+                <NavCart/>
               </Paper>
             </Box>
           </Badge>
@@ -482,7 +483,7 @@ export default function Navbar() {
         handleMobileMenu={handleMobileMenu}
         categories={categories}
       />
-      <Toast type="error" message={toast} />
+      {/* <Toast type="error" message={toast} /> */}
     </nav>
   );
 }

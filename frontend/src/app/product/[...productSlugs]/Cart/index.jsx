@@ -1,6 +1,14 @@
 import React, { useState } from "react";
+import { toast, Slide } from "react-toastify";
 // MUI components
-import { Box, Button, Stack, Typography, IconButton } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  Typography,
+  IconButton,
+  useMediaQuery,
+} from "@mui/material";
 import {
   Add,
   Remove,
@@ -35,6 +43,7 @@ const isInComparelist = (id, compareList) => {
   return isIn;
 };
 export default function Cart({ product, handleToast }) {
+  const mobileSize = useMediaQuery("(max-width:580px)");
   // Hanlde Size
   const [size, setSize] = useState("");
   //Handle Color
@@ -49,7 +58,20 @@ export default function Cart({ product, handleToast }) {
   };
   const addToCart = () => {
     dispatch(addItem({ product, size, quantity, color }));
-    handleToast(`${product.attributes.title} added to cart`);
+    toast.success(`${product.attributes.title} added to cart`, {
+      position: mobileSize ? "bottom-center" : "bottom-left",
+      autoClose: 3000,
+      hideProgressBar: true,
+      newestOnTop: true,
+      closeOnClick: false,
+      closeButton: false,
+      rtl: false,
+      pauseOnFocusLoss: false,
+      draggable: false,
+      pauseOnHover: false,
+      theme: "light",
+      transition: Slide,
+    });
   };
   // Handle wishlist and compare
   const dispatch = useAppDispatch();
@@ -68,11 +90,40 @@ export default function Cart({ product, handleToast }) {
         isAvailable: product.attributes.isAvailable,
       })
     );
-    handleToast(`${product.attributes.title} added to wishlist`);
+    toast.success(`${product.attributes.title} added to wishlist`, {
+      position: mobileSize ? "bottom-center" : "bottom-left",
+      autoClose: 3000,
+      hideProgressBar: true,
+      newestOnTop: true,
+      closeOnClick: false,
+      closeButton: false,
+      rtl: false,
+      pauseOnFocusLoss: false,
+      draggable: false,
+      pauseOnHover: false,
+      theme: "light",
+      transition: Slide,
+    });
+    // handleToast(`${product.attributes.title} added to wishlist`);
   };
   const handleCompare = () => {
     dispatch(addToCompare({ product }));
-    handleToast(`${product?.attributes.title} added to compare`);
+    toast.success(`${product.attributes.title} added to compare`, {
+      position: mobileSize ? "bottom-center" : "bottom-left",
+      autoClose: 3000,
+      hideProgressBar: true,
+      newestOnTop: true,
+      closeOnClick: false,
+      closeButton: false,
+      rtl: false,
+      pauseOnFocusLoss: false,
+      draggable: false,
+      pauseOnHover: false,
+      theme: "light",
+      transition: Slide,
+    });
+
+    // handleToast(`${product?.attributes.title} added to compare`);
   };
   return (
     <>
