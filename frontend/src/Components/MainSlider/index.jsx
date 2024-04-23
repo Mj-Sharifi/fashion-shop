@@ -7,10 +7,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
-import "swiper/css/pagination";
+
 import "./styles.css";
 // import required modules
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Autoplay } from "swiper/modules";
 import { useEffect, useState } from "react";
 export default function MainSlider() {
   const [slides, setSlides] = useState();
@@ -24,7 +24,11 @@ export default function MainSlider() {
   return (
     <Swiper
       navigation={true}
-      modules={[Navigation ]}
+      autoplay={{
+        delay: 5000,
+        disableOnInteraction: false,
+      }}
+      modules={[Navigation ,Autoplay]}
       className="mySwiper main-slider"
     >
       {slides?.map((e, i) => (

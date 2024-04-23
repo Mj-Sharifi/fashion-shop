@@ -6,16 +6,29 @@ import {
   Rating,
   Button,
   IconButton,
+  useMediaQuery,
 } from "@mui/material";
 import { FavoriteBorderOutlined, CompareArrows } from "@mui/icons-material";
 import React from "react";
 import Link from "next/link";
+import { toast, Slide } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "@/Lib/hooks";
 import { addToWishlist } from "@/Lib/Features/Wishlist/wishSlice";
+import { addToCompare } from "@/Lib/Features/Compare/compareSlice";
 const isInWishlist = (id, wishlist) => {
   let isIn = false;
   for (const w of wishlist) {
-    if (id == w.id) {
+    if (id == w?.id) {
+      isIn = true;
+      break;
+    }
+  }
+  return isIn;
+};
+const isInComparelist = (id, compareList) => {
+  let isIn = false;
+  for (const c of compareList) {
+    if (id == c?.id) {
       isIn = true;
       break;
     }
@@ -34,9 +47,58 @@ export default function DetailedProductCard({
   shortDescription,
   isNew,
   isAvailable,
+  product
 }) {
-  const { wishlist } = useAppSelector((state) => state.wishlist);
+  const mobileSize = useMediaQuery("(max-width:580px)");
+  // Handle wishlist and compare
   const dispatch = useAppDispatch();
+  const { wishlist } = useAppSelector((state) => state.wishlist);
+  const { compareList } = useAppSelector((state) => state.compare);
+  const handleWishlist = () => {
+    dispatch(
+      addToWishlist({
+        id,
+        title,
+        imageprimary: imgPrimary,
+        price,
+        discount,
+        isAvailable,
+      })
+    );
+    toast.success(`${title} added to wishlist`, {
+      position: mobileSize ? "bottom-center" : "bottom-left",
+      autoClose: 3000,
+      hideProgressBar: true,
+      newestOnTop: true,
+      closeOnClick: false,
+      closeButton: false,
+      rtl: false,
+      pauseOnFocusLoss: false,
+      draggable: false,
+      pauseOnHover: false,
+      theme: "light",
+      transition: Slide,
+    });
+  };
+  const handleCompare = () => {
+    dispatch(
+      addToCompare({product})
+    );
+    toast.success(`${title} added to compare`, {
+      position: mobileSize ? "bottom-center" : "bottom-left",
+      autoClose: 3000,
+      hideProgressBar: true,
+      newestOnTop: true,
+      closeOnClick: false,
+      closeButton: false,
+      rtl: false,
+      pauseOnFocusLoss: false,
+      draggable: false,
+      pauseOnHover: false,
+      theme: "light",
+      transition: Slide,
+    });
+  };
   return (
     <Stack
       sx={{
@@ -153,7 +215,9 @@ export default function DetailedProductCard({
           {shortDescription?.split(" ").slice(0, 20).join(" ")}...
         </Typography>
         <Stack direction={"row"} gap={3}>
-          <Link href={`/product/${id}/${title.toLowerCase().replace(/ /g,"-")}`}>
+          <Link
+            href={`/product/${id}/${title.toLowerCase().replace(/ /g, "-")}`}
+          >
             <Button
               sx={{
                 height: "40px",
@@ -197,7 +261,7 @@ export default function DetailedProductCard({
               {isAvailable ? "More info ..." : "Out of Stock"}
             </Button>
           </Link>
-          <IconButton
+          {/* <IconButton
             disableRipple
             sx={{ padding: "0" }}
             onClick={() =>
@@ -228,6 +292,40 @@ export default function DetailedProductCard({
             <CompareArrows
               sx={{
                 transition: "all 0.3s",
+                "&:hover": { color: "colors.violet" },
+              }}
+            />
+          </IconButton> */}
+          <IconButton
+            disableRipple
+            sx={{ padding: "0" }}
+            onClick={handleWishlist}
+          >
+            <FavoriteBorderOutlined
+              sx={{
+                transition: "all 0.3s",
+                cursor: `${
+                  isInWishlist(id, wishlist) ? "not-allowed" : "pointer"
+                }`,
+                color: `${isInWishlist(id, wishlist) ? "colors.violet" : ""}`,
+                "&:hover": { color: "colors.violet" },
+              }}
+            />
+          </IconButton>
+          <IconButton
+            disableRipple
+            sx={{ padding: "0" }}
+            onClick={handleCompare}
+          >
+            <CompareArrows
+              sx={{
+                transition: "all 0.3s",
+                cursor: `${
+                  isInComparelist(id, compareList) ? "not-allowed" : "pointer"
+                }`,
+                color: `${
+                  isInComparelist(id, compareList) ? "colors.violet" : ""
+                }`,
                 "&:hover": { color: "colors.violet" },
               }}
             />

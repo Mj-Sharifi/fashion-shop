@@ -695,7 +695,6 @@ export default function Collection() {
                         price={e?.attributes.price}
                         isNew={e?.attributes.isNew}
                         isAvailable={e?.attributes.isAvailable}
-
                       />
                     </Grid>
                   ))}
@@ -728,6 +727,7 @@ export default function Collection() {
                         isNew={e?.attributes.isNew}
                         isAvailable={e?.attributes.isAvailable}
                         shortDescription={e?.attributes.shortDescription}
+                        product={e}
                       />
                     </Grid>
                   ))}

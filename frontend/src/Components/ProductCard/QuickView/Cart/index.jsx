@@ -49,7 +49,7 @@ export default function ProductCart({ product}) {
   const handleDecrease = () => {
     quantity > 1 && setQuantity(quantity - 1);
   };
-  console.log(product)
+
   const addToCart = () => {
     dispatch(addItem({ product, size, quantity, color }));
     toast.success(`${product.attributes.title} added to cart`, {

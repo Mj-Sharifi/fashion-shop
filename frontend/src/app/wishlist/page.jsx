@@ -46,7 +46,23 @@ export default function Wishlist() {
       transition: Slide,
     });
   };
-
+  const handleRemoveAllWishlist = (id, title) => {
+    dispatch(removeAllWishlist())
+    toast.error(`All items removed from wishlist`, {
+      position: mobileSize ? "bottom-center" : "bottom-left",
+      autoClose: 3000,
+      hideProgressBar: true,
+      newestOnTop: true,
+      closeOnClick: false,
+      closeButton: false,
+      rtl: false,
+      pauseOnFocusLoss: false,
+      draggable: false,
+      pauseOnHover: false,
+      theme: "light",
+      transition: Slide,
+    });
+  };
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
       {wishlist.length ? (
@@ -190,7 +206,7 @@ export default function Wishlist() {
                   color: "text.white",
                 },
               }}
-              onClick={() => dispatch(removeAllWishlist())}
+              onClick={handleRemoveAllWishlist}
             >
               Clear Wishlist
             </Button>

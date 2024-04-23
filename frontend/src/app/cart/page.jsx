@@ -26,17 +26,108 @@ import {
   FormControl,
   Select,
   MenuItem,
+  useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import countryList from "@/Utils/countries";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 export default function Cart() {
+  const mobileSize = useMediaQuery("(max-width:580px)");
   const router = useRouter();
   // importing Shopping List from Redux
   const { list } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
+  const handleDecreaseQuantity = (event, item) => {
 
+    dispatch(
+      decreaseQuantity({
+        id: item.id,
+        size: item.size,
+        color: item.color,
+      })
+    );
+    toast.error(`1 ${item.attributes.title} removed from the cart`, {
+      position: mobileSize ? "bottom-center" : "bottom-left",
+      autoClose: 3000,
+      hideProgressBar: true,
+      newestOnTop: true,
+      closeOnClick: false,
+      closeButton: false,
+      rtl: false,
+      pauseOnFocusLoss: false,
+      draggable: false,
+      pauseOnHover: false,
+      theme: "light",
+      transition: Slide,
+    });
+  };
+  const handleIncreaseQuantity = (event, item) => {
+
+    dispatch(
+      increaseQuantity({
+        id: item.id,
+        size: item.size,
+        color: item.color,
+      })
+    );
+    toast.success(`1 ${item.attributes.title} added to the cart`, {
+      position: mobileSize ? "bottom-center" : "bottom-left",
+      autoClose: 3000,
+      hideProgressBar: true,
+      newestOnTop: true,
+      closeOnClick: false,
+      closeButton: false,
+      rtl: false,
+      pauseOnFocusLoss: false,
+      draggable: false,
+      pauseOnHover: false,
+      theme: "light",
+      transition: Slide,
+    });
+  };
+  const handleRemoveItem = (event, item) => {
+    dispatch(
+      removeItem({
+        id: item.id,
+        size: item.size,
+        color: item.color,
+      })
+    );
+    toast.error(`${item.attributes.title} removed from the cart`, {
+      position: mobileSize ? "bottom-center" : "bottom-left",
+      autoClose: 3000,
+      hideProgressBar: true,
+      newestOnTop: true,
+      closeOnClick: false,
+      closeButton: false,
+      rtl: false,
+      pauseOnFocusLoss: false,
+      draggable: false,
+      pauseOnHover: false,
+      theme: "light",
+      transition: Slide,
+    });
+  };
+  const handleRemoveAll = (event, item) => {
+    dispatch(removeAll())
+    toast.error(`All items removed from the cart`, {
+      position: mobileSize ? "bottom-center" : "bottom-left",
+      autoClose: 3000,
+      hideProgressBar: true,
+      newestOnTop: true,
+      closeOnClick: false,
+      closeButton: false,
+      rtl: false,
+      pauseOnFocusLoss: false,
+      draggable: false,
+      pauseOnHover: false,
+      theme: "light",
+      transition: Slide,
+    });
+  };
   // Calculating the total price
   let totalPrice = 0;
   for (const i of list) {
@@ -94,15 +185,7 @@ export default function Cart() {
                     <TableCell sx={{ width: "5%" }}>
                       <IconButton
                         sx={{ backgroundColor: "transparent" }}
-                        onClick={() =>
-                          dispatch(
-                            removeItem({
-                              id: e.id,
-                              size: e.size,
-                              color: e.color,
-                            })
-                          )
-                        }
+                        onClick={(event, item) => handleRemoveItem(event, e)}
                       >
                         <Clear />
                       </IconButton>
@@ -111,8 +194,10 @@ export default function Cart() {
                       <Box
                         component={"img"}
                         src={
-                          process.env.NEXT_PUBLIC_BASE_URL +
-                          e.attributes.imageprimary.data.attributes.url
+                          typeof e.attributes.imageprimary === "string"
+                            ? e.attributes.imageprimary
+                            : process.env.NEXT_PUBLIC_BASE_URL +
+                              e.attributes?.imageprimary?.data.attributes.url
                         }
                         alt={e.attributes.title}
                         width={"100%"}
@@ -178,15 +263,10 @@ export default function Cart() {
                         <IconButton
                           disableRipple
                           sx={{ padding: "0" }}
-                          onClick={() =>
-                            dispatch(
-                              decreaseQuantity({
-                                id: e.id,
-                                size: e.size,
-                                color: e.color,
-                              })
-                            )
-                          }
+                          // onClick={(event, item) =>
+                          //   handleDecreaseQuantity(event, e)
+                          // }
+                          onClick={(event, item) => handleDecreaseQuantity(event, e)}
                           disabled={e.quantity === 1}
                         >
                           <Remove
@@ -201,15 +281,9 @@ export default function Cart() {
                         <IconButton
                           disableRipple
                           sx={{ padding: "0" }}
-                          onClick={() =>
-                            dispatch(
-                              increaseQuantity({
-                                id: e.id,
-                                size: e.size,
-                                color: e.color,
-                              })
-                            )
-                          }
+                          // onClick={() => (event, item) =>
+                          //   handleIncreaseQuantity(event, e)}
+                            onClick={(event, item) => handleIncreaseQuantity(event, e)}
                         >
                           <Add
                             sx={{
@@ -274,7 +348,7 @@ export default function Cart() {
                   color: "text.white",
                 },
               }}
-              onClick={() => dispatch(removeAll())}
+              onClick={() => dispatch(handleRemoveAll)}
             >
               Clear Shopping Cart
             </Button>
@@ -590,6 +664,7 @@ export default function Cart() {
           </Link>
         </Stack>
       )}
+      <ToastContainer />
     </>
   );
 }

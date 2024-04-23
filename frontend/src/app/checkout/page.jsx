@@ -31,6 +31,7 @@ export default function Checkout() {
   const handleCountry = (event) => {
     setCountry(event.target.value);
   };
+
   return (
     <Container>
       <Grid container spacing={5}>
@@ -333,16 +334,16 @@ export default function Checkout() {
               <Typography variant="menuItems">Total</Typography>
             </Stack>
             <Divider sx={{ marginBottom: "30px", marginTop: "20px" }} />
-            {list.map((e, i) => (
-              <Stack key={i} direction={"row"} justifyContent={"space-between"}>
+            {list?.map((e, i) => (
+              <Stack key={i} direction={"row"} justifyContent={"space-between"} alignItems={"center"}>
                 <Typography variant="body2">
-                  {e.atttibutes.title}
-                  <Close />
-                  {e.atttibutes.quantity}
+                  {e?.attributes.title}
+                  {/* <Close fontSize="emall"/> */}<span>&nbsp; x</span>
+                  {e?.quantity}
                 </Typography>
                 <Typography variant="body2">
                   ${" "}
-                  {e.quantity *
+                  {e?.quantity *
                     (e.attributes.price -
                       (e.attributes.discount / 100) * e.attributes.price)}
                 </Typography>
@@ -355,8 +356,8 @@ export default function Checkout() {
             </Stack>
             <Divider sx={{ marginBottom: "30px", marginTop: "20px" }} />
             <Stack direction={"row"} justifyContent={"space-between"}>
-              <Typography variant="menuItems">Total</Typography>
-              <Typography variant="menuItems" sx={{ color: "colors.violet" }}>
+              <Typography variant="h5">Total</Typography>
+              <Typography variant="h5" sx={{ color: "colors.violet" }}>
                 & {totalPrice}
               </Typography>
             </Stack>

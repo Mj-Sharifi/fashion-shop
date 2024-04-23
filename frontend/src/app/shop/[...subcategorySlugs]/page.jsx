@@ -532,6 +532,7 @@ export default function Subcategory({ params }) {
                         isNew={e?.attributes.isNew}
                         isAvailable={e?.attributes.isAvailable}
                         shortDescription={e?.attributes.shortDescription}
+                        product={e}
                       />
                     </Grid>
                   ))}
