@@ -12,7 +12,7 @@ import React from "react";
 import ProductSlider from "./ProductSlider";
 import ProductCart from "./Cart";
 
-export default function QuickView({ quickView, product,handleQuickViewClose,handleToast }) {
+export default function QuickView({ quickView, product,handleQuickViewClose }) {
   return (
     <Dialog
       open={quickView}
@@ -84,7 +84,7 @@ export default function QuickView({ quickView, product,handleQuickViewClose,hand
           <Divider sx={{ marginY: "25px", bgcolor: "colors.darkgray" }} />
 
           {/* Add to Cart Button */}
-          <ProductCart product={product} handleToast={handleToast}/>
+          <ProductCart product={product}/>
         </Stack>
       </Stack>
     </Dialog>

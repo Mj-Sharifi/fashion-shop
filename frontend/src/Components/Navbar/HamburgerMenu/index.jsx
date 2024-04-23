@@ -14,7 +14,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { SimpleTreeView, TreeItem } from "@mui/x-tree-view";
 import { useAppDispatch, useAppSelector } from "@/Lib/hooks";
-const menuItems = ["Home", "Shop", "Blog", "Contact"];
+const menuItems = ["Home", "Shop", "Contact"];
 export default function HamburgerMenu({
   mobileMenu,
   handleMobileMenu,

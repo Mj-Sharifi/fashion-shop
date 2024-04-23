@@ -24,17 +24,14 @@ import {
   removeFromWishlist,
 } from "@/Lib/Features/Wishlist/wishSlice";
 import { toast,Slide, ToastContainer } from "react-toastify";
-import Toast from "@/Components/Toast";
+import 'react-toastify/dist/ReactToastify.min.css'
 export default function Wishlist() {
   const mobileSize = useMediaQuery("(max-width:580px)");
-  // Toast
-  // const [toastMessage, setToastMessage] = useState();
-  //
   const { wishlist } = useAppSelector((state) => state.wishlist);
   const dispatch = useAppDispatch();
   const handleRemoveFromWishlist = (id, title) => {
     dispatch(removeFromWishlist({ id }));
-    toast.error(`${product.attributes.title} removed from wishlist`, {
+    toast.error(`${title} removed from wishlist`, {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
@@ -48,7 +45,6 @@ export default function Wishlist() {
       theme: "light",
       transition: Slide,
     });
-    // setToastMessage(`${title} removed from wishlist`);
   };
 
   return (
@@ -226,7 +222,6 @@ export default function Wishlist() {
           </Link>
         </Stack>
       )}
-      {/* <Toast type="error" message={toastMessage} /> */}
       <ToastContainer/>
     </Container>
   );

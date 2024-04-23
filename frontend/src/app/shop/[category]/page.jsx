@@ -24,17 +24,13 @@ import Loading from "@/Components/Loading";
 import { Apps, ExpandMore, FormatListBulleted } from "@mui/icons-material";
 import DetailedProductCard from "@/Components/DetailedProductCard";
 import GoUp from "@/Components/GoUp";
-import Toast from "@/Components/Toast";
 import { toast,Slide, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.min.css'
 import SearchBar from "@/Components/SearchBar";
 
 export default function Category({ params }) {
   const mobileSize = useMediaQuery("(max-width:580px)");
-  // Toast
-  // const [toast, setToast] = useState(false);
-  // const handleToast = (message) => {
-  //   setToast(message);
-  // };
+
   // Page Layout
   const [layout, setLayout] = useState("card");
   const handleLayout = (event, newLayout) => {
@@ -279,6 +275,7 @@ export default function Category({ params }) {
                       <ExpandMore
                         sx={{
                           cursor: "pointer",
+                          transition:"all 0.3s",
                           transform: `${categoryExpanded && "rotate(180deg)"}`,
                         }}
                         onClick={handleCategoryExpansion}
@@ -349,8 +346,9 @@ export default function Category({ params }) {
                         <ExpandMore
                           sx={{
                             cursor: "pointer",
+                            transition:"all 0.3s",
                             transform: `${
-                              categoryExpanded && "rotate(180deg)"
+                              colorsExpanded && "rotate(180deg)"
                             }`,
                           }}
                           onClick={handleColorExpansion}
@@ -442,8 +440,9 @@ export default function Category({ params }) {
                         <ExpandMore
                           sx={{
                             cursor: "pointer",
+                            transition:"all 0.3s",
                             transform: `${
-                              categoryExpanded && "rotate(180deg)"
+                              sizeExpanded && "rotate(180deg)"
                             }`,
                           }}
                           onClick={handleSizeExpansion}
@@ -600,7 +599,7 @@ export default function Category({ params }) {
                         price={e?.attributes.price}
                         isNew={e?.attributes.isNew}
                         isAvailable={e?.attributes.isAvailable}
-                        // handleToast={handleToast}
+
                       />
                     </Grid>
                   ))}
@@ -660,7 +659,6 @@ export default function Category({ params }) {
           </Grid>
           <GoUp />
           <ToastContainer/>
-          {/* <Toast type="success" message={toast} /> */}
         </>
       ) : (
         <Loading />

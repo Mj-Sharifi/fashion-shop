@@ -84,7 +84,7 @@ export default function ProductCard({
       theme: "light",
       transition: Slide,
     });
-    // handleToast(`${title} added to wishlist`)
+
   };
   
   return (

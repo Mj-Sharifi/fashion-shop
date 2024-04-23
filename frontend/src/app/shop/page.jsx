@@ -24,18 +24,12 @@ import Loading from "@/Components/Loading";
 import { Apps, ExpandMore, FormatListBulleted } from "@mui/icons-material";
 import DetailedProductCard from "@/Components/DetailedProductCard";
 import GoUp from "@/Components/GoUp";
-import Toast from "@/Components/Toast";
-import Search from "@/Components/SearchBar";
 import SearchBar from "@/Components/SearchBar";
 import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.min.css'
 
 export default function Collection() {
   const mobileSize = useMediaQuery("(max-width:580px)");
-    // Toast
-    // const [toast,setToast] = useState(false)
-    // const handleToast = (message)=>{
-    //   setToast(message)
-    // }
   // Page Layout
   const [layout, setLayout] = useState("card");
   const handleLayout = (event, newLayout) => {
@@ -306,6 +300,7 @@ export default function Collection() {
                       <ExpandMore
                         sx={{
                           cursor: "pointer",
+                          transition:"all 0.3s",
                           transform: `${categoryExpanded && "rotate(180deg)"}`,
                         }}
                         onClick={handleCategoryExpansion}
@@ -375,6 +370,7 @@ export default function Collection() {
                       <ExpandMore
                         sx={{
                           cursor: "pointer",
+                          transition:"all 0.3s",
                           transform: `${
                             subcategoryExpanded && "rotate(180deg)"
                           }`,
@@ -447,8 +443,9 @@ export default function Collection() {
                         <ExpandMore
                           sx={{
                             cursor: "pointer",
+                            transition:"all 0.3s",
                             transform: `${
-                              categoryExpanded && "rotate(180deg)"
+                              colorsExpanded && "rotate(180deg)"
                             }`,
                           }}
                           onClick={handleColorExpansion}
@@ -539,8 +536,9 @@ export default function Collection() {
                         <ExpandMore
                           sx={{
                             cursor: "pointer",
+                            transition:"all 0.3s",
                             transform: `${
-                              categoryExpanded && "rotate(180deg)"
+                              sizeExpanded && "rotate(180deg)"
                             }`,
                           }}
                           onClick={handleSizeExpansion}
@@ -697,7 +695,7 @@ export default function Collection() {
                         price={e?.attributes.price}
                         isNew={e?.attributes.isNew}
                         isAvailable={e?.attributes.isAvailable}
-                        handleToast={handleToast}
+
                       />
                     </Grid>
                   ))}
@@ -757,8 +755,6 @@ export default function Collection() {
             </Grid>
           </Grid>
           <GoUp />
-          {/* <Toast type="success" message={toast}/> */}
-
           <ToastContainer/>
         </>
       ) : (

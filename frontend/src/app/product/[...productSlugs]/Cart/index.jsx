@@ -42,7 +42,7 @@ const isInComparelist = (id, compareList) => {
   }
   return isIn;
 };
-export default function Cart({ product, handleToast }) {
+export default function Cart({ product }) {
   const mobileSize = useMediaQuery("(max-width:580px)");
   // Hanlde Size
   const [size, setSize] = useState("");
@@ -104,7 +104,6 @@ export default function Cart({ product, handleToast }) {
       theme: "light",
       transition: Slide,
     });
-    // handleToast(`${product.attributes.title} added to wishlist`);
   };
   const handleCompare = () => {
     dispatch(addToCompare({ product }));
@@ -122,8 +121,6 @@ export default function Cart({ product, handleToast }) {
       theme: "light",
       transition: Slide,
     });
-
-    // handleToast(`${product?.attributes.title} added to compare`);
   };
   return (
     <>

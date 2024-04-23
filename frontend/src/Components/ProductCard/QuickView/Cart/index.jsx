@@ -35,7 +35,7 @@ const isInComparelist = (id, compareList) => {
   }
   return isIn;
 };
-export default function ProductCart({ product, handleToast }) {
+export default function ProductCart({ product}) {
   const mobileSize = useMediaQuery("(max-width:580px)");
   // Hanlde Size
   const [size, setSize] = useState();
@@ -96,7 +96,7 @@ export default function ProductCart({ product, handleToast }) {
       theme: "light",
       transition: Slide,
     });
-    // handleToast(`${product.attributes.title} added to wishlist`);
+
   };
   const handleCompare = () => {
   
@@ -115,7 +115,7 @@ export default function ProductCart({ product, handleToast }) {
       theme: "light",
       transition: Slide,
     });
-    // handleToast(`${product.attributes.title} added to compare`);
+
   };
   return (
     <>
@@ -153,7 +153,9 @@ export default function ProductCart({ product, handleToast }) {
                         width: "100%",
                         height: "100%",
                         borderRadius: "100%",
-                        bgcolor: e?.attributes.color,
+                        bgcolor: e?.attributes.color
+                        .toLowerCase()
+                        .replace(/ /g, ""),
                       }}
                       onClick={(e) => setColor(e.target.id)}
                     ></Box>

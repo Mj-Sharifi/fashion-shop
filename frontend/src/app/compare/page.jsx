@@ -21,7 +21,7 @@ import React, { useState } from "react";
 import { CompareArrows, Clear } from "@mui/icons-material";
 import { removeFromCompare } from "@/Lib/Features/Compare/compareSlice";
 import { useRouter } from "next/navigation";
-// import Toast from "@/Components/Toast";
+import 'react-toastify/dist/ReactToastify.min.css'
 
 export default function Compare() {
   const mobileSize = useMediaQuery("(max-width:580px)");

@@ -13,7 +13,7 @@ import { Close } from "@mui/icons-material";
 import { removeItem } from "@/Lib/Features/Cart/cartSlice";
 import { toast, Slide } from "react-toastify";
 import Link from "next/link";
-export default function NavCart({ handleToast }) {
+export default function NavCart({  }) {
   const mobileSize = useMediaQuery("(max-width:580px)");
   // importing Shopping List from Redux
   const { list } = useAppSelector((state) => state.cart);
@@ -35,8 +35,6 @@ export default function NavCart({ handleToast }) {
       transition: Slide,
     });
 
-    console.log(`${title} removed from cart`);
-    // handleToast(`${title} removed from cart`);
   };
   // Calculating the total price
   let totalPrice = 0;
@@ -48,7 +46,6 @@ export default function NavCart({ handleToast }) {
           (i.attributes.discount / 100) * i.attributes.price);
     }
   }, [list]);
-  console.log(typeof list[0].attributes.imageprimary);
   return (
     <>
       {list.length ? (

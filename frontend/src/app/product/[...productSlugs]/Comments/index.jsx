@@ -80,6 +80,7 @@ export default function Comments({ productId }) {
                   key={n}
                   direction={{ xs: "column", sm: "row" }}
                   gap={2}
+                  marginBottom={"16px"}
                   paddingLeft={{ xs: 3, sm: 5 }}
                   width={"100%"}
                 >

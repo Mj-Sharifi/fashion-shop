@@ -29,9 +29,9 @@ import "swiper/css/pagination";
 import "./styles.css";
 import ProductCard from "@/Components/ProductCard";
 import GoUp from "@/Components/GoUp";
-import Toast from "@/Components/Toast";
+// Toastify
 import { ToastContainer } from "react-toastify";
-
+import 'react-toastify/dist/ReactToastify.min.css'
 export default function ProductDetail({ params }) {
   //
   const [product, setProduct] = useState();
@@ -127,7 +127,6 @@ export default function ProductDetail({ params }) {
               <Divider sx={{ marginY: "25px", bgcolor: "colors.darkgray" }} />
 
               {/* Add to Cart Button */}
-              {/* <Cart product={product} handleToast={handleToast} /> */}
               <Cart product={product}/>
             </Stack>
           </Stack>
@@ -270,7 +269,6 @@ export default function ProductDetail({ params }) {
                     price={e?.attributes.price}
                     isNew={e?.attributes.isNew}
                     isAvailable={e?.attributes.isAvailable}
-                    // handleToast={handleToast}
                   />
                 </SwiperSlide>
               ))}

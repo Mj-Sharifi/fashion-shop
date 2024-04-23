@@ -28,8 +28,7 @@ import MegaMenu from "./MegaMenu";
 import NavCart from "./NavCart";
 import { useAppSelector, useAppDispatch } from "@/Lib/hooks";
 import { handleLogout } from "@/Lib/Features/Auth/authSlice";
-import Toast from "../Toast";
-const menuItems = ["Home", "Shop", "Blog", "Contact"];
+const menuItems = ["Home", "Shop", "Contact"];
 
 export default function Navbar() {
   const tabletSize = useMediaQuery("(max-width:800px)");
@@ -43,16 +42,16 @@ export default function Navbar() {
   // Handle Sticky Navbar
   const navbar = useRef();
   const [stickyClass, setSticykClass] = useState(false);
-  useEffect(()=>{
-    window.addEventListener("scroll",()=>{
-      if(window.scrollY>80){
-        setSticykClass(true)
-      }else{
-        setSticykClass(false)
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 80) {
+        setSticykClass(true);
+      } else {
+        setSticykClass(false);
       }
-    })
-  },[])
-  
+    });
+  }, []);
+
   // Handle Search
   const [searchOpen, setSearchOpen] = useState(false);
   const handleSearch = () => {
@@ -100,7 +99,12 @@ export default function Navbar() {
   const handleLoginMenu = () => {
     setLoginMenu(!loginMenu);
   };
-
+  const handleLogoutButton = () => {
+    dispatch(handleLogout());
+    if(document.URL.includes("profile")){
+      window.location.replace("/auth");
+    }
+  };
   //Handle Categories and Subcategories
   const [categories, setCategories] = useState();
   useEffect(() => {
@@ -109,11 +113,7 @@ export default function Navbar() {
       .then((data) => setCategories(data.data))
       .catch((err) => console.log(err));
   }, []);
-  // Toast
-  // const [toast, setToast] = useState(false);
-  // const handleToast = (message) => {
-  //   setToast(message);
-  // };
+
   return (
     <nav
       id="navbar"
@@ -374,7 +374,7 @@ export default function Navbar() {
                   </Link>
                   <Typography
                     variant="body2"
-                    onClick={() => dispatch(handleLogout())}
+                    onClick={handleLogoutButton}
                     sx={{ cursor: "pointer" }}
                   >
                     Logout
@@ -461,11 +461,10 @@ export default function Navbar() {
                   transformOrigin: "top center",
                   transform: `${cartMenu ? "rotateX(0deg)" : "rotateX(90deg)"}`,
                   overflowX: "hidden",
-                  paddingY:"10px"
+                  paddingY: "10px",
                 }}
               >
-                {/* <NavCart handleToast={handleToast}/> */}
-                <NavCart/>
+                <NavCart />
               </Paper>
             </Box>
           </Badge>
