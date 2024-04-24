@@ -31,7 +31,8 @@ import ProductCard from "@/Components/ProductCard";
 import GoUp from "@/Components/GoUp";
 // Toastify
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.min.css'
+import "react-toastify/dist/ReactToastify.min.css";
+
 export default function ProductDetail({ params }) {
   //
   const [product, setProduct] = useState();
@@ -127,7 +128,7 @@ export default function ProductDetail({ params }) {
               <Divider sx={{ marginY: "25px", bgcolor: "colors.darkgray" }} />
 
               {/* Add to Cart Button */}
-              <Cart product={product}/>
+              <Cart product={product} />
             </Stack>
           </Stack>
           {/* Tabs */}
@@ -202,7 +203,7 @@ export default function ProductDetail({ params }) {
                 </Typography>
               </TabPanel>
               <TabPanel value="3">
-                <Comments productId={product?.id}/>
+                <Comments productId={product?.id} />
               </TabPanel>
             </TabContext>
           </Box>
@@ -276,8 +277,8 @@ export default function ProductDetail({ params }) {
           </Stack>
         </Container>
       )}
-      <GoUp/>
-      <ToastContainer/>
+      <GoUp />
+      <ToastContainer />
     </>
   );
 }
