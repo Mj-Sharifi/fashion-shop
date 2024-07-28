@@ -39,17 +39,48 @@ export default function Navbar() {
   const { token } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
-  // Handle Sticky Navbar
+  // Handle Sticky Navbar, Mobile Menu and Cart Dropdown Menu
   const navbar = useRef();
   const [stickyClass, setSticykClass] = useState(false);
+  // Mobile Menu
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const handleMobileMenu = () => {
+    setMobileMenu(!mobileMenu);
+  };
+  // Cart Dropdown Menu
+  const [cartMenu, setCartMenu] = useState(false);
+  const handleCartMenu = () => {
+    setCartMenu(!cartMenu);
+  };
   useEffect(() => {
-    window.addEventListener("scroll", () => {
+    // Scroll
+    const handleScroll = () => {
       if (window.scrollY > 80) {
         setSticykClass(true);
       } else {
         setSticykClass(false);
       }
-    });
+    };
+    window.addEventListener("scroll", handleScroll);
+    // Resize Mobile
+    const handleResizeMobile = () => {
+      if (window.innerWidth > 800) {
+        setMobileMenu(false);
+      }
+    };
+    window.addEventListener("resize", handleResizeMobile);
+    // Cart Dropdown Menu
+    const handleCartDropdown = () => {
+      if (window.innerWidth < 800) {
+        setCartMenu(false);
+      }
+    };
+    window.addEventListener("resize", handleCartDropdown);
+    return () => {
+      window.removeEventListener("resize", handleResizeMobile);
+      window.removeEventListener("resize", handleCartDropdown);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   // Handle Search
@@ -71,29 +102,29 @@ export default function Navbar() {
     }
   }, [searchText]);
   // Handle Mobile Menu
-  const [mobileMenu, setMobileMenu] = useState(false);
-  const handleMobileMenu = () => {
-    setMobileMenu(!mobileMenu);
-  };
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      if (window.innerWidth > 800) {
-        setMobileMenu(false);
-      }
-    });
-  }, []);
+  // const [mobileMenu, setMobileMenu] = useState(false);
+  // const handleMobileMenu = () => {
+  //   setMobileMenu(!mobileMenu);
+  // };
+  // useEffect(() => {
+  //   const handleResize = ()=>{      if (window.innerWidth > 800) {
+  //     setMobileMenu(false);
+  //   }}
+  //   window.addEventListener("resize", handleResize);
+  //   return(()=>window.removeEventListener("resize",handleResize))
+  // }, []);
   // Handle Cart Dropdown Menu
-  const [cartMenu, setCartMenu] = useState(false);
-  const handleCartMenu = () => {
-    setCartMenu(!cartMenu);
-  };
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      if (window.innerWidth < 800) {
-        setCartMenu(false);
-      }
-    });
-  }, []);
+  // const [cartMenu, setCartMenu] = useState(false);
+  // const handleCartMenu = () => {
+  //   setCartMenu(!cartMenu);
+  // };
+  // useEffect(() => {
+  //   window.addEventListener("resize", () => {
+  //     if (window.innerWidth < 800) {
+  //       setCartMenu(false);
+  //     }
+  //   });
+  // }, []);
   // Handle Login/Register Dropdown Menu
   const [loginMenu, setLoginMenu] = useState(false);
   const handleLoginMenu = () => {
@@ -101,7 +132,7 @@ export default function Navbar() {
   };
   const handleLogoutButton = () => {
     dispatch(handleLogout());
-    if(document.URL.includes("profile")){
+    if (document.URL.includes("profile")) {
       window.location.replace("/auth");
     }
   };

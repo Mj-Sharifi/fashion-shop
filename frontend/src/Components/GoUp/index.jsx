@@ -6,13 +6,15 @@ export default function GoUp() {
   const [visibility, setVisibility] = useState(false);
 
   useEffect(() => {
-    window.addEventListener("scroll", () => {
+    const handleScroll = () => {
       if (window.scrollY > 0.7 * window.innerHeight) {
         setVisibility(true);
       } else {
         setVisibility(false);
       }
-    });
+    };
+    window.addEventListener("scroll", handleScroll);
+    return(()=>window.removeEventListener("scroll", handleScroll))
   }, []);
   return (
     <IconButton
