@@ -64,6 +64,7 @@ export default function ProductSlider({ images, discount }) {
               <Box
                 component={"img"}
                 src={process.env.NEXT_PUBLIC_BASE_URL + e?.attributes.url}
+                // sx={{ cursor:"pointer" }}
               />
             </SwiperSlide>
           ))}
