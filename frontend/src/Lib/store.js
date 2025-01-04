@@ -34,6 +34,9 @@ export const store = configureStore({
     compare: persistedCompareReducer,
     auth: persistedAuthReducer,
   },
-  middleware: () => [thunk],
+  middleware:(getDefaultMiddleware) =>
+  getDefaultMiddleware({
+    serializableCheck: false,
+  })
 });
 export const persistor = persistStore(store);
