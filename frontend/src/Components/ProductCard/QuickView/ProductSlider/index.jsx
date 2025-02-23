@@ -18,58 +18,63 @@ export default function ProductSlider({ images, discount }) {
     setImgSlide(s);
   };
 
-  return (
-    <>
-      <Box width={"100%"} position={"relative"}>
-        <Box
-          component={"img"}
-          src={
-            process.env.NEXT_PUBLIC_BASE_URL + images[imgSlide]?.attributes.url
-          }
-          alt=""
-          width={"100%"}
-          px={"10%"}
-          pb={"30px"}
+  return (<>
+    <Box
+      sx={{
+        width: "100%",
+        position: "relative"
+      }}>
+      <Box
+        component={"img"}
+        src={
+          process.env.NEXT_PUBLIC_BASE_URL + images[imgSlide]?.attributes.url
+        }
+        alt=""
+        sx={{
+          width: "100%",
+          px: "10%",
+          pb: "30px"
+        }} />
+      {discount ? (
+        <Chip
+          variant="filled"
+          label={`-${discount}%`}
+          sx={{
+            position: "absolute",
+            top: "5%",
+            left: "15%",
+            width: "65px",
+            paddingY: "3px",
+            borderRadius: "5px",
+            bgcolor: "colors.pink",
+            color: "text.white",
+            fontSize: "14px",
+            fontWeight: "500",
+          }}
         />
-        {discount ? (
-          <Chip
-            variant="filled"
-            label={`-${discount}%`}
-            sx={{
-              position: "absolute",
-              top: "5%",
-              left: "15%",
-              width: "65px",
-              paddingY: "3px",
-              borderRadius: "5px",
-              bgcolor: "colors.pink",
-              color: "text.white",
-              fontSize: "14px",
-              fontWeight: "500",
-            }}
-          />
-        ) : undefined}
-      </Box>
-      <Box width={"100%"}>
-        <Swiper
-          onClick={(e) => handleSlide(e.clickedIndex)}    
-          slidesPerView={3}
-          spaceBetween={"10px"}
-          freeMode={true}
-          modules={[FreeMode]}
-          className="mySwiper product-slider"
-        >
-          {images?.map((e, i) => (
-            <SwiperSlide key={i}>
-              <Box
-                component={"img"}
-                src={process.env.NEXT_PUBLIC_BASE_URL + e?.attributes.url}
-                // sx={{ cursor:"pointer" }}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </Box>
-    </>
-  );
+      ) : undefined}
+    </Box>
+    <Box sx={{
+      width: "100%"
+    }}>
+      <Swiper
+        onClick={(e) => handleSlide(e.clickedIndex)}    
+        slidesPerView={3}
+        spaceBetween={"10px"}
+        freeMode={true}
+        modules={[FreeMode]}
+        className="mySwiper product-slider"
+      >
+        {images?.map((e, i) => (
+          <SwiperSlide key={i}>
+            <Box
+              component={"img"}
+              src={process.env.NEXT_PUBLIC_BASE_URL + e?.attributes.url}
+              // sx={{ cursor:"pointer" }}
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </Box>
+  </>);
 }
