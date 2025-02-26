@@ -15,6 +15,11 @@ import { toast, Slide } from "react-toastify";
 import { addToWishlist } from "Lib/Features/Wishlist/wishSlice";
 import { addToCompare } from "Lib/Features/Compare/compareSlice";
 import { useAppDispatch, useAppSelector } from "Hooks/redux";
+import { Image_Api, Single_Product } from "Types/api";
+
+type props = {
+  product: Single_Product;
+};
 const isInWishlist = (id, wishlist) => {
   let isIn = false;
   for (const w of wishlist) {
@@ -35,20 +40,21 @@ const isInComparelist = (id, compareList) => {
   }
   return isIn;
 };
-export default function DetailedProductCard({
-  id,
-  slug,
-  title,
-  imgPrimary,
-  imgSecondary,
-  rating,
-  price,
-  discount,
-  shortDescription,
-  isNew,
-  isAvailable,
-  product
-}) {
+export default function DetailedProductCard({ product }: props) {
+  const {
+    id,
+    attributes: {
+      title,
+      imageprimary,
+      imagesecondary,
+      rating,
+      price,
+      discount,
+      shortDescription,
+      isNew,
+      isAvailable,
+    },
+  } = product;
   const mobileSize = useMediaQuery("(max-width:580px)");
   // Handle wishlist and compare
   const dispatch = useAppDispatch();
@@ -59,7 +65,7 @@ export default function DetailedProductCard({
       addToWishlist({
         id,
         title,
-        imageprimary: imgPrimary,
+        imageprimary,
         price,
         discount,
         isAvailable,
@@ -81,9 +87,7 @@ export default function DetailedProductCard({
     });
   };
   const handleCompare = () => {
-    dispatch(
-      addToCompare({product})
-    );
+    dispatch(addToCompare({ product }));
     toast.success(`${title} added to compare`, {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
@@ -100,14 +104,14 @@ export default function DetailedProductCard({
     });
   };
   return (
-    (<Stack
-                                                                                                                                                          sx={{
-                                                                                                                                                            flexDirection: { xs: "column", md: "row" },
-                                                                                                                                                            alignItems: "center",
-                                                                                                                                                            gap: "30px",
-                                                                                                                                                            width: "100%",
-                                                                                                                                                          }}
-                                                                                                                                                        >
+    <Stack
+      sx={{
+        flexDirection: { xs: "column", md: "row" },
+        alignItems: "center",
+        gap: "30px",
+        width: "100%",
+      }}
+    >
       <Box
         sx={{
           width: { xs: "100%", md: "30%" },
@@ -123,8 +127,9 @@ export default function DetailedProductCard({
               opacity: "1 !important",
               transform: "translateX(0)",
             },
-          }
-        }}>
+          },
+        }}
+      >
         <Box
           component={"img"}
           src={imgPrimary}
@@ -153,8 +158,9 @@ export default function DetailedProductCard({
             gap: 1,
             position: "absolute",
             top: "5%",
-            right: "5%"
-          }}>
+            right: "5%",
+          }}
+        >
           {isNew && (
             <Chip
               variant="filled"
@@ -198,9 +204,12 @@ export default function DetailedProductCard({
           {title}
         </Typography>
         {discount ? (
-          <Stack direction={"row"} sx={{
-            gap: 2
-          }}>
+          <Stack
+            direction={"row"}
+            sx={{
+              gap: 2,
+            }}
+          >
             <Typography variant="h4" sx={{ color: "red" }}>
               ${(price - (price * discount) / 100).toFixed(2)}
             </Typography>
@@ -214,18 +223,22 @@ export default function DetailedProductCard({
         ) : (
           <Typography variant="h4">{`$${price.toFixed(2)}`}</Typography>
         )}
-        <Rating readOnly precision={0.5} value={rating} />
+        <Rating readOnly precision={0.5} value={+rating.slice(1)} />
         <Typography
           variant="body2"
           sx={{
             textAlign: { xs: "center", md: "start" },
-            opacity: "0.7"
-          }}>
+            opacity: "0.7",
+          }}
+        >
           {shortDescription?.split(" ").slice(0, 20).join(" ")}...
         </Typography>
-        <Stack direction={"row"} sx={{
-          gap: 3
-        }}>
+        <Stack
+          direction={"row"}
+          sx={{
+            gap: 3,
+          }}
+        >
           <Link
             href={`/product/${id}/${title.toLowerCase().replace(/ /g, "-")}`}
           >
@@ -343,6 +356,6 @@ export default function DetailedProductCard({
           </IconButton>
         </Stack>
       </Stack>
-    </Stack>)
+    </Stack>
   );
 }

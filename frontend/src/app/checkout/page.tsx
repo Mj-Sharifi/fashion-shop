@@ -33,23 +33,26 @@ export default function Checkout() {
   };
 
   return (
-    (<Container>
+    <Container>
       <Grid2 container spacing={5}>
         <Grid2
-          item
-          xs={12}
-          md={7}
+          size={{ xs: 12, md: 7 }}
           sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
         >
           <Typography variant="h4" gutterBottom>
             Billing Details
           </Typography>
-          <Stack direction={{ xs: "column", sm: "row" }} sx={{
-            columnGap: 2
-          }}>
-            <Stack sx={{
-              width: { xs: "100%", sm: "50%" }
-            }}>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            sx={{
+              columnGap: 2,
+            }}
+          >
+            <Stack
+              sx={{
+                width: { xs: "100%", sm: "50%" },
+              }}
+            >
               First Name
               <Input
                 name="firstName"
@@ -70,9 +73,11 @@ export default function Checkout() {
                 }}
               />
             </Stack>
-            <Stack sx={{
-              width: { xs: "100%", sm: "50%" }
-            }}>
+            <Stack
+              sx={{
+                width: { xs: "100%", sm: "50%" },
+              }}
+            >
               Last Name
               <Input
                 name="lastName"
@@ -94,9 +99,11 @@ export default function Checkout() {
               />
             </Stack>
           </Stack>
-          <Stack sx={{
-            width: { xs: "100%" }
-          }}>
+          <Stack
+            sx={{
+              width: { xs: "100%" },
+            }}
+          >
             Company Name
             <Input
               name="companyName"
@@ -117,9 +124,11 @@ export default function Checkout() {
               }}
             />
           </Stack>
-          <Stack sx={{
-            width: "100%"
-          }}>
+          <Stack
+            sx={{
+              width: "100%",
+            }}
+          >
             Country
             <FormControl fullWidth>
               <Select
@@ -148,9 +157,11 @@ export default function Checkout() {
               </Select>
             </FormControl>
           </Stack>
-          <Stack sx={{
-            width: { xs: "100%" }
-          }}>
+          <Stack
+            sx={{
+              width: { xs: "100%" },
+            }}
+          >
             Street Addres
             <Input
               name="companyName"
@@ -193,9 +204,11 @@ export default function Checkout() {
               }}
             />
           </Stack>
-          <Stack sx={{
-            width: { xs: "100%" }
-          }}>
+          <Stack
+            sx={{
+              width: { xs: "100%" },
+            }}
+          >
             Town / City
             <Input
               name="companyName"
@@ -220,11 +233,14 @@ export default function Checkout() {
             direction={{ xs: "column", sm: "row" }}
             sx={{
               width: "100%",
-              gap: 2
-            }}>
-            <Stack sx={{
-              width: { xs: "100%", sm: "50%" }
-            }}>
+              gap: 2,
+            }}
+          >
+            <Stack
+              sx={{
+                width: { xs: "100%", sm: "50%" },
+              }}
+            >
               State / County
               <Input
                 name="companyName"
@@ -245,9 +261,11 @@ export default function Checkout() {
                 }}
               />
             </Stack>
-            <Stack sx={{
-              width: { xs: "100%", sm: "50%" }
-            }}>
+            <Stack
+              sx={{
+                width: { xs: "100%", sm: "50%" },
+              }}
+            >
               Postcode / ZIP
               <Input
                 name="companyName"
@@ -273,11 +291,14 @@ export default function Checkout() {
             direction={{ xs: "column", sm: "row" }}
             sx={{
               width: "100%",
-              gap: 2
-            }}>
-            <Stack sx={{
-              width: { xs: "100%", sm: "50%" }
-            }}>
+              gap: 2,
+            }}
+          >
+            <Stack
+              sx={{
+                width: { xs: "100%", sm: "50%" },
+              }}
+            >
               Phone
               <Input
                 name="companyName"
@@ -298,9 +319,11 @@ export default function Checkout() {
                 }}
               />
             </Stack>
-            <Stack sx={{
-              width: { xs: "100%", sm: "50%" }
-            }}>
+            <Stack
+              sx={{
+                width: { xs: "100%", sm: "50%" },
+              }}
+            >
               Email Address
               <Input
                 name="companyName"
@@ -347,9 +370,7 @@ export default function Checkout() {
           />
         </Grid2>
         <Grid2
-          item
-          xs={12}
-          md={5}
+          size={{ xs: 12, md: 7 }}
           sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
         >
           <Typography variant="h4">Your Order</Typography>
@@ -361,9 +382,12 @@ export default function Checkout() {
               borderRadius: "2%",
             }}
           >
-            <Stack direction={"row"} sx={{
-              justifyContent: "space-between"
-            }}>
+            <Stack
+              direction={"row"}
+              sx={{
+                justifyContent: "space-between",
+              }}
+            >
               <Typography variant="menuItems">Prodcut</Typography>
               <Typography variant="menuItems">Total</Typography>
             </Stack>
@@ -374,11 +398,13 @@ export default function Checkout() {
                 direction={"row"}
                 sx={{
                   justifyContent: "space-between",
-                  alignItems: "center"
-                }}>
+                  alignItems: "center",
+                }}
+              >
                 <Typography variant="body2">
                   {e?.attributes.title}
-                  {/* <Close fontSize="emall"/> */}<span>&nbsp; x</span>
+                  {/* <Close fontSize="emall"/> */}
+                  <span>&nbsp; x</span>
                   {e?.quantity}
                 </Typography>
                 <Typography variant="body2">
@@ -390,16 +416,22 @@ export default function Checkout() {
               </Stack>
             ))}
             <Divider sx={{ marginBottom: "30px", marginTop: "20px" }} />
-            <Stack direction={"row"} sx={{
-              justifyContent: "space-between"
-            }}>
+            <Stack
+              direction={"row"}
+              sx={{
+                justifyContent: "space-between",
+              }}
+            >
               <Typography variant="body2">Shipping</Typography>
               <Typography variant="body2">Free Shipping</Typography>
             </Stack>
             <Divider sx={{ marginBottom: "30px", marginTop: "20px" }} />
-            <Stack direction={"row"} sx={{
-              justifyContent: "space-between"
-            }}>
+            <Stack
+              direction={"row"}
+              sx={{
+                justifyContent: "space-between",
+              }}
+            >
               <Typography variant="h5">Total</Typography>
               <Typography variant="h5" sx={{ color: "colors.violet" }}>
                 & {totalPrice}
@@ -421,6 +453,6 @@ export default function Checkout() {
           </Button>
         </Grid2>
       </Grid2>
-    </Container>)
+    </Container>
   );
 }

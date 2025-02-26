@@ -23,8 +23,8 @@ export default function Comments({ productId }) {
   }, []);
 
   return (
-    (<Grid2 container columnSpacing={4} rowSpacing={2}>
-      <Grid2 item xs={12} md={7}>
+    <Grid2 container columnSpacing={4} rowSpacing={2}>
+      <Grid2 size={{xs:12,md:7}} >
         <Stack
           sx={{
             gap: 4,
@@ -166,7 +166,7 @@ export default function Comments({ productId }) {
           ))}
         </Stack>
       </Grid2>
-      <Grid2 item xs={12} md={5}>
+      <Grid2 size={{xs:12,md:5}} >
         <Stack
           sx={{
             gap: 1,
@@ -247,6 +247,6 @@ export default function Comments({ productId }) {
           </Button>
         </Stack>
       </Grid2>
-    </Grid2>)
+    </Grid2>
   );
 }

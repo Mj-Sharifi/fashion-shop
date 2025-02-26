@@ -5,7 +5,7 @@ import React from "react";
 
 export default function notFound() {
   return (
-    (<Container
+    <Container
       sx={{
         minHeight: "100vh",
         display: "flex",
@@ -19,16 +19,18 @@ export default function notFound() {
           color: "colors.violet",
           fontWeight: "600",
           fontSize: { xs: "6rem", sm: "8rem", md: "10rem", lg: "12rem" },
-          mb: 6
-        }}>
+          mb: 6,
+        }}
+      >
         404
       </Typography>
       <Typography
         gutterBottom
         sx={{
           fontWeight: "500",
-          fontSize: { xs: "1rem", md: "2rem" }
-        }}>
+          fontSize: { xs: "1rem", md: "2rem" },
+        }}
+      >
         OOPS! PAGE NOT FOUND
       </Typography>
       <Typography gutterBottom>
@@ -41,8 +43,9 @@ export default function notFound() {
           justifyContent: "center",
           marginBottom: 6,
           padding: "10px",
-          width: "100%"
-        }}>
+          width: "100%",
+        }}
+      >
         <Input
           type="text"
           placeholder="Search..."
@@ -70,11 +73,10 @@ export default function notFound() {
             height: "45px",
             justifyContent: "center",
             alignItems: "center",
-            height: "45px",
-            width: "60px",
             bgcolor: "colors.violet",
-            "&:hover": { bgcolor: "text.black" }
-          }}>
+            "&:hover": { bgcolor: "text.black" },
+          }}
+        >
           <Search sx={{ color: "text.white" }} />
         </Stack>
       </Stack>
@@ -102,6 +104,6 @@ export default function notFound() {
           Back to homepage
         </Button>
       </Link>
-    </Container>)
+    </Container>
   );
 }

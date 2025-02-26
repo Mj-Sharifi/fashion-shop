@@ -12,15 +12,15 @@ import "./styles.css";
 // import required modules
 import { Navigation, Autoplay } from "swiper/modules";
 import { useEffect, useState } from "react";
+import { Main_Slider } from "Types/api";
 export default function MainSlider() {
-  const [slides, setSlides] = useState();
+  const [slides, setSlides] = useState<Main_Slider[]>();
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_BASE_API}main-sliders?populate=*`)
       .then((res) => res.json())
       .then((data) => setSlides(data.data))
       .catch((err) => console.log(err));
   }, []);
-  Swiper.ac;
   return (
     <Swiper
       navigation={true}
@@ -28,15 +28,15 @@ export default function MainSlider() {
         delay: 5000,
         disableOnInteraction: false,
       }}
-      modules={[Navigation ,Autoplay]}
+      modules={[Navigation, Autoplay]}
       className="mySwiper main-slider"
     >
-      {slides?.map((e, i) => (
+      {slides?.map(({ attributes: { title, subtitle, image } }, i) => (
         <SwiperSlide key={i}>
           <Slide
-            title={e.attributes.title}
-            subtitle={e.attributes.subtitle}
-            img={e.attributes.image.data?.attributes.url}
+            title={title}
+            subtitle={subtitle}
+            img={image.data?.attributes.url}
           />
         </SwiperSlide>
       ))}

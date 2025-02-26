@@ -20,8 +20,23 @@ import QuickView from "./QuickView";
 import { toast,Slide } from "react-toastify";
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "Hooks/redux";
+import { Image_Api, Single_Color, Single_Size } from "Types/api";
 
-
+type props={
+  id:number
+  title:string
+  imgAll:Image_Api[]
+  imgPrimary:string
+  imgSecondary:string
+  rating:string
+  price:number
+  discount:number
+  isNew:boolean
+  isAvailable:boolean
+  colors:Single_Color[]
+  sizes:Single_Size[]
+  shortDescription:string
+}
 const isInWishlist = (id, wishlist) => {
   let isIn = false;
   for (const w of wishlist) {
@@ -46,7 +61,7 @@ export default function ProductCard({
   colors,
   sizes,
   shortDescription,
-}) {
+}:props) {
   const mobileSize = useMediaQuery("(max-width:580px)");
   // Quick View
   const [quickView, setQuickView] = useState(false);

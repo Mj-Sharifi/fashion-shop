@@ -6,7 +6,7 @@ export default function MegaMenu({categories}) {
   return (
     (<Grid2 container sx={{ height: "100%", width: "100%"}} spacing={2}>
       {categories?.map((e, i) => (
-        <Grid2 key={i} item md={3}>
+        <Grid2 key={i} size={{md:3}}>
           <Stack
             direction={"row"}
             spacing={2}

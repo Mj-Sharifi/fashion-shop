@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grid2, Typography } from "@mui/material";
 import Link from "next/link";
 export default function Slide({ title, subtitle, img }) {
   return (
-    (<Container
+    <Container
       sx={{
         height: {
           xs: "auto",
@@ -20,19 +20,19 @@ export default function Slide({ title, subtitle, img }) {
         container
         sx={{
           height: "100%",
-          rowGap: 4
-        }}>
+          rowGap: 4,
+        }}
+      >
         <Grid2
-          item
-          xs={12}
-          sm={6}
+          size={{ xs: 12, sm: 6 }}
           sx={{
             height: { sm: "100%" },
             display: "flex",
             flexDirection: "column",
             justifyContent: "center !important",
-            alignItems: { xs: "center", sm: "inherit" }
-          }}>
+            alignItems: { xs: "center", sm: "inherit" },
+          }}
+        >
           <Typography variant="h3" component={"h3"} gutterBottom>
             {subtitle}
           </Typography>
@@ -41,7 +41,7 @@ export default function Slide({ title, subtitle, img }) {
             component={"h2"}
             gutterBottom
             sx={{
-              textAlign: { xs: "center", sm: "start" }
+              textAlign: { xs: "center", sm: "start" },
             }}
           >
             {title}
@@ -52,7 +52,7 @@ export default function Slide({ title, subtitle, img }) {
               variant="outlined"
               sx={{
                 border: "1px solid",
-                borderColor:"text.black",
+                borderColor: "text.black",
                 color: "text.black",
                 display: "inline-block",
                 fontSize: "16px",
@@ -84,7 +84,7 @@ export default function Slide({ title, subtitle, img }) {
                 },
                 "&:hover": {
                   border: "1px solid",
-                  borderColor:"colors.violet",
+                  borderColor: "colors.violet",
                   color: "text.white",
                 },
                 "&:hover::after": {
@@ -99,14 +99,13 @@ export default function Slide({ title, subtitle, img }) {
           </Link>
         </Grid2>
         <Grid2
-          item
-          xs={12}
-          sm={6}
+          size={{ xs: 12, sm: 6 }}
           sx={{
             height: { sm: "100%" },
             display: "flex",
-            alignItems: "end"
-          }}>
+            alignItems: "end",
+          }}
+        >
           <Box
             component={"img"}
             src={process.env.NEXT_PUBLIC_BASE_URL + img}
@@ -117,6 +116,6 @@ export default function Slide({ title, subtitle, img }) {
           />
         </Grid2>
       </Grid2>
-    </Container>)
+    </Container>
   );
 }
