@@ -16,38 +16,41 @@ import {
   Select,
   MenuItem,
   Collapse,
-  Pagination,
 } from "@mui/material";
-import React, { useEffect, useState, use } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import ProductCard from "Components/ProductCard";
 import Loading from "Components/Loading";
 import { Apps, ExpandMore, FormatListBulleted } from "@mui/icons-material";
 import DetailedProductCard from "Components/DetailedProductCard";
 import GoUp from "Components/GoUp";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.min.css'
 import SearchBar from "Components/SearchBar";
+import { useParams } from "next/navigation";
+import PaginationContainer from "Components/Pagination";
+import { productPerPage } from "Utils/utils";
+import { Shop_Layout } from "Types/shop";
+import { Single_Color, Single_Product, Single_Size, Single_Subcategory } from "Types/api";
 
-export default function Category(props) {
-  const params = use(props.params);
+export default function Category() {
+  const params = useParams<{ category: string }>();
   const mobileSize = useMediaQuery("(max-width:580px)");
 
   // Page Layout
-  const [layout, setLayout] = useState("card");
-  const handleLayout = (event, newLayout) => {
+  const [layout, setLayout] = useState<Shop_Layout>("card");
+  const handleLayout = (event: React.MouseEvent, newLayout: Shop_Layout) => {
     if (newLayout) {
       setLayout(newLayout);
     }
   };
   //
-  const [products, setProducts] = useState();
-  const [subcategories, setSubcategories] = useState();
-  const [colors, setColors] = useState();
-  const [sizes, setSizes] = useState();
+  const [products, setProducts] = useState<Single_Product[]>();
+  const [subcategories, setSubcategories] = useState<Single_Subcategory[]>();
+  const [colors, setColors] = useState<Single_Color[]>();
+  const [sizes, setSizes] = useState<Single_Size[]>();
   // Pagination
-  const [productsNumber, setProductNumber] = useState();
+  const [productsCount, setProductsCount] = useState<number>();
   const [page, setPage] = useState(1);
-  const handlePagination = (event, value) => {
+  const handlePagination = (event: ChangeEvent, value: number) => {
     setPage(value);
   };
   //**** Filters ****//
@@ -58,13 +61,13 @@ export default function Category(props) {
   };
   // Price
   const [price, setPrice] = useState([10, 1000]);
-  const handlePrice = (event, newValue) => {
+  const handlePrice = (event: Event, newValue: number[]) => {
     setPrice(newValue);
   };
   // Category
   const [category, setCategory] = useState("All");
-  const handleCategory = (event) => {
-    setCategory(event.target.value);
+  const handleCategory = (event:React.ChangeEvent,value:string) => {
+    setCategory(value);
   };
   const [categoryExpanded, setCategoryExpanded] = useState(false);
   const handleCategoryExpansion = () => {
@@ -72,19 +75,19 @@ export default function Category(props) {
   };
   // Colors
   const [color, setColor] = useState("All");
-  const handleColor = (event) => {
-    setColor(event.target.value);
+  const handleColor = (event:React.ChangeEvent,value:string) => {
+    setColor(value);
   };
-  const [colorsExpanded, setColorsExpanded] = useState();
+  const [colorsExpanded, setColorsExpanded] = useState(false);
   const handleColorExpansion = () => {
     setColorsExpanded(!colorsExpanded);
   };
   // Size
   const [size, setSize] = useState("All");
-  const handleSize = (event) => {
-    setSize(event.target.value);
+  const handleSize = (event:React.ChangeEvent,value:string) => {
+    setSize(value);
   };
-  const [sizeExpanded, setSizeExpanded] = useState();
+  const [sizeExpanded, setSizeExpanded] = useState(false);
   const handleSizeExpansion = () => {
     setSizeExpanded(!sizeExpanded);
   };
@@ -107,7 +110,7 @@ export default function Category(props) {
             }&sort=${sortMethod}&pagination[page]=${page}&pagination[pageSize]=12`
         );
         const data = await res.json();
-        setProductNumber(data.meta.pagination.total);
+        setProductsCount(data.meta.pagination.total);
         setProducts(data.data);
       } catch (error) {
         console.log(error);
@@ -152,25 +155,28 @@ export default function Category(props) {
     }
   }, [category]);
 
+
   return (
-    (<Container sx={{ marginTop: { xs: "50px", sm: "70px", md: "90px" } }}>
+    <Container sx={{ marginTop: { xs: "50px", sm: "70px", md: "90px" } }}>
       {products ? (
         <>
-          <Grid
+          <Grid2
             container
             columnSpacing={10}
             sx={{
               mb: 4,
-              display: { xs: "none", sm: "flex" }
-            }}>
-            <Grid2 item xs={12} sm={3}></Grid2>
-            <Grid2 item xs={12} sm={9}>
+              display: { xs: "none", sm: "flex" },
+            }}
+          >
+            <Grid2 size={{ xs: 12, sm: 3 }}></Grid2>
+            <Grid2 size={{ xs: 12, sm: 9 }}>
               <Stack
                 direction={"row"}
                 sx={{
                   justifyContent: "space-between",
-                  alignItems: "center"
-                }}>
+                  alignItems: "center",
+                }}
+              >
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <Select
                     value={sortMethod}
@@ -223,9 +229,9 @@ export default function Category(props) {
                 </ToggleButtonGroup>
               </Stack>
             </Grid2>
-          </Grid>
+          </Grid2>
           <Grid2 container columnSpacing={4}>
-            <Grid2 item xs={12} sm={3}>
+            <Grid2 size={{ xs: 12, sm: 3 }}>
               <Stack
                 sx={{
                   rowGap: 4,
@@ -240,10 +246,11 @@ export default function Category(props) {
                   "& .MuiFormLabel-root": {
                     color: "text.black",
                     fontWeight: "500",
-                  }
-                }}>
+                  },
+                }}
+              >
                 {/* Search Bar */}
-                <SearchBar endpoint={"products"}/>
+                <SearchBar endpoint={"products"} />
                 <Divider />
                 {/* Price Range */}
                 <Stack>
@@ -261,7 +268,7 @@ export default function Category(props) {
                     }}
                     slotProps={{
                       valueLabel: {
-                        sx: {
+                        style: {
                           color: "text.white",
                           backgroundColor: "colors.violet",
                         },
@@ -276,8 +283,9 @@ export default function Category(props) {
                     direction={"row"}
                     sx={{
                       alignItems: "center",
-                      gap: 2
-                    }}>
+                      gap: 2,
+                    }}
+                  >
                     <FormLabel id="demo-radio-buttons-group-label">
                       Category
                     </FormLabel>
@@ -285,7 +293,7 @@ export default function Category(props) {
                       <ExpandMore
                         sx={{
                           cursor: "pointer",
-                          transition:"all 0.3s",
+                          transition: "all 0.3s",
                           transform: `${categoryExpanded && "rotate(180deg)"}`,
                         }}
                         onClick={handleCategoryExpansion}
@@ -352,8 +360,9 @@ export default function Category(props) {
                       direction={"row"}
                       sx={{
                         alignItems: "center",
-                        gap: 2
-                      }}>
+                        gap: 2,
+                      }}
+                    >
                       <FormLabel id="demo-radio-buttons-group-label">
                         Color
                       </FormLabel>
@@ -361,10 +370,8 @@ export default function Category(props) {
                         <ExpandMore
                           sx={{
                             cursor: "pointer",
-                            transition:"all 0.3s",
-                            transform: `${
-                              colorsExpanded && "rotate(180deg)"
-                            }`,
+                            transition: "all 0.3s",
+                            transform: `${colorsExpanded && "rotate(180deg)"}`,
                           }}
                           onClick={handleColorExpansion}
                         />
@@ -451,8 +458,9 @@ export default function Category(props) {
                       direction={"row"}
                       sx={{
                         alignItems: "center",
-                        gap: 2
-                      }}>
+                        gap: 2,
+                      }}
+                    >
                       <FormLabel id="demo-radio-buttons-group-label">
                         Size
                       </FormLabel>
@@ -460,10 +468,8 @@ export default function Category(props) {
                         <ExpandMore
                           sx={{
                             cursor: "pointer",
-                            transition:"all 0.3s",
-                            transform: `${
-                              sizeExpanded && "rotate(180deg)"
-                            }`,
+                            transition: "all 0.3s",
+                            transform: `${sizeExpanded && "rotate(180deg)"}`,
                           }}
                           onClick={handleSizeExpansion}
                         />
@@ -520,16 +526,20 @@ export default function Category(props) {
                 )}
               </Stack>
             </Grid2>
-            <Grid2 item xs={12} sx={{
-              display: { sm: "none" }
-            }}>
+            <Grid2
+              size={{ xs: 12 }}
+              sx={{
+                display: { sm: "none" },
+              }}
+            >
               <Divider sx={{ marginTop: "30px" }} />
               <Stack
                 direction={"row"}
                 sx={{
                   justifyContent: "space-between",
-                  alignItems: "center"
-                }}>
+                  alignItems: "center",
+                }}
+              >
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <Select
                     value={sortMethod}
@@ -590,7 +600,7 @@ export default function Category(props) {
                 }}
               />
             </Grid2>
-            <Grid2 item xs={12} sm={9}>
+            <Grid2 size={{ xs: 12, sm: 9 }}>
               {layout === "card" ? (
                 <Grid2
                   container
@@ -598,16 +608,16 @@ export default function Category(props) {
                   sx={{
                     display: "flex",
                     justifyContent: { xs: "center", md: "start" },
-                    width: "100%"
-                  }}>
+                    width: "100%",
+                  }}
+                >
                   {products?.map((e, i) => (
-                    <Grid2 key={i} item xs={10} sm={6} lg={4}>
+                    <Grid2 key={i} size={{ xs: 10, sm: 6, lg: 4 }}>
                       <ProductCard
                         id={e?.id}
-                        slug={e.slug}
                         title={e?.attributes.title}
                         rating={e?.attributes.rating?.slice(1)}
-                        imgAll={e?.attributes?.imagesall}
+                        imgAll={e?.attributes?.imagesall.data}
                         imgPrimary={
                           process.env.NEXT_PUBLIC_BASE_URL +
                           e?.attributes.imageprimary.data.attributes.url
@@ -617,15 +627,14 @@ export default function Category(props) {
                           e?.attributes.imagesecondary.data.attributes.url
                         }
                         shortDescription={e?.attributes.shortDescription}
-                        colors={e.attributes.colors}
-                        sizes={e.attributes.sizes}
+                        colors={e.attributes.colors.data}
+                        sizes={e.attributes.sizes.data}
                         discount={e?.attributes.discount}
                         price={e?.attributes.price}
                         isNew={e?.attributes.isNew}
                         isAvailable={e?.attributes.isAvailable}
-
                       />
-                    </Grid>
+                    </Grid2>
                   ))}
                 </Grid2>
               ) : (
@@ -635,67 +644,29 @@ export default function Category(props) {
                   sx={{
                     display: "flex",
                     justifyContent: "center",
-                    width: "100%"
-                  }}>
+                    width: "100%",
+                  }}
+                >
                   {products?.map((e, i) => (
-                    <Grid2 key={i} item xs={10} sm={12}>
-                      <DetailedProductCard
-                        id={e.id}
-                        slug={e.slug}
-                        title={e?.attributes.title}
-                        rating={+e?.attributes.rating?.slice(1)}
-                        imgPrimary={
-                          process.env.NEXT_PUBLIC_BASE_URL +
-                          e?.attributes.imageprimary.data.attributes.url
-                        }
-                        imgSecondary={
-                          process.env.NEXT_PUBLIC_BASE_URL +
-                          e?.attributes.imagesecondary.data.attributes.url
-                        }
-                        discount={e?.attributes.discount}
-                        price={e?.attributes.price}
-                        isNew={e?.attributes.isNew}
-                        isAvailable={e?.attributes.isAvailable}
-                        shortDescription={e?.attributes.shortDescription}
-                        product={e}
-                      />
+                    <Grid2 key={i} size={{ xs: 10, sm: 12 }}>
+                      <DetailedProductCard product={e} />
                     </Grid2>
                   ))}
                 </Grid2>
               )}
             </Grid2>
           </Grid2>
-          <Grid2 container sx={{
-            mt: 6
-          }}>
-            <Grid2 item xs={12} sm={3}></Grid2>
-            <Grid2 item xs={12} sm={9}>
-              <Stack
-                direction={"row"}
-                sx={{
-                  width: "100%",
-                  justifyContent: "center"
-                }}>
-                <Pagination
-                  count={Math.ceil(productsNumber / 12)}
-                  page={page}
-                  onChange={handlePagination}
-                  sx={{
-                    "& button.Mui-selected": {
-                      backgroundColor: "colors.violet",
-                      color: "text.white",
-                    },
-                  }}
-                />
-              </Stack>
-            </Grid2>
-          </Grid2>
+          <PaginationContainer
+            page={page}
+            count={Math.ceil(productsCount / productPerPage)}
+            handlePagination={handlePagination}
+          />
           <GoUp />
-          <ToastContainer/>
+          <ToastContainer />
         </>
       ) : (
         <Loading />
       )}
-    </Container>)
+    </Container>
   );
 }

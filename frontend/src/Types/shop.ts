@@ -1,0 +1,1 @@
+export type Shop_Layout = "card"|"list"

@@ -20,7 +20,6 @@ import React, { useState } from "react";
 import { CompareArrows, Clear } from "@mui/icons-material";
 import { removeFromCompare } from "Lib/Features/Compare/compareSlice";
 import { useRouter } from "next/navigation";
-import 'react-toastify/dist/ReactToastify.min.css'
 import { useAppDispatch, useAppSelector } from "Hooks/redux";
 
 export default function Compare() {
@@ -37,7 +36,7 @@ export default function Compare() {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      newestOnTop: true,
+      
       closeOnClick: false,
       closeButton: false,
       rtl: false,

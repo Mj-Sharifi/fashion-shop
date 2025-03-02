@@ -32,7 +32,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { ToastContainer, toast, Slide } from "react-toastify";
-import "react-toastify/dist/ReactToastify.min.css";
 import countryList from "Utils/countries";
 export default function Cart() {
   const mobileSize = useMediaQuery("(max-width:580px)");
@@ -52,7 +51,7 @@ export default function Cart() {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      newestOnTop: true,
+      
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -75,7 +74,7 @@ export default function Cart() {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      newestOnTop: true,
+      
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -98,7 +97,7 @@ export default function Cart() {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      newestOnTop: true,
+      
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -115,7 +114,7 @@ export default function Cart() {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      newestOnTop: true,
+      
       closeOnClick: false,
       closeButton: false,
       rtl: false,

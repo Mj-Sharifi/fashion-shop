@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect} from "react";
 import {
   Container,
   Grid2,
@@ -26,29 +26,31 @@ import Loading from "Components/Loading";
 import GoUp from "Components/GoUp";
 import SearchBar from "Components/SearchBar";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.min.css'
+import { Single_Color, Single_Product, Single_Size } from "Types/api";
+import { useParams } from "next/navigation";
+import { Shop_Layout } from "Types/shop";
+import PaginationContainer from "Components/Pagination";
+import { productPerPage } from "Utils/utils";
 
-export default function Subcategory(props) {
-  const params = use(props.params);
+export default function Subcategory() {
+  const params: { subcategorySlugs: string[] } = useParams();
   const mobileSize = useMediaQuery("(max-width:580px)");
 
   // Page Layout
-  const [layout, setLayout] = useState("card");
-  const handleLayout = (event, newLayout) => {
+  const [layout, setLayout] = useState<Shop_Layout>("card");
+  const handleLayout = (event: React.MouseEvent, newLayout: Shop_Layout) => {
     if (newLayout) {
       setLayout(newLayout);
     }
   };
   //
-  const [products, setProducts] = useState();
-  const [colors, setColors] = useState();
-  const [sizes, setSizes] = useState();
+  const [products, setProducts] = useState<Single_Product[]>();
+  const [colors, setColors] = useState<Single_Color[]>();
+  const [sizes, setSizes] = useState<Single_Size[]>();
   // Pagination
-  const [productsNumber, setProductNumber] = useState();
+  const [productCount, setProductCount] = useState<number>();
   const [page, setPage] = useState(1);
-  const handlePagination = (event, value) => {
-    setPage(value);
-  };
+
   //**** Filters ****//
   // Sort
   const [sortMethod, setSortMethod] = useState("");
@@ -57,7 +59,7 @@ export default function Subcategory(props) {
   };
   // Price
   const [price, setPrice] = useState([10, 1000]);
-  const handlePrice = (event, newValue) => {
+  const handlePrice = (event: Event, newValue: number[]) => {
     setPrice(newValue);
   };
   // Colors
@@ -65,7 +67,7 @@ export default function Subcategory(props) {
   const handleColor = (event) => {
     setColor(event.target.value);
   };
-  const [colorsExpanded, setColorsExpanded] = useState();
+  const [colorsExpanded, setColorsExpanded] = useState(false);
   const handleColorExpansion = () => {
     setColorsExpanded(!colorsExpanded);
   };
@@ -74,7 +76,7 @@ export default function Subcategory(props) {
   const handleSize = (event) => {
     setSize(event.target.value);
   };
-  const [sizeExpanded, setSizeExpanded] = useState();
+  const [sizeExpanded, setSizeExpanded] = useState(false);
   const handleSizeExpansion = () => {
     setSizeExpanded(!sizeExpanded);
   };
@@ -94,7 +96,7 @@ export default function Subcategory(props) {
             }&sort=${sortMethod}&pagination[page]=${page}&pagination[pageSize]=12`
         );
         const data = await res.json();
-        setProductNumber(data.meta.pagination.total);
+        setProductCount(data.meta.pagination.total);
         setProducts(data.data);
       } catch (error) {
         console.log(error);
@@ -123,7 +125,7 @@ export default function Subcategory(props) {
   }, []);
 
   return (
-    (<Container sx={{ marginTop: { xs: "50px", sm: "70px", md: "90px" } }}>
+    <Container sx={{ marginTop: { xs: "50px", sm: "70px", md: "90px" } }}>
       {products ? (
         <>
           <Grid2
@@ -131,16 +133,18 @@ export default function Subcategory(props) {
             columnSpacing={10}
             sx={{
               mb: 4,
-              display: { xs: "none", sm: "flex" }
-            }}>
-            <Grid2 item xs={12} sm={3}></Grid2>
-            <Grid2 item xs={12} sm={9}>
+              display: { xs: "none", sm: "flex" },
+            }}
+          >
+            <Grid2 size={{ xs: 12, sm: 3 }}></Grid2>
+            <Grid2 size={{ xs: 12, sm: 9 }}>
               <Stack
                 direction={"row"}
                 sx={{
                   justifyContent: "space-between",
-                  alignItems: "center"
-                }}>
+                  alignItems: "center",
+                }}
+              >
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <Select
                     value={sortMethod}
@@ -195,7 +199,7 @@ export default function Subcategory(props) {
             </Grid2>
           </Grid2>
           <Grid2 container columnSpacing={4}>
-            <Grid2 item xs={12} sm={3}>
+            <Grid2 size={{ xs: 12, sm: 3 }}>
               <Stack
                 sx={{
                   rowGap: 4,
@@ -210,8 +214,9 @@ export default function Subcategory(props) {
                   "& .MuiFormLabel-root": {
                     color: "text.black",
                     fontWeight: "500",
-                  }
-                }}>
+                  },
+                }}
+              >
                 {/* Search Bar */}
                 <SearchBar endpoint={"products"} />
                 <Divider />
@@ -231,12 +236,20 @@ export default function Subcategory(props) {
                     }}
                     slotProps={{
                       valueLabel: {
-                        sx: {
+                        style: {
                           color: "text.white",
                           backgroundColor: "colors.violet",
                         },
                       },
                     }}
+                    // slotProps={{
+                    //   valueLabel: {
+                    //     sx: {
+                    //       color: "text.white",
+                    //       backgroundColor: "colors.violet",
+                    //     },
+                    //   },
+                    // }}
                   />
                 </Stack>
                 {/* Colors Selection */}
@@ -247,8 +260,9 @@ export default function Subcategory(props) {
                       direction={"row"}
                       sx={{
                         alignItems: "center",
-                        gap: 2
-                      }}>
+                        gap: 2,
+                      }}
+                    >
                       <FormLabel id="demo-radio-buttons-group-label">
                         Color
                       </FormLabel>
@@ -256,10 +270,8 @@ export default function Subcategory(props) {
                         <ExpandMore
                           sx={{
                             cursor: "pointer",
-                            transition:"all 0.3s",
-                            transform: `${
-                              colorsExpanded && "rotate(180deg)"
-                            }`,
+                            transition: "all 0.3s",
+                            transform: `${colorsExpanded && "rotate(180deg)"}`,
                           }}
                           onClick={handleColorExpansion}
                         />
@@ -346,8 +358,9 @@ export default function Subcategory(props) {
                       direction={"row"}
                       sx={{
                         alignItems: "center",
-                        gap: 2
-                      }}>
+                        gap: 2,
+                      }}
+                    >
                       <FormLabel id="demo-radio-buttons-group-label">
                         Size
                       </FormLabel>
@@ -355,10 +368,8 @@ export default function Subcategory(props) {
                         <ExpandMore
                           sx={{
                             cursor: "pointer",
-                            transition:"all 0.3s",
-                            transform: `${
-                              sizeExpanded && "rotate(180deg)"
-                            }`,
+                            transition: "all 0.3s",
+                            transform: `${sizeExpanded && "rotate(180deg)"}`,
                           }}
                           onClick={handleSizeExpansion}
                         />
@@ -415,16 +426,20 @@ export default function Subcategory(props) {
                 )}
               </Stack>
             </Grid2>
-            <Grid2 item xs={12} sx={{
-              display: { sm: "none" }
-            }}>
+            <Grid2
+              size={{ xs: 12 }}
+              sx={{
+                display: { sm: "none" },
+              }}
+            >
               <Divider sx={{ marginTop: "30px" }} />
               <Stack
                 direction={"row"}
                 sx={{
                   justifyContent: "space-between",
-                  alignItems: "center"
-                }}>
+                  alignItems: "center",
+                }}
+              >
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <Select
                     value={sortMethod}
@@ -485,7 +500,7 @@ export default function Subcategory(props) {
                 }}
               />
             </Grid2>
-            <Grid2 item xs={12} sm={9}>
+            <Grid2 size={{ xs: 12, sm: 9 }}>
               {layout === "card" ? (
                 <Grid2
                   container
@@ -493,16 +508,16 @@ export default function Subcategory(props) {
                   sx={{
                     display: "flex",
                     justifyContent: { xs: "center", md: "start" },
-                    width: "100%"
-                  }}>
+                    width: "100%",
+                  }}
+                >
                   {products?.map((e, i) => (
-                    <Grid2 key={i} item xs={10} sm={6} lg={4}>
+                    <Grid2 key={i} size={{ xs: 10, sm: 6, lg: 4 }}>
                       <ProductCard
                         id={e?.id}
-                        slug={e.slug}
                         title={e?.attributes.title}
                         rating={e?.attributes.rating?.slice(1)}
-                        imgAll={e?.attributes?.imagesall}
+                        imgAll={e?.attributes?.imagesall?.data}
                         imgPrimary={
                           process.env.NEXT_PUBLIC_BASE_URL +
                           e?.attributes.imageprimary.data.attributes.url
@@ -512,13 +527,12 @@ export default function Subcategory(props) {
                           e?.attributes.imagesecondary.data.attributes.url
                         }
                         shortDescription={e?.attributes.shortDescription}
-                        colors={e.attributes.colors}
-                        sizes={e.attributes.sizes}
+                        colors={e.attributes.colors?.data}
+                        sizes={e.attributes.sizes?.data}
                         discount={e?.attributes.discount}
                         price={e?.attributes.price}
                         isNew={e?.attributes.isNew}
                         isAvailable={e?.attributes.isAvailable}
-
                       />
                     </Grid2>
                   ))}
@@ -530,67 +544,25 @@ export default function Subcategory(props) {
                   sx={{
                     display: "flex",
                     justifyContent: "center",
-                    width: "100%"
-                  }}>
+                    width: "100%",
+                  }}
+                >
                   {products?.map((e, i) => (
-                    <Grid2 key={i} item xs={10} sm={12}>
-                      <DetailedProductCard
-                        id={e.id}
-                        slug={e.slug}
-                        title={e?.attributes.title}
-                        rating={+e?.attributes.rating?.slice(1)}
-                        imgPrimary={
-                          process.env.NEXT_PUBLIC_BASE_URL +
-                          e?.attributes.imageprimary.data.attributes.url
-                        }
-                        imgSecondary={
-                          process.env.NEXT_PUBLIC_BASE_URL +
-                          e?.attributes.imagesecondary.data.attributes.url
-                        }
-                        discount={e?.attributes.discount}
-                        price={e?.attributes.price}
-                        isNew={e?.attributes.isNew}
-                        isAvailable={e?.attributes.isAvailable}
-                        shortDescription={e?.attributes.shortDescription}
-                        product={e}
-                      />
+                    <Grid2 key={i} size={{ xs: 10, sm: 12 }}>
+                      <DetailedProductCard product={e} />
                     </Grid2>
                   ))}
                 </Grid2>
               )}
             </Grid2>
           </Grid2>
-          <Grid2 container sx={{
-            mt: 6
-          }}>
-            <Grid2 item xs={12} sm={3}></Grid2>
-            <Grid2 item xs={12} sm={9}>
-              <Stack
-                direction={"row"}
-                sx={{
-                  width: "100%",
-                  justifyContent: "center"
-                }}>
-                <Pagination
-                  count={Math.ceil(productsNumber / 12)}
-                  page={page}
-                  onChange={handlePagination}
-                  sx={{
-                    "& button.Mui-selected": {
-                      backgroundColor: "colors.violet",
-                      color: "text.white",
-                    },
-                  }}
-                />
-              </Stack>
-            </Grid2>
-          </Grid2>
+          <PaginationContainer page={page} count={Math.ceil(productCount/productPerPage)} handlePagination={(e,p)=>setPage(p)}/>
           <GoUp />
-          <ToastContainer/>
+          <ToastContainer />
         </>
       ) : (
         <Loading />
       )}
-    </Container>)
+    </Container>
   );
 }

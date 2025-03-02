@@ -56,7 +56,7 @@ export default function ProductCart({ product}) {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      newestOnTop: true,
+      
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -86,7 +86,7 @@ export default function ProductCart({ product}) {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      newestOnTop: true,
+      
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -105,7 +105,7 @@ export default function ProductCart({ product}) {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      newestOnTop: true,
+      
       closeOnClick: false,
       closeButton: false,
       rtl: false,

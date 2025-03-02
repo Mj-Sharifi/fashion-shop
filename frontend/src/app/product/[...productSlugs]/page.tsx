@@ -31,7 +31,6 @@ import ProductCard from "Components/ProductCard";
 import GoUp from "Components/GoUp";
 // Toastify
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.min.css";
 
 export default function ProductDetail(props) {
   const params = use(props.params);

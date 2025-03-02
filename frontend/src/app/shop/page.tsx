@@ -16,9 +16,8 @@ import {
   Select,
   MenuItem,
   Collapse,
-  Pagination,
 } from "@mui/material";
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import ProductCard from "Components/ProductCard";
 import Loading from "Components/Loading";
 import { Apps, ExpandMore, FormatListBulleted } from "@mui/icons-material";
@@ -26,28 +25,37 @@ import DetailedProductCard from "Components/DetailedProductCard";
 import GoUp from "Components/GoUp";
 import SearchBar from "Components/SearchBar";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.min.css";
-import { Fetch_RES, Single_Product } from "Types/api";
+import {
+  Fetch_RES,
+  Single_Category,
+  Single_Color,
+  Single_Product,
+  Single_Size,
+  Single_Subcategory,
+} from "Types/api";
+import PaginationContainer from "Components/Pagination";
+import { productPerPage } from "Utils/utils";
+import { Shop_Layout } from "Types/shop";
 
 export default function Collection() {
   const mobileSize = useMediaQuery("(max-width:580px)");
   // Page Layout
-  const [layout, setLayout] = useState("card");
-  const handleLayout = (event, newLayout) => {
+  const [layout, setLayout] = useState<Shop_Layout>("card");
+  const handleLayout = (event: React.MouseEvent, newLayout: Shop_Layout) => {
     if (newLayout) {
       setLayout(newLayout);
     }
   };
   // Main States
   const [products, setProducts] = useState<Single_Product[]>();
-  const [subcategories, setSubcategories] = useState();
-  const [categories, setCategories] = useState();
-  const [colors, setColors] = useState();
-  const [sizes, setSizes] = useState();
+  const [subcategories, setSubcategories] = useState<Single_Subcategory[]>();
+  const [categories, setCategories] = useState<Single_Category[]>();
+  const [colors, setColors] = useState<Single_Color[]>();
+  const [sizes, setSizes] = useState<Single_Size[]>();
   // Pagination
-  const [productsNumber, setProductNumber] = useState<number>();
+  const [productsCount, setProductCount] = useState<number>();
   const [page, setPage] = useState(1);
-  const handlePagination = (event:SyntheticEvent, value) => {
+  const handlePagination = (event: SyntheticEvent, value: number) => {
     setPage(value);
   };
   //**** Filters ****//
@@ -58,13 +66,13 @@ export default function Collection() {
   };
   // Price
   const [price, setPrice] = useState([10, 1000]);
-  const handlePrice = (event, newValue) => {
+  const handlePrice = (event: Event, newValue: number[]) => {
     setPrice(newValue);
   };
   // Category
   const [category, setCategory] = useState("All");
-  const handleCategory = (event) => {
-    setCategory(event.target.value);
+  const handleCategory = (event: ChangeEvent, value: string) => {
+    setCategory(value);
   };
   const [categoryExpanded, setCategoryExpanded] = useState(false);
   const handleCategoryExpansion = () => {
@@ -72,8 +80,8 @@ export default function Collection() {
   };
   // SubCategory
   const [subcategory, setSubcategory] = useState("All");
-  const handleSubcategory = (event) => {
-    setSubcategory(event.target.value);
+  const handleSubcategory = (event: ChangeEvent, value: string) => {
+    setSubcategory(value);
   };
   const [subcategoryExpanded, setSubcategoryExpanded] = useState(false);
   const handleSubcategoryExpansion = () => {
@@ -82,19 +90,19 @@ export default function Collection() {
 
   // Colors
   const [color, setColor] = useState("All");
-  const handleColor = (event) => {
-    setColor(event.target.value);
+  const handleColor = (event: React.ChangeEvent, value: string) => {
+    setColor(value);
   };
-  const [colorsExpanded, setColorsExpanded] = useState();
+  const [colorsExpanded, setColorsExpanded] = useState(false);
   const handleColorExpansion = () => {
     setColorsExpanded(!colorsExpanded);
   };
   // Size
   const [size, setSize] = useState("All");
-  const handleSize = (event) => {
-    setSize(event.target.value);
+  const handleSize = (event: React.ChangeEvent, value: string) => {
+    setSize(value);
   };
-  const [sizeExpanded, setSizeExpanded] = useState();
+  const [sizeExpanded, setSizeExpanded] = useState(false);
   const handleSizeExpansion = () => {
     setSizeExpanded(!sizeExpanded);
   };
@@ -118,8 +126,8 @@ export default function Collection() {
               price[1]
             }&sort=${sortMethod}&pagination[page]=${page}&pagination[pageSize]=12`
         );
-        const data:Fetch_RES<Single_Product> = await res.json();
-        setProductNumber(data.meta.pagination.total);
+        const data: Fetch_RES<Single_Product> = await res.json();
+        setProductCount(data.meta.pagination.total);
         setProducts(data.data);
       } catch (error) {
         console.log(error);
@@ -164,7 +172,7 @@ export default function Collection() {
         .then((data) => setColors(data.data))
         .catch((err) => console.log(err));
     } else {
-      setColors("");
+      setColors([]);
     }
   }, [category]);
   // for geeting sizes related to product category
@@ -191,7 +199,7 @@ export default function Collection() {
         )
         .catch((err) => console.log(err));
     } else {
-      setSizes("");
+      setSizes([]);
     }
   }, [category, subcategory]);
 
@@ -207,7 +215,7 @@ export default function Collection() {
               display: { xs: "none", sm: "flex" },
             }}
           >
-            <Grid2 size={{ xs: 12, sm: 9 }}></Grid2>
+            <Grid2 size={{ xs: 12, sm: 3 }}></Grid2>
             <Grid2 size={{ xs: 12, sm: 9 }}>
               <Stack
                 direction={"row"}
@@ -307,7 +315,7 @@ export default function Collection() {
                     }}
                     slotProps={{
                       valueLabel: {
-                        sx: {
+                        style: {
                           color: "text.white",
                           backgroundColor: "colors.violet",
                         },
@@ -765,10 +773,7 @@ export default function Collection() {
                 >
                   {products?.map((e, i) => (
                     <Grid2 key={i} size={{ xs: 10, sm: 12 }}>
-                      <DetailedProductCard
-
-                        product={e}
-                      />
+                      <DetailedProductCard product={e} />
                     </Grid2>
                   ))}
                 </Grid2>
@@ -776,35 +781,11 @@ export default function Collection() {
             </Grid2>
           </Grid2>
           {/* Pagination */}
-          <Grid2
-            container
-            sx={{
-              mt: 6,
-            }}
-          >
-            <Grid2 size={{xs:12,sm:3}}></Grid2>
-            <Grid2 size={{xs:12,sm:3}}>
-              <Stack
-                direction={"row"}
-                sx={{
-                  width: "100%",
-                  justifyContent: "center",
-                }}
-              >
-                <Pagination
-                  count={Math.ceil(productsNumber / 12)}
-                  page={page}
-                  onChange={handlePagination}
-                  sx={{
-                    "& button.Mui-selected": {
-                      backgroundColor: "colors.violet",
-                      color: "text.white",
-                    },
-                  }}
-                />
-              </Stack>
-            </Grid2>
-          </Grid2>
+          <PaginationContainer
+            count={Math.ceil(productsCount / productPerPage)}
+            page={page}
+            handlePagination={handlePagination}
+          />
           <GoUp />
           <ToastContainer />
         </>

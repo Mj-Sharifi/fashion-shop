@@ -24,7 +24,6 @@ type General_Attributes = {
     publishedAt: string,
 }
 export interface Image_Api {
-
     id: number,
     attributes: {
         name: string,
@@ -132,12 +131,14 @@ export interface Single_Color {
     id: number,
     attributes: General_Attributes & {
         color: string
+        products: { data: Single_Product[] }
     }
 }
 export interface Single_Size {
     id: number
     attributes: General_Attributes & {
         size: number,
+        products: { data: Single_Product[] }
     }
 }
 interface Single_Comment {
@@ -150,4 +151,26 @@ interface Single_Comment {
 
     }
 
+}
+export interface Single_Subcategory {
+    id: number,
+    attributes: General_Attributes & {
+        title: string,
+        slug: string
+    }
+
+}
+
+export interface Single_Category {
+    id: number,
+    attributes: General_Attributes & {
+        title: string,
+        slug: string,
+        products: {
+            data: Single_Product[]
+        },
+        subcategories: {
+            data: Single_Subcategory[]
+        }
+    }
 }

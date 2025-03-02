@@ -1,0 +1,1 @@
+export const productPerPage = 9

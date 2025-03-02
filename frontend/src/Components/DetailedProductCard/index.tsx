@@ -75,7 +75,7 @@ export default function DetailedProductCard({ product }: props) {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      newestOnTop: true,
+      
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -92,7 +92,7 @@ export default function DetailedProductCard({ product }: props) {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      newestOnTop: true,
+      
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -132,7 +132,8 @@ export default function DetailedProductCard({ product }: props) {
       >
         <Box
           component={"img"}
-          src={imgPrimary}
+          src={process.env.NEXT_PUBLIC_BASE_URL +
+            imageprimary?.data?.attributes.url}
           sx={{
             width: "100%",
             transition: "0.5s",
@@ -141,7 +142,7 @@ export default function DetailedProductCard({ product }: props) {
         />
         <Box
           component={"img"}
-          src={imgSecondary}
+          src={process.env.NEXT_PUBLIC_BASE_URL +imagesecondary.data.attributes.url}
           sx={{
             transition: "0.5s",
             position: "absolute",
