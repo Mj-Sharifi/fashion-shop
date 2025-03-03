@@ -22,11 +22,13 @@ import {
   removeAllWishlist,
   removeFromWishlist,
 } from "Lib/Features/Wishlist/wishSlice";
-import { toast,Slide, ToastContainer } from "react-toastify";
+import { toast, Slide, ToastContainer } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "Hooks/redux";
+import { useRouter } from "next/router";
 export default function Wishlist() {
   const mobileSize = useMediaQuery("(max-width:580px)");
   const { wishlist } = useAppSelector((state) => state.wishlist);
+  const router = useRouter()
   const dispatch = useAppDispatch();
   const handleRemoveFromWishlist = (id, title) => {
     dispatch(removeFromWishlist({ id }));
@@ -34,7 +36,7 @@ export default function Wishlist() {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      
+
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -46,12 +48,12 @@ export default function Wishlist() {
     });
   };
   const handleRemoveAllWishlist = (id, title) => {
-    dispatch(removeAllWishlist())
+    dispatch(removeAllWishlist());
     toast.error(`All items removed from wishlist`, {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      
+
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -63,7 +65,7 @@ export default function Wishlist() {
     });
   };
   return (
-    (<Container sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+    <Container sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
       {wishlist.length ? (
         <>
           <Typography variant="h4">Your wishlist items</Typography>
@@ -113,7 +115,7 @@ export default function Wishlist() {
                         src={e.imageprimary}
                         alt={e.title}
                         sx={{
-                          width: "100%"
+                          width: "100%",
                         }}
                       />
                     </TableCell>
@@ -121,8 +123,9 @@ export default function Wishlist() {
                       <Stack
                         sx={{
                           justifyContent: "center",
-                          gap: 1
-                        }}>
+                          gap: 1,
+                        }}
+                      >
                         <Typography variant="h4" gutterBottom>
                           {e.title}
                         </Typography>
@@ -180,8 +183,9 @@ export default function Wishlist() {
             sx={{
               justifyContent: "space-between",
               alignItems: "center",
-              rowGap: 2
-            }}>
+              rowGap: 2,
+            }}
+          >
             <Button
               disableRipple
               sx={{
@@ -225,8 +229,9 @@ export default function Wishlist() {
             minHeight: "80vh",
             alignItems: "center",
             justifyContent: "center",
-            gap: 3
-          }}>
+            gap: 3,
+          }}
+        >
           <FavoriteBorderOutlined sx={{ fontSize: "100px", mb: "30px" }} />
           <Typography variant="h5">No items found in wishlist</Typography>
           <Link href={"/shop"}>
@@ -245,7 +250,7 @@ export default function Wishlist() {
           </Link>
         </Stack>
       )}
-      <ToastContainer/>
-    </Container>)
+      <ToastContainer />
+    </Container>
   );
 }

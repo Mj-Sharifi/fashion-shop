@@ -26,20 +26,28 @@ import {
   Select,
   MenuItem,
   useMediaQuery,
+  SelectChangeEvent,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "Hooks/redux";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import countryList from "Utils/countries";
+import { Single_Product } from "Types/api";
+
+interface item extends Single_Product {
+  color: string;
+  quantity: number;
+  size: string;
+}
 export default function Cart() {
   const mobileSize = useMediaQuery("(max-width:580px)");
-  const router = useRouter();
   // importing Shopping List from Redux
   const { list } = useAppSelector((state) => state.cart);
+
   const dispatch = useAppDispatch();
-  const handleDecreaseQuantity = (event, item) => {
+
+  const handleDecreaseQuantity = (item: item) => {
     dispatch(
       decreaseQuantity({
         id: item.id,
@@ -51,7 +59,6 @@ export default function Cart() {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -62,7 +69,8 @@ export default function Cart() {
       transition: Slide,
     });
   };
-  const handleIncreaseQuantity = (event, item) => {
+
+  const handleIncreaseQuantity = (item: item) => {
     dispatch(
       increaseQuantity({
         id: item.id,
@@ -74,7 +82,7 @@ export default function Cart() {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      
+
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -85,7 +93,8 @@ export default function Cart() {
       transition: Slide,
     });
   };
-  const handleRemoveItem = (event, item) => {
+
+  const handleRemoveItem = (item: item) => {
     dispatch(
       removeItem({
         id: item.id,
@@ -97,7 +106,7 @@ export default function Cart() {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      
+
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -108,13 +117,13 @@ export default function Cart() {
       transition: Slide,
     });
   };
-  const handleRemoveAll = (event, item) => {
+
+  const handleRemoveAll = () => {
     dispatch(removeAll());
     toast.error(`All items removed from the cart`, {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -125,6 +134,7 @@ export default function Cart() {
       transition: Slide,
     });
   };
+
   // Calculating the total price
   let totalPrice = 0;
   for (const i of list) {
@@ -132,9 +142,10 @@ export default function Cart() {
       i.quantity *
       (i.attributes.price - (i.attributes.discount / 100) * i.attributes.price);
   }
+  
   // Selecting Country
   const [country, setCountry] = useState("");
-  const handleCountry = (event) => {
+  const handleCountry = (event:SelectChangeEvent) => {
     setCountry(event.target.value);
   };
   return (
@@ -182,7 +193,7 @@ export default function Cart() {
                     <TableCell sx={{ width: "5%" }}>
                       <IconButton
                         sx={{ backgroundColor: "transparent" }}
-                        onClick={(event, item) => handleRemoveItem(event, e)}
+                        onClick={() => handleRemoveItem(e)}
                       >
                         <Clear />
                       </IconButton>
@@ -274,9 +285,7 @@ export default function Cart() {
                           // onClick={(event, item) =>
                           //   handleDecreaseQuantity(event, e)
                           // }
-                          onClick={(event, item) =>
-                            handleDecreaseQuantity(event, e)
-                          }
+                          onClick={() => handleDecreaseQuantity(e)}
                           disabled={e.quantity === 1}
                         >
                           <Remove
@@ -293,9 +302,7 @@ export default function Cart() {
                           sx={{ padding: "0" }}
                           // onClick={() => (event, item) =>
                           //   handleIncreaseQuantity(event, e)}
-                          onClick={(event, item) =>
-                            handleIncreaseQuantity(event, e)
-                          }
+                          onClick={() => handleIncreaseQuantity(e)}
                         >
                           <Add
                             sx={{
@@ -362,7 +369,7 @@ export default function Cart() {
                   color: "text.white",
                 },
               }}
-              onClick={() => dispatch(handleRemoveAll)}
+              onClick={() => handleRemoveAll()}
             >
               Clear Shopping Cart
             </Button>

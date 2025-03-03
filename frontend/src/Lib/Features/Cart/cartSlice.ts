@@ -1,6 +1,7 @@
-const { createSlice } = require("@reduxjs/toolkit");
+import { createSlice } from "@reduxjs/toolkit";
+import { Single_Product } from "Types/api";
 
-const initialState = { list: [] };
+const initialState:{list:(Single_Product&{quantity:number,color:string,size:string})[]} = { list: [] };
 const cartSlise = createSlice({
   name: "cart",
   initialState,

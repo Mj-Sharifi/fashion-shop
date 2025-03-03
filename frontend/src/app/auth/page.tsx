@@ -7,23 +7,25 @@ import Register from "./register";
 export default function Auth() {
   // const { token } = useAppSelector((state) => state.auth);
   const [pageType, setPageType] = useState(true);
-  const handlePageType = (bool:boolean) => {
+  const handlePageType = (bool: boolean) => {
     setPageType(bool);
   };
   return (
-    (<Stack
+    <Stack
       sx={{
         minHeight: "100vh",
         width: "100%",
         alignItems: "center",
-        paddingY: { xs: "30%", sm: "25%", md: "20%", lg: "10%" }
-      }}>
+        paddingY: { xs: "30%", sm: "25%", md: "20%", lg: "10%" },
+      }}
+    >
       <Stack
         direction={"row"}
         sx={{
           alignItems: "center",
-          mb: 1
-        }}>
+          mb: 1,
+        }}
+      >
         <Typography
           variant="h4"
           sx={{
@@ -58,6 +60,6 @@ export default function Auth() {
         </Typography>
       </Stack>
       {pageType ? <Login /> : <Register />}
-    </Stack>)
+    </Stack>
   );
 }

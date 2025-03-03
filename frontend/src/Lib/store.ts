@@ -5,17 +5,18 @@ import cartSliceReducer from "./Features/Cart/cartSlice";
 import authSliceReducer from "./Features/Auth/authSlice";
 import wishSliceReducer from "./Features/Wishlist/wishSlice";
 import compareSliceReducer from "./Features/Compare/compareSlice";
-import { thunk } from "redux-thunk";
 
 const persistConfig = {
   key: "root",
   storage: sessionStorage,
 };
-const rootReducer = combineReducers({
-  cart: cartSliceReducer,
-  wishlist: wishSliceReducer,
-  compare: compareSliceReducer,
-});
+
+// const rootReducer = combineReducers({
+//   cart: cartSliceReducer,
+//   wishlist: wishSliceReducer,
+//   compare: compareSliceReducer,
+// });
+// const rootCartReducer = combineReducers({cartSliceReducer})
 const persistedCartReducer = persistReducer(persistConfig, cartSliceReducer);
 const persistedWishlistReducer = persistReducer(
   persistConfig,
