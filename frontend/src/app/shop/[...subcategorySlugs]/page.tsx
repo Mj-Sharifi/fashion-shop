@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Grid2,
@@ -514,25 +514,26 @@ export default function Subcategory() {
                   {products?.map((e, i) => (
                     <Grid2 key={i} size={{ xs: 10, sm: 6, lg: 4 }}>
                       <ProductCard
-                        id={e?.id}
-                        title={e?.attributes.title}
-                        rating={e?.attributes.rating?.slice(1)}
-                        imgAll={e?.attributes?.imagesall?.data}
-                        imgPrimary={
-                          process.env.NEXT_PUBLIC_BASE_URL +
-                          e?.attributes.imageprimary.data.attributes.url
-                        }
-                        imgSecondary={
-                          process.env.NEXT_PUBLIC_BASE_URL +
-                          e?.attributes.imagesecondary.data.attributes.url
-                        }
-                        shortDescription={e?.attributes.shortDescription}
-                        colors={e.attributes.colors?.data}
-                        sizes={e.attributes.sizes?.data}
-                        discount={e?.attributes.discount}
-                        price={e?.attributes.price}
-                        isNew={e?.attributes.isNew}
-                        isAvailable={e?.attributes.isAvailable}
+                        product={e}
+                        // id={e?.id}
+                        // title={e?.attributes.title}
+                        // rating={e?.attributes.rating?.slice(1)}
+                        // imgAll={e?.attributes?.imagesall?.data}
+                        // imgPrimary={
+                        //   process.env.NEXT_PUBLIC_BASE_URL +
+                        //   e?.attributes.imageprimary.data.attributes.url
+                        // }
+                        // imgSecondary={
+                        //   process.env.NEXT_PUBLIC_BASE_URL +
+                        //   e?.attributes.imagesecondary.data.attributes.url
+                        // }
+                        // shortDescription={e?.attributes.shortDescription}
+                        // colors={e.attributes.colors?.data}
+                        // sizes={e.attributes.sizes?.data}
+                        // discount={e?.attributes.discount}
+                        // price={e?.attributes.price}
+                        // isNew={e?.attributes.isNew}
+                        // isAvailable={e?.attributes.isAvailable}
                       />
                     </Grid2>
                   ))}
@@ -556,7 +557,11 @@ export default function Subcategory() {
               )}
             </Grid2>
           </Grid2>
-          <PaginationContainer page={page} count={Math.ceil(productCount/productPerPage)} handlePagination={(e,p)=>setPage(p)}/>
+          <PaginationContainer
+            page={page}
+            count={Math.ceil(productCount / productPerPage)}
+            handlePagination={(e, p) => setPage(p)}
+          />
           <GoUp />
           <ToastContainer />
         </>

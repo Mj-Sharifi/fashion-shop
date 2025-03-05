@@ -13,14 +13,15 @@ import React, { useState } from "react";
 
 export default function MyProfile() {
   // Handle Accordion
-  const [expanded, setExpanded] = useState("panel1");
+  const [expanded, setExpanded] = useState<"panel1"|"panel2"|"panel3" | false>("panel1");
 
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
+  const handleChange =
+    (panel: "panel1"|"panel2"|"panel3") => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
 
   return (
-    (<Stack
+    <Stack
       sx={{
         minHeight: "600px",
         justifyContent: "center",
@@ -30,10 +31,11 @@ export default function MyProfile() {
 
         "& .MuiPaper-root::before": {
           backgroundColor: "transparent !important",
-        }
-      }}>
+        },
+      }}
+    >
       <Accordion
-        expanded={expanded === "panel1"}
+        expanded={expanded == "panel1"}
         onChange={handleChange("panel1")}
         sx={{
           width: { xs: "95%", sm: "80%", md: "60%", lg: "45%", xl: "40%" },
@@ -50,7 +52,7 @@ export default function MyProfile() {
             borderTopLeftRadius: "5px",
             borderTopRightRadius: "5px",
             height: "70px",
-            "&:hover p,&:hover svg":{color:"colors.violet"}
+            "&:hover p,&:hover svg": { color: "colors.violet" },
           }}
         >
           <Typography sx={{ textTransform: "uppercase" }}>
@@ -68,17 +70,21 @@ export default function MyProfile() {
             sx={{
               gap: "15px",
               width: "100%",
-              alignItems: "end"
-            }}>
+              alignItems: "end",
+            }}
+          >
             <Stack
               direction={{ xs: "column", md: "row" }}
               sx={{
                 width: "100%",
-                gap: "15px"
-              }}>
-              <Stack sx={{
-                width: { xs: "100%", md: "50%" }
-              }}>
+                gap: "15px",
+              }}
+            >
+              <Stack
+                sx={{
+                  width: { xs: "100%", md: "50%" },
+                }}
+              >
                 First Name
                 <Input
                   name="firstName"
@@ -95,9 +101,11 @@ export default function MyProfile() {
                   }}
                 />
               </Stack>
-              <Stack sx={{
-                width: { xs: "100%", md: "50%" }
-              }}>
+              <Stack
+                sx={{
+                  width: { xs: "100%", md: "50%" },
+                }}
+              >
                 Last Name
                 <Input
                   name="lastName"
@@ -115,9 +123,11 @@ export default function MyProfile() {
                 />
               </Stack>
             </Stack>
-            <Stack sx={{
-              width: "100%"
-            }}>
+            <Stack
+              sx={{
+                width: "100%",
+              }}
+            >
               Email Address
               <Input
                 name="email"
@@ -138,11 +148,14 @@ export default function MyProfile() {
               direction={{ xs: "column", md: "row" }}
               sx={{
                 width: "100%",
-                gap: "15px"
-              }}>
-              <Stack sx={{
-                width: { xs: "100%", md: "50%" }
-              }}>
+                gap: "15px",
+              }}
+            >
+              <Stack
+                sx={{
+                  width: { xs: "100%", md: "50%" },
+                }}
+              >
                 Telephone
                 <Input
                   name="telephone"
@@ -159,9 +172,11 @@ export default function MyProfile() {
                   }}
                 />
               </Stack>
-              <Stack sx={{
-                width: { xs: "100%", md: "50%" }
-              }}>
+              <Stack
+                sx={{
+                  width: { xs: "100%", md: "50%" },
+                }}
+              >
                 Fax
                 <Input
                   name="fax"
@@ -199,7 +214,7 @@ export default function MyProfile() {
         </AccordionDetails>
       </Accordion>
       <Accordion
-        expanded={expanded === "panel2"}
+        expanded={expanded == "panel2"}
         onChange={handleChange("panel2")}
         sx={{
           width: { xs: "95%", sm: "80%", md: "60%", lg: "45%", xl: "40%" },
@@ -214,7 +229,7 @@ export default function MyProfile() {
             border: "1px solid",
             borderColor: "colors.darkgray",
             height: "70px",
-            "&:hover p,&:hover svg":{color:"colors.violet"}
+            "&:hover p,&:hover svg": { color: "colors.violet" },
           }}
         >
           <Typography sx={{ textTransform: "uppercase" }}>
@@ -232,11 +247,14 @@ export default function MyProfile() {
             sx={{
               width: "100%",
               gap: "15px",
-              alignItems: "end"
-            }}>
-            <Stack sx={{
-              width: "100%"
-            }}>
+              alignItems: "end",
+            }}
+          >
+            <Stack
+              sx={{
+                width: "100%",
+              }}
+            >
               Password
               <Input
                 name="email"
@@ -253,9 +271,11 @@ export default function MyProfile() {
                 }}
               />
             </Stack>
-            <Stack sx={{
-              width: "100%"
-            }}>
+            <Stack
+              sx={{
+                width: "100%",
+              }}
+            >
               Password Confirm
               <Input
                 name="email"
@@ -292,7 +312,7 @@ export default function MyProfile() {
         </AccordionDetails>
       </Accordion>
       <Accordion
-        expanded={expanded === "panel3"}
+        expanded={expanded == "panel3"}
         onChange={handleChange("panel3")}
         sx={{
           width: { xs: "95%", sm: "80%", md: "60%", lg: "45%", xl: "40%" },
@@ -309,7 +329,7 @@ export default function MyProfile() {
             borderBottomLeftRadius: `${expanded === "panel3" ? "" : "5px"}`,
             borderBottomRightRadius: `${expanded === "panel3" ? "" : "5px"}`,
             height: "70px",
-            "&:hover p,&:hover svg":{color:"colors.violet"}
+            "&:hover p,&:hover svg": { color: "colors.violet" },
           }}
         >
           <Typography sx={{ textTransform: "uppercase" }}>
@@ -327,27 +347,32 @@ export default function MyProfile() {
             sx={{
               width: "100%",
               alignItems: "end",
-              gap: "15px"
-            }}>
+              gap: "15px",
+            }}
+          >
             <Stack
               direction={{ xs: "column", md: "row" }}
               sx={{
                 width: "100%",
                 border: "1px solid",
                 borderColor: "colors.darkgray",
-                py: { xs: "20px", sm: "5px" }
-              }}>
+                py: { xs: "20px", sm: "5px" },
+              }}
+            >
               <Stack
                 sx={{
                   width: { xs: "100%", md: "60%" },
                   borderRight: { md: "1px solid" },
                   borderColor: "colors.darkgray",
                   justifyContent: "center",
-                  alignItems: "center"
-                }}>
-                <Typography sx={{
-                  textAlign: "center"
-                }}>
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  sx={{
+                    textAlign: "center",
+                  }}
+                >
                   John Doe
                   <br /> Paul Park
                   <br /> Lorem Ipsum Dolor Set Amet
@@ -362,8 +387,9 @@ export default function MyProfile() {
                     gap: 2,
                     alignItems: "center",
                     justifyContent: "center",
-                    mt: "15px"
-                  }}>
+                    mt: "15px",
+                  }}
+                >
                   <Button
                     disableRipple
                     sx={{
@@ -405,8 +431,9 @@ export default function MyProfile() {
                   flexDirection: "row",
                   gap: 2,
                   alignItems: "center",
-                  justifyContent: "center"
-                }}>
+                  justifyContent: "center",
+                }}
+              >
                 <Button
                   disableRipple
                   sx={{
@@ -442,24 +469,24 @@ export default function MyProfile() {
               </Stack>
             </Stack>
             <Button
-            disableRipple
-            sx={{
-              width: "135px",
-              height: "45px",
-              backgroundColor: "colors.lightgray",
-              color: "text.black",
-              transition: "all 0.3s",
-              "&:hover": {
-                backgroundColor: "colors.violet",
-                color: "text.white",
-              },
-            }}
-          >
-            Continue
-          </Button>
+              disableRipple
+              sx={{
+                width: "135px",
+                height: "45px",
+                backgroundColor: "colors.lightgray",
+                color: "text.black",
+                transition: "all 0.3s",
+                "&:hover": {
+                  backgroundColor: "colors.violet",
+                  color: "text.white",
+                },
+              }}
+            >
+              Continue
+            </Button>
           </Stack>
         </AccordionDetails>
       </Accordion>
-    </Stack>)
+    </Stack>
   );
 }

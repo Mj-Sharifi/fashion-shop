@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { Clear, FavoriteBorderOutlined } from "@mui/icons-material";
 import {
@@ -24,19 +24,18 @@ import {
 } from "Lib/Features/Wishlist/wishSlice";
 import { toast, Slide, ToastContainer } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "Hooks/redux";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 export default function Wishlist() {
   const mobileSize = useMediaQuery("(max-width:580px)");
   const { wishlist } = useAppSelector((state) => state.wishlist);
   const router = useRouter()
   const dispatch = useAppDispatch();
-  const handleRemoveFromWishlist = (id, title) => {
+  const handleRemoveFromWishlist = (id:number, title:string) => {
     dispatch(removeFromWishlist({ id }));
     toast.error(`${title} removed from wishlist`, {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -47,13 +46,12 @@ export default function Wishlist() {
       transition: Slide,
     });
   };
-  const handleRemoveAllWishlist = (id, title) => {
+  const handleRemoveAllWishlist = () => {
     dispatch(removeAllWishlist());
     toast.error(`All items removed from wishlist`, {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-
       closeOnClick: false,
       closeButton: false,
       rtl: false,

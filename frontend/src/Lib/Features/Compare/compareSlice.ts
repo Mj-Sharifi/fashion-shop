@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Single_Product } from "Types/api";
 
-const initialState = { compareList: [] };
+const initialState:{compareList:Single_Product[]} = { compareList: [] };
 const compareSlice = createSlice({
   initialState,
   name: "compare",

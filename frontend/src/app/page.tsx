@@ -203,28 +203,29 @@ export default function Home() {
               paddingTop: { xs: 2, sm: 3, md: 4 },
             }}
           >
-            {products[String(tab)]?.map((e, i) => (
+            {products[String(tab)]?.map((p, i) => (
               <Grid2 key={i} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                 <ProductCard
-                  id={e?.id}
-                  title={e?.attributes.title}
-                  rating={e?.attributes.rating?.slice(1)}
-                  imgAll={e?.attributes?.imagesall?.data}
-                  imgPrimary={
-                    process.env.NEXT_PUBLIC_BASE_URL +
-                    e?.attributes.imageprimary.data.attributes.url
-                  }
-                  imgSecondary={
-                    process.env.NEXT_PUBLIC_BASE_URL +
-                    e?.attributes.imagesecondary.data.attributes.url
-                  }
-                  shortDescription={e?.attributes.shortDescription}
-                  colors={e.attributes.colors.data}
-                  sizes={e.attributes.sizes.data}
-                  discount={e?.attributes.discount}
-                  price={e?.attributes.price}
-                  isNew={e?.attributes.isNew}
-                  isAvailable={e?.attributes.isAvailable}
+                  product={p}
+                  // id={e?.id}
+                  // title={e?.attributes.title}
+                  // rating={e?.attributes.rating?.slice(1)}
+                  // imgAll={e?.attributes?.imagesall?.data}
+                  // imgPrimary={
+                  //   process.env.NEXT_PUBLIC_BASE_URL +
+                  //   e?.attributes.imageprimary.data.attributes.url
+                  // }
+                  // imgSecondary={
+                  //   process.env.NEXT_PUBLIC_BASE_URL +
+                  //   e?.attributes.imagesecondary.data.attributes.url
+                  // }
+                  // shortDescription={e?.attributes.shortDescription}
+                  // colors={e.attributes.colors.data}
+                  // sizes={e.attributes.sizes.data}
+                  // discount={e?.attributes.discount}
+                  // price={e?.attributes.price}
+                  // isNew={e?.attributes.isNew}
+                  // isAvailable={e?.attributes.isAvailable}
                 />
               </Grid2>
             ))}

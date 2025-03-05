@@ -11,14 +11,25 @@ import {
 import React from "react";
 import ProductSlider from "./ProductSlider";
 import ProductCart from "./Cart";
+import { Single_Product } from "Types/api";
 
-export default function QuickView({ quickView, product,handleQuickViewClose }) {
+type props ={
+  quickView:boolean,
+  product:Single_Product,
+  handleQuickViewClose:()=>void,
+}
+export default function QuickView({
+  quickView,
+  product,
+  handleQuickViewClose,
+}:props) {
+
   return (
-    (<Dialog
+    <Dialog
       open={quickView}
       fullWidth={true}
       maxWidth={"lg"}
-      sx={{ display: {xs:"none",sm:"flex"}, flexDirection: "column" }}
+      sx={{ display: { xs: "none", sm: "flex" }, flexDirection: "column" }}
       onClose={handleQuickViewClose}
     >
       <Stack
@@ -43,26 +54,34 @@ export default function QuickView({ quickView, product,handleQuickViewClose }) {
         direction={{ xs: "column", md: "row" }}
         sx={{
           width: "100%",
-          gap: 3
-        }}>
-        <Box sx={{
-          width: { xs: "100%", md: "50%" }
-        }}>
+          gap: 3,
+        }}
+      >
+        <Box
+          sx={{
+            width: { xs: "100%", md: "50%" },
+          }}
+        >
           <ProductSlider
-            images={product?.attributes?.imagesall?.data}
+            images={product.attributes.imagesall.data}
             discount={product?.attributes.discount}
           />
         </Box>
-        <Stack sx={{
-          width: { xs: "100%", md: "50%" }
-        }}>
+        <Stack
+          sx={{
+            width: { xs: "100%", md: "50%" },
+          }}
+        >
           <Typography component={"h2"} variant="h3" gutterBottom>
             {product?.attributes.title}
           </Typography>
           {product?.attributes.discount ? (
-            <Stack direction={"row"} sx={{
-              gap: 3
-            }}>
+            <Stack
+              direction={"row"}
+              sx={{
+                gap: 3,
+              }}
+            >
               <Typography variant="h4" sx={{ color: "red" }}>
                 $
                 {(
@@ -95,9 +114,9 @@ export default function QuickView({ quickView, product,handleQuickViewClose }) {
           <Divider sx={{ marginY: "25px", bgcolor: "colors.darkgray" }} />
 
           {/* Add to Cart Button */}
-          <ProductCart product={product}/>
+          <ProductCart product={product} />
         </Stack>
       </Stack>
-    </Dialog>)
+    </Dialog>
   );
 }

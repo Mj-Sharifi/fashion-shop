@@ -15,7 +15,7 @@ import { toast, Slide } from "react-toastify";
 import { addToWishlist } from "Lib/Features/Wishlist/wishSlice";
 import { addToCompare } from "Lib/Features/Compare/compareSlice";
 import { useAppDispatch, useAppSelector } from "Hooks/redux";
-import { Image_Api, Single_Product } from "Types/api";
+import { Single_Product } from "Types/api";
 
 type props = {
   product: Single_Product;

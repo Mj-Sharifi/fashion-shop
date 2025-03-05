@@ -1,12 +1,6 @@
-"use client"
+"use client";
 import React from "react";
-import {
-  Container,
-  Stack,
-  Typography,
-  Input,
-  Button,
-} from "@mui/material";
+import { Container, Stack, Typography, Input, Button } from "@mui/material";
 import {
   Phone,
   Public,
@@ -21,20 +15,30 @@ import Link from "next/link";
 import GoUp from "Components/GoUp";
 export default function Contact() {
   return (
-    (<Container>
-      <Stack sx={{
-        gap: 4
-      }}>
+    <Container>
+      <Stack
+        sx={{
+          gap: 4,
+        }}
+      >
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d12852.952643329256!2d59.543364487260305!3d36.35500974262615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1712563715660!5m2!1sen!2s"
-          style={{border:"0",borderRadius:"1%",width:"100%",aspectRatio:"1.78"}}
+          style={{
+            border: "0",
+            borderRadius: "1%",
+            width: "100%",
+            aspectRatio: "1.78",
+          }}
           allowFullScreen
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
-        <Stack direction={{ xs: "column", md: "row" }} sx={{
-          gap: 1
-        }}>
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          sx={{
+            gap: 1,
+          }}
+        >
           {/* Contact Info */}
           <Stack
             sx={{
@@ -52,8 +56,9 @@ export default function Contact() {
                 sx={{
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: 2
-                }}>
+                  gap: 2,
+                }}
+              >
                 <Phone
                   fontSize="large"
                   sx={{
@@ -78,8 +83,9 @@ export default function Contact() {
                 sx={{
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: 2
-                }}>
+                  gap: 2,
+                }}
+              >
                 <Public
                   fontSize="large"
                   sx={{
@@ -106,8 +112,9 @@ export default function Contact() {
                 sx={{
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: 2
-                }}>
+                  gap: 2,
+                }}
+              >
                 <LocationOn
                   fontSize="large"
                   sx={{
@@ -133,8 +140,9 @@ export default function Contact() {
             <Stack
               sx={{
                 alignItems: "center",
-                gap: 1
-              }}>
+                gap: 1,
+              }}
+            >
               <Typography variant="h4">Follow Us</Typography>
               <Stack
                 direction={"row"}
@@ -144,8 +152,9 @@ export default function Contact() {
                   "& svg:hover": {
                     transition: "all 0.3s",
                     color: "colors.violet",
-                  }
-                }}>
+                  },
+                }}
+              >
                 <Link href={"#"} target="_blank">
                   <LinkedIn />
                 </Link>
@@ -181,8 +190,9 @@ export default function Contact() {
               sx={{
                 width: "100%",
                 gap: "20px",
-                mt: 1
-              }}>
+                mt: 1,
+              }}
+            >
               <Input
                 placeholder="Name*"
                 name="author"
@@ -266,6 +276,6 @@ export default function Contact() {
         </Stack>
       </Stack>
       <GoUp />
-    </Container>)
+    </Container>
   );
 }

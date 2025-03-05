@@ -1,6 +1,5 @@
 "use client";
 import countryList from "Utils/countries";
-import { Close } from "@mui/icons-material";
 import {
   Container,
   Stack,
@@ -12,9 +11,11 @@ import {
   Divider,
   Button,
   Grid2,
+  SelectChangeEvent,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useAppSelector } from "Hooks/redux";
+
 
 export default function Checkout() {
   // importing Shopping List from Redux
@@ -28,10 +29,9 @@ export default function Checkout() {
   }
   // Selecting Country
   const [country, setCountry] = useState("");
-  const handleCountry = (event) => {
+  const handleCountry = (event:SelectChangeEvent) => {
     setCountry(event.target.value);
   };
-
   return (
     <Container>
       <Grid2 container spacing={5}>
@@ -370,7 +370,7 @@ export default function Checkout() {
           />
         </Grid2>
         <Grid2
-          size={{ xs: 12, md: 7 }}
+          size={{ xs: 12, md: 5 }}
           sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
         >
           <Typography variant="h4">Your Order</Typography>

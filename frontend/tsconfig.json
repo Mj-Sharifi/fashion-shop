@@ -20,13 +20,15 @@
       }
     ]
   },
+
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
+    "src",
     "src/app/checkout/layout.tsx",
     "src/app/checkout/page.tsx"
-  ],
+, "src/Types/.d.ts"  ],
   "exclude": ["node_modules"]
 }
