@@ -14,6 +14,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { SimpleTreeView, TreeItem } from "@mui/x-tree-view";
 import { useAppDispatch, useAppSelector } from "Hooks/redux";
+import { handleLogout } from "Lib/Features/Auth/authSlice";
+
 const menuItems = ["Home", "Shop", "Contact"];
 export default function HamburgerMenu({
   mobileMenu,
@@ -21,7 +23,11 @@ export default function HamburgerMenu({
   categories,
 }) {
   const [expandedItems, setExpandedItems] = useState([""]);
-  const handleItemExpansionToggle = (event, itemId, isExpanded) => {
+  const handleItemExpansionToggle = (
+    event: React.SyntheticEvent,
+    itemId: string,
+    isExpanded: boolean
+  ) => {
     if (isExpanded) {
       if (itemId === "Shop") {
         setExpandedItems([itemId]);
@@ -39,7 +45,7 @@ export default function HamburgerMenu({
   const { token } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   return (
-    (<Stack
+    <Stack
       sx={{
         width: "400px",
         maxWidth: "100%",
@@ -75,8 +81,9 @@ export default function HamburgerMenu({
             width: "100%",
             height: "40px",
             alignItems: "center",
-            paddingX: "10px"
-          }}>
+            paddingX: "10px",
+          }}
+        >
           <Input
             placeholder="Search..."
             sx={{
@@ -108,8 +115,9 @@ export default function HamburgerMenu({
             "& .MuiTypography-root:hover": {
               transition: "all 0.3s",
               color: "colors.violet",
-            }
-          }}>
+            },
+          }}
+        >
           {menuItems.map((e, i) =>
             e !== "Shop" ? (
               <Link key={i} href={e.toLowerCase()}>
@@ -117,8 +125,9 @@ export default function HamburgerMenu({
                   variant="body2"
                   sx={{
                     fontWeight: "600",
-                    textTransform: "uppercase"
-                  }}>
+                    textTransform: "uppercase",
+                  }}
+                >
                   {e}
                 </Typography>
               </Link>
@@ -151,9 +160,12 @@ export default function HamburgerMenu({
               >
                 <TreeItem
                   label={
-                    <Typography variant="body2" sx={{
-                      fontWeight: "600"
-                    }}>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontWeight: "600",
+                      }}
+                    >
                       {e}
                     </Typography>
                   }
@@ -164,9 +176,7 @@ export default function HamburgerMenu({
                       itemId={`${m?.attributes.title}`}
                       key={n}
                       label={
-                        <Link
-                          href={`/shop/${m?.attributes.slug}`}
-                        >
+                        <Link href={`/shop/${m?.attributes.slug}`}>
                           <Typography variant="body2">
                             {m?.attributes.title}
                           </Typography>
@@ -179,9 +189,7 @@ export default function HamburgerMenu({
                           key={l}
                           label={
                             <Link
-                              href={`/shop/${m?.attributes.slug}/${
-                                k?.attributes.slug
-                              }`}
+                              href={`/shop/${m?.attributes.slug}/${k?.attributes.slug}`}
                             >
                               <Typography variant="body2">
                                 {k?.attributes.title}
@@ -202,8 +210,9 @@ export default function HamburgerMenu({
           sx={{
             my: 5,
             px: 3,
-            gap: 2
-          }}>
+            gap: 2,
+          }}
+        >
           {token ? (
             <>
               <Link href={"/my-profile"}>
@@ -211,8 +220,9 @@ export default function HamburgerMenu({
                   variant="body2"
                   sx={{
                     fontWeight: "600",
-                    textTransform: "uppercase"
-                  }}>
+                    textTransform: "uppercase",
+                  }}
+                >
                   Profile
                 </Typography>
               </Link>
@@ -222,8 +232,9 @@ export default function HamburgerMenu({
                 sx={{
                   fontWeight: "600",
                   textTransform: "uppercase",
-                  cursor: "pointer"
-                }}>
+                  cursor: "pointer",
+                }}
+              >
                 Logout
               </Typography>
             </>
@@ -233,8 +244,9 @@ export default function HamburgerMenu({
                 variant="body2"
                 sx={{
                   fontWeight: "600",
-                  textTransform: "uppercase"
-                }}>
+                  textTransform: "uppercase",
+                }}
+              >
                 Login / Register
               </Typography>
             </Link>
@@ -246,15 +258,17 @@ export default function HamburgerMenu({
             mt: 3,
             px: 3,
             alignItems: "start",
-            gap: 1
-          }}>
+            gap: 1,
+          }}
+        >
           <Stack
             direction={"row"}
             sx={{
               justifyContent: "center",
               alignItems: "center",
-              gap: 1
-            }}>
+              gap: 1,
+            }}
+          >
             <Call fontSize="small" />
             <Typography>(+98) 9039104679</Typography>
           </Stack>
@@ -263,8 +277,9 @@ export default function HamburgerMenu({
             sx={{
               justifyContent: "center",
               alignItems: "center",
-              gap: 1
-            }}>
+              gap: 1,
+            }}
+          >
             <Email fontSize="small" />
             <Typography>mj.sharifimanesh@gmail.com</Typography>
           </Stack>
@@ -278,8 +293,9 @@ export default function HamburgerMenu({
             gap: 2,
             "& button": { padding: "0" },
             "& button:hover": { backgroundColor: "transparent" },
-            "& svg": { color: "text.black" }
-          }}>
+            "& svg": { color: "text.black" },
+          }}
+        >
           <IconButton
             sx={{
               "&:hover svg": {
@@ -318,6 +334,6 @@ export default function HamburgerMenu({
           </IconButton>
         </Stack>
       </Paper>
-    </Stack>)
+    </Stack>
   );
 }

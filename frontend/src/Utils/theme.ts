@@ -8,7 +8,6 @@ const poppins = Poppins({
   display: "swap",
 });
 
-
 const theme = createTheme({
   breakpoints: {
     values: {
@@ -29,7 +28,7 @@ const theme = createTheme({
       fontWeight: "500",
     }
   },
-  palette: {
+  palette: {   
     colors: {
       violet: "#a749ff !important",
       purple: "#f0e0ff !important",

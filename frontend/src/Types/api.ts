@@ -84,32 +84,10 @@ export interface Single_Product {
         shortDescription: string,
         longDescription: string,
         categories: {
-            "data": [
-                {
-                    "id": 1,
-                    "attributes": {
-                        "title": "Men",
-                        "createdAt": "2024-03-22T07:05:09.871Z",
-                        "updatedAt": "2024-04-08T08:27:55.992Z",
-                        "publishedAt": "2024-03-22T07:05:12.321Z",
-                        "slug": "men"
-                    }
-                }
-            ]
+            data: Single_Category[]
         },
         subcategories: {
-            "data": [
-                {
-                    "id": 7,
-                    "attributes": {
-                        "title": "Jeans",
-                        "createdAt": "2024-03-22T07:09:38.401Z",
-                        "updatedAt": "2024-04-08T08:28:51.953Z",
-                        "publishedAt": "2024-03-22T07:09:40.742Z",
-                        "slug": "jeans"
-                    }
-                }
-            ]
+            data: Single_Subcategory[]
         },
         imageprimary: { data: Image_Api },
         imagesecondary: { data: Image_Api },
@@ -137,7 +115,7 @@ export interface Single_Color {
 export interface Single_Size {
     id: number
     attributes: General_Attributes & {
-        size: number,
+        size: string,
         products: { data: Single_Product[] }
     }
 }

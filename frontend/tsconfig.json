@@ -24,11 +24,12 @@
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
+    "src/Types/*.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "src",
     "src/app/checkout/layout.tsx",
     "src/app/checkout/page.tsx"
-, "src/Types/.d.ts"  ],
-  "exclude": ["node_modules"]
+  ],
+  "exclude": ["node_modules"],
 }

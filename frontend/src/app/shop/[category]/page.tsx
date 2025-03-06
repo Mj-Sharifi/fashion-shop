@@ -154,8 +154,6 @@ export default function Category() {
         .catch((err) => console.log(err));
     }
   }, [category]);
-
-
   return (
     <Container sx={{ marginTop: { xs: "50px", sm: "70px", md: "90px" } }}>
       {products ? (

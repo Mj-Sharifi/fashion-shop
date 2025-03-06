@@ -346,7 +346,7 @@ export default function Checkout() {
             </Stack>
           </Stack>
           <Typography variant="h4">Additional information</Typography>
-          <Typography variant="menuItmes">Order notes</Typography>
+          <Typography variant="menuItems">Order notes</Typography>
           <Input
             name="additionalInfo"
             multiline

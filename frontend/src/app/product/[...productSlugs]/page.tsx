@@ -34,9 +34,8 @@ import { ToastContainer } from "react-toastify";
 import { Single_Product } from "Types/api";
 import { useParams } from "next/navigation";
 
-export default function ProductDetail(props) {
+export default function ProductDetail() {
   const params = useParams();
-  //
   const [product, setProduct] = useState<Single_Product>();
   const [relatedProducts, setRelatedProducts] = useState<Single_Product[]>();
   useEffect(() => {
@@ -73,12 +72,11 @@ export default function ProductDetail(props) {
   }, []);
 
   // Handle Tabs
-  const [tab, setTab] = useState("1");
-  const handleTab = (event, newTab) => {
+  const [tab, setTab] = useState<"1"|"2"|"3">("1");
+  const handleTab = (event:React.SyntheticEvent, newTab:"1"|"2"|"3") => {
     setTab(newTab);
   };
   const scrollableTab = useMediaQuery("(max-width:580px)");
-
   return (
     <>
       {product && (

@@ -28,6 +28,7 @@ import MegaMenu from "./MegaMenu";
 import NavCart from "./NavCart";
 import { handleLogout } from "Lib/Features/Auth/authSlice";
 import { useAppDispatch, useAppSelector } from "Hooks/redux";
+import { Single_Category, Single_Product } from "Types/api";
 const menuItems = ["Home", "Shop", "Contact"];
 
 export default function Navbar() {
@@ -88,8 +89,8 @@ export default function Navbar() {
   const handleSearch = () => {
     setSearchOpen(!searchOpen);
   };
-  const [searchText, setSearchText] = useState("");
-  const [searchResult, setSearchResult] = useState();
+  const [searchText, setSearchText] = useState<string>("");
+  const [searchResult, setSearchResult] = useState<Single_Product[]>();
   useEffect(() => {
     if (searchText.length > 2) {
       fetch(
@@ -99,6 +100,8 @@ export default function Navbar() {
         .then((res) => res.json())
         .then((data) => setSearchResult(data.data))
         .catch((err) => console.log(err));
+    }else{
+      setSearchResult([])
     }
   }, [searchText]);
   // Handle Mobile Menu
@@ -137,7 +140,7 @@ export default function Navbar() {
     }
   };
   //Handle Categories and Subcategories
-  const [categories, setCategories] = useState();
+  const [categories, setCategories] = useState<Single_Category[]>();
   useEffect(() => {
     fetch(process.env.NEXT_PUBLIC_BASE_API + "categories?populate=*")
       .then((res) => res.json())
@@ -146,11 +149,11 @@ export default function Navbar() {
   }, []);
 
   return (
-    (<nav
-                                                                                                                                                          id="navbar"
-                                                                                                                                                          className={`${styles.navbar} ${stickyClass && styles.stick}`}
-                                                                                                                                                          ref={navbar}
-                                                                                                                                                        >
+    <nav
+      id="navbar"
+      className={`${styles.navbar} ${stickyClass && styles.stick}`}
+      ref={navbar}
+    >
       <Container
         sx={{
           display: "flex",
@@ -171,12 +174,13 @@ export default function Navbar() {
           direction={"row"}
           sx={{
             gap: 3,
-            display: { xs: "none", md: "flex" }
-          }}>
-          {menuItems.map((e, i) => {
-            if (e != "Shop") {
+            display: { xs: "none", md: "flex" },
+          }}
+        >
+          {menuItems.map((item, i) => {
+            if (item != "Shop") {
               return (
-                <Link key={i} href={`/${e != "Home" ? e.toLowerCase() : ""}`}>
+                <Link key={i} href={`/${item != "Home" ? item.toLowerCase() : ""}`}>
                   <Typography
                     variant="body2"
                     sx={{
@@ -184,13 +188,13 @@ export default function Navbar() {
                       "&:hover": { color: "colors.violet" },
                     }}
                   >
-                    {e}
+                    {item}
                   </Typography>
                 </Link>
               );
             } else {
               return (
-                (<Box
+                <Box
                   key={i}
                   sx={{
                     "&:hover": {
@@ -202,9 +206,12 @@ export default function Navbar() {
                     },
                   }}
                 >
-                  <Stack direction={"row"} sx={{
-                    alignItems: "center"
-                  }}>
+                  <Stack
+                    direction={"row"}
+                    sx={{
+                      alignItems: "center",
+                    }}
+                  >
                     <Typography
                       variant="body2"
                       sx={{
@@ -213,7 +220,7 @@ export default function Navbar() {
                         cursor: "pointer",
                       }}
                     >
-                      {e}
+                      {item}
                     </Typography>
                     <KeyboardArrowDown />
                   </Stack>
@@ -234,7 +241,7 @@ export default function Navbar() {
                   >
                     <MegaMenu categories={categories} />
                   </Paper>
-                </Box>)
+                </Box>
               );
             }
           })}
@@ -251,8 +258,9 @@ export default function Navbar() {
               color: "text.black",
             },
 
-            "& svg:not(.closeBtn):hover": { color: "colors.violet" }
-          }}>
+            "& svg:not(.closeBtn):hover": { color: "colors.violet" },
+          }}
+        >
           {/* Search */}
           <Box
             sx={{ position: "relative", display: { xs: "none", md: "flex" } }}
@@ -281,6 +289,7 @@ export default function Navbar() {
               <Input
                 type="text"
                 placeholder="Search"
+                value={searchText}
                 sx={{
                   transition: "all 0.3s",
                   height: "45px",
@@ -297,19 +306,18 @@ export default function Navbar() {
                     border: "none !important",
                   },
                 }}
-                onKeyUp={(e) => setSearchText(e.target.value)}
+                onChange={(e) => setSearchText(e.target.value)}
               />
               <Stack
                 sx={{
-                  width: "45px",
-                  height: "45px",
                   justifyContent: "center",
                   alignItems: "center",
                   height: "45px",
                   width: "60px",
                   bgcolor: "colors.violet",
-                  "&:hover": { bgcolor: "text.black" }
-                }}>
+                  "&:hover": { bgcolor: "text.black" },
+                }}
+              >
                 <Search sx={{ color: "text.white" }} />
               </Stack>
             </Paper>
@@ -349,8 +357,9 @@ export default function Navbar() {
                       "&:hover p": {
                         transition: "all 0.3s",
                         color: "colors.violet",
-                      }
-                    }}>
+                      },
+                    }}
+                  >
                     <Box
                       component={"img"}
                       src={
@@ -521,6 +530,6 @@ export default function Navbar() {
         categories={categories}
       />
       {/* <Toast type="error" message={toast} /> */}
-    </nav>)
+    </nav>
   );
 }

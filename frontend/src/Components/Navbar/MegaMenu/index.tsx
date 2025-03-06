@@ -1,12 +1,14 @@
 import { Box, Grid2, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 import React from "react";
+import { Single_Category } from "Types/api";
 
-export default function MegaMenu({categories}) {
+type props = { categories: Single_Category[] };
+export default function MegaMenu({ categories }: props) {
   return (
-    (<Grid2 container sx={{ height: "100%", width: "100%"}} spacing={2}>
-      {categories?.map((e, i) => (
-        <Grid2 key={i} size={{md:3}}>
+    <Grid2 container sx={{ height: "100%", width: "100%" }} spacing={2}>
+      {categories?.map((cat, i) => (
+        <Grid2 key={i} size={{ md: 3 }}>
           <Stack
             direction={"row"}
             spacing={2}
@@ -14,13 +16,16 @@ export default function MegaMenu({categories}) {
               width: "100%",
               marginTop: 1,
               paddingRight: 1,
-              borderRight: `${i!==3&&"1px solid"}`,
-              borderColor: "colors.darkgray"
-            }}>
-            <Box sx={{
-              width: "40%"
-            }}>
-              <Link href={`/shop/${e?.attributes.slug}`}>
+              borderRight: `${i !== 3 && "1px solid"}`,
+              borderColor: "colors.darkgray",
+            }}
+          >
+            <Box
+              sx={{
+                width: "40%",
+              }}
+            >
+              <Link href={`/shop/${cat?.attributes.slug}`}>
                 <Typography
                   variant="menuItems"
                   sx={{
@@ -29,22 +34,20 @@ export default function MegaMenu({categories}) {
                     "&:hover": { color: "colors.violet" },
                     cursor: "pointer",
                   }}
-                  
                 >
-                  {e?.attributes.title}
+                  {cat?.attributes.title}
                 </Typography>
               </Link>
               <Stack
                 sx={{
                   gap: 1,
-                  marginTop: 2
-                }}>
-                {e?.attributes.subcategories.data.map((m, n) => (
+                  marginTop: 2,
+                }}
+              >
+                {cat?.attributes.subcategories.data.map((m, n) => (
                   <Link
                     key={n}
-                    href={`/shop/${e?.attributes.slug}/${
-                      m.attributes.slug
-                    }`}
+                    href={`/shop/${cat?.attributes.slug}/${m.attributes.slug}`}
                   >
                     <Typography
                       variant="menuItems"
@@ -60,10 +63,14 @@ export default function MegaMenu({categories}) {
                 ))}
               </Stack>
             </Box>
-            <Box component={"img"} src={`/assets/menu/${e?.attributes.title}.jpg`} sx={{width:"60%",objectFit:"cover",aspectRatio:"0.857"}}/>
+            <Box
+              component={"img"}
+              src={`/assets/menu/${cat?.attributes.title}.jpg`}
+              sx={{ width: "60%", objectFit: "cover", aspectRatio: "0.857" }}
+            />
           </Stack>
         </Grid2>
       ))}
-    </Grid2>)
+    </Grid2>
   );
 }
