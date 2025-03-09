@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { toast, Slide } from "react-toastify";
 // MUI components
 import {
-  Box,
   Button,
   Stack,
   Typography,
@@ -22,27 +21,8 @@ import { addItem } from "Lib/Features/Cart/cartSlice";
 import { addToCompare } from "Lib/Features/Compare/compareSlice";
 import { useAppDispatch, useAppSelector } from "Hooks/redux";
 import { Single_Product } from "Types/api";
+import { isInComparelist, isInWishlist } from "Utils/utils";
 
-const isInWishlist = (id, wishlist) => {
-  let isIn = false;
-  for (const w of wishlist) {
-    if (id == w.id) {
-      isIn = true;
-      break;
-    }
-  }
-  return isIn;
-};
-const isInComparelist = (id, compareList) => {
-  let isIn = false;
-  for (const c of compareList) {
-    if (id == c.id) {
-      isIn = true;
-      break;
-    }
-  }
-  return isIn;
-};
 type props = { product: Single_Product };
 export default function Cart({ product }: props) {
   const mobileSize = useMediaQuery("(max-width:580px)");
@@ -83,9 +63,7 @@ export default function Cart({ product }: props) {
       addToWishlist({
         id: product.id,
         title: product.attributes.title,
-        imageprimary:
-          process.env.NEXT_PUBLIC_BASE_URL +
-          product?.attributes.imageprimary.data.attributes.url,
+        imageprimary:product.attributes.imageprimary,
         price: product.attributes.price,
         discount: product.attributes.discount,
         isAvailable: product.attributes.isAvailable,
@@ -95,7 +73,6 @@ export default function Cart({ product }: props) {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-
       closeOnClick: false,
       closeButton: false,
       rtl: false,

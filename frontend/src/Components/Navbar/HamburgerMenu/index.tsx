@@ -4,7 +4,6 @@ import {
   Email,
   Facebook,
   Instagram,
-  LinkedIn,
   Twitter,
   WhatsApp,
 } from "@mui/icons-material";
@@ -15,16 +14,22 @@ import Link from "next/link";
 import { SimpleTreeView, TreeItem } from "@mui/x-tree-view";
 import { useAppDispatch, useAppSelector } from "Hooks/redux";
 import { handleLogout } from "Lib/Features/Auth/authSlice";
+import { Single_Category } from "Types/api";
 
 const menuItems = ["Home", "Shop", "Contact"];
+type props ={
+mobileMenu: boolean;
+handleMobileMenu: () => void;
+categories: Single_Category[];
+}
 export default function HamburgerMenu({
   mobileMenu,
   handleMobileMenu,
   categories,
-}) {
+}:props) {
   const [expandedItems, setExpandedItems] = useState([""]);
   const handleItemExpansionToggle = (
-    event: React.SyntheticEvent,
+    _: React.SyntheticEvent,
     itemId: string,
     isExpanded: boolean
   ) => {

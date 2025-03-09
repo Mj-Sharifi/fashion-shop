@@ -2,7 +2,13 @@
 import React from "react";
 import { Box, Button, Container, Grid2, Typography } from "@mui/material";
 import Link from "next/link";
-export default function Slide({ title, subtitle, img }) {
+
+type props = {
+  title: string;
+  subtitle: string;
+  img: string;
+};
+export default function Slide({ title, subtitle, img }: props) {
   return (
     <Container
       sx={{

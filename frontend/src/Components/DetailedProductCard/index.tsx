@@ -16,30 +16,12 @@ import { addToWishlist } from "Lib/Features/Wishlist/wishSlice";
 import { addToCompare } from "Lib/Features/Compare/compareSlice";
 import { useAppDispatch, useAppSelector } from "Hooks/redux";
 import { Single_Product } from "Types/api";
+import { isInComparelist, isInWishlist } from "Utils/utils";
 
 type props = {
   product: Single_Product;
 };
-const isInWishlist = (id, wishlist) => {
-  let isIn = false;
-  for (const w of wishlist) {
-    if (id == w?.id) {
-      isIn = true;
-      break;
-    }
-  }
-  return isIn;
-};
-const isInComparelist = (id, compareList) => {
-  let isIn = false;
-  for (const c of compareList) {
-    if (id == c?.id) {
-      isIn = true;
-      break;
-    }
-  }
-  return isIn;
-};
+
 export default function DetailedProductCard({ product }: props) {
   const {
     id,
@@ -92,7 +74,6 @@ export default function DetailedProductCard({ product }: props) {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      
       closeOnClick: false,
       closeButton: false,
       rtl: false,

@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
 import sessionStorage from "redux-persist/es/storage/session";
 import cartSliceReducer from "./Features/Cart/cartSlice";

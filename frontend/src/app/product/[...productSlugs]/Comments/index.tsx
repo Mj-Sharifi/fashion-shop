@@ -9,7 +9,8 @@ import {
   Button,
   useMediaQuery,
 } from "@mui/material";
-export default function Comments({ productId }) {
+type props = { productId: number };
+export default function Comments({ productId }: props) {
   const mobileSize = useMediaQuery("(max-width:580px)");
   const [comments, setComments] = useState([]);
   useEffect(() => {
@@ -20,27 +21,32 @@ export default function Comments({ productId }) {
       .then((res) => res.json())
       .then((data) => setComments(data?.data))
       .catch((err) => console.log(err));
-  }, []);
+  }, [productId]);
 
   return (
     <Grid2 container columnSpacing={4} rowSpacing={2}>
-      <Grid2 size={{xs:12,md:7}} >
+      <Grid2 size={{ xs: 12, md: 7 }}>
         <Stack
           sx={{
             gap: 4,
-            width: "100%"
-          }}>
+            width: "100%",
+          }}
+        >
           {comments?.map((e, i) => (
-            <Stack key={i} sx={{
-              width: "100%"
-            }}>
+            <Stack
+              key={i}
+              sx={{
+                width: "100%",
+              }}
+            >
               <Stack
                 direction={{ xs: "column", sm: "row" }}
                 sx={{
                   gap: 2,
                   mb: 3,
-                  width: "100%"
-                }}>
+                  width: "100%",
+                }}
+              >
                 <Box
                   component={"img"}
                   src={`/assets/comments/${i + 1}.jpg`}
@@ -48,19 +54,27 @@ export default function Comments({ productId }) {
                   sx={{
                     width: { xs: "30%", sm: "20%" },
                     objectFit: "cover",
-                    objectPosition: "center top"
-                  }} />
+                    objectPosition: "center top",
+                  }}
+                />
                 <Stack
                   sx={{
                     gap: 2,
-                    width: { xs: "100%", sm: "80%" }
-                  }}>
-                  <Stack direction={"row"} sx={{
-                    justifyContent: "space-between"
-                  }}>
-                    <Stack direction={"row"} sx={{
-                      gap: { xs: 1, sm: 2, md: 3 }
-                    }}>
+                    width: { xs: "100%", sm: "80%" },
+                  }}
+                >
+                  <Stack
+                    direction={"row"}
+                    sx={{
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Stack
+                      direction={"row"}
+                      sx={{
+                        gap: { xs: 1, sm: 2, md: 3 },
+                      }}
+                    >
                       <Typography variant="h5">
                         {e.attributes.authorName}
                       </Typography>
@@ -87,9 +101,12 @@ export default function Comments({ productId }) {
                       Reply
                     </Button>
                   </Stack>
-                  <Typography variant="body2" sx={{
-                    textAlign: "justify"
-                  }}>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      textAlign: "justify",
+                    }}
+                  >
                     {e.attributes.content}
                   </Typography>
                 </Stack>
@@ -102,8 +119,9 @@ export default function Comments({ productId }) {
                     gap: 2,
                     marginBottom: "16px",
                     paddingLeft: { xs: 3, sm: 5 },
-                    width: "100%"
-                  }}>
+                    width: "100%",
+                  }}
+                >
                   <Box
                     component={"img"}
                     src={`/assets/comments/${i + 1}${n + 1}.jpg`}
@@ -112,22 +130,28 @@ export default function Comments({ productId }) {
                       width: { xs: "30%", sm: "20%" },
                       objectFit: "cover",
                       objectPosition: "center top",
-                      maxHeight: "120px"
-                    }} />
+                      maxHeight: "120px",
+                    }}
+                  />
                   <Stack
                     sx={{
                       gap: 2,
-                      width: { xs: "100%", sm: "80%" }
-                    }}>
+                      width: { xs: "100%", sm: "80%" },
+                    }}
+                  >
                     <Stack
                       direction={"row"}
                       sx={{
                         justifyContent: "space-between",
-                        width: "100%"
-                      }}>
-                      <Stack direction={"row"} sx={{
-                        gap: { xs: 1, sm: 2, md: 3 }
-                      }}>
+                        width: "100%",
+                      }}
+                    >
+                      <Stack
+                        direction={"row"}
+                        sx={{
+                          gap: { xs: 1, sm: 2, md: 3 },
+                        }}
+                      >
                         <Typography variant="h5">
                           {m.attributes.authorName}
                         </Typography>
@@ -154,9 +178,12 @@ export default function Comments({ productId }) {
                         Reply
                       </Button>
                     </Stack>
-                    <Typography variant="body2" sx={{
-                      textAlign: "justify"
-                    }}>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        textAlign: "justify",
+                      }}
+                    >
                       {m.attributes.content}
                     </Typography>
                   </Stack>
@@ -166,12 +193,13 @@ export default function Comments({ productId }) {
           ))}
         </Stack>
       </Grid2>
-      <Grid2 size={{xs:12,md:5}} >
+      <Grid2 size={{ xs: 12, md: 5 }}>
         <Stack
           sx={{
             gap: 1,
-            width: "100%"
-          }}>
+            width: "100%",
+          }}
+        >
           <Typography variant="h5">Add a Review</Typography>
           <Rating value={5} />
           <Stack
@@ -179,8 +207,9 @@ export default function Comments({ productId }) {
             sx={{
               width: "100%",
               gap: 1,
-              mt: 1
-            }}>
+              mt: 1,
+            }}
+          >
             <Input
               placeholder="Name"
               name="author"

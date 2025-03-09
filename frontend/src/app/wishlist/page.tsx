@@ -25,6 +25,7 @@ import {
 import { toast, Slide, ToastContainer } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "Hooks/redux";
 import { useRouter } from "next/navigation";
+import { createProductSlug } from "Utils/utils";
 export default function Wishlist() {
   const mobileSize = useMediaQuery("(max-width:580px)");
   const { wishlist } = useAppSelector((state) => state.wishlist);
@@ -62,6 +63,7 @@ export default function Wishlist() {
       transition: Slide,
     });
   };
+  console.log(wishlist);
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
       {wishlist.length ? (
@@ -109,8 +111,8 @@ export default function Wishlist() {
                     </TableCell>
                     <TableCell align="center">
                       <Box
-                        component={"img"}
-                        src={e.imageprimary}
+                        component="img"
+                        src={process.env.NEXT_PUBLIC_BASE_URL+e.imageprimary.data.attributes.url}
                         alt={e.title}
                         sx={{
                           width: "100%",
@@ -149,7 +151,7 @@ export default function Wishlist() {
                     </TableCell>
 
                     <TableCell align="center">
-                      <Link href={`/product/${e.id}/${e.slug}`}>
+                      <Link href={`/product/${e.id}/${createProductSlug(e.title)}`}>
                         <Button
                           disableRipple
                           sx={{

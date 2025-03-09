@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Chip, useMediaQuery } from "@mui/material";
+import { Box, Chip } from "@mui/material";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -11,13 +11,17 @@ import "./styles.css"
 
 // import required modules
 import { FreeMode} from "swiper/modules";
+import { Image_Api } from "Types/api";
 
-export default function ProductSlider({ images, discount }) {
+type props ={
+  images: Image_Api[],
+  discount: number
+}
+export default function ProductSlider({ images, discount }:props) {
   const [imgSlide, setImgSlide] = useState(0);
-  const handleSlide = (s) => {
+  const handleSlide = (s:number) => {
     setImgSlide(s);
   };
-
   return (<>
     <Box
       sx={{
@@ -70,7 +74,6 @@ export default function ProductSlider({ images, discount }) {
             <Box
               component={"img"}
               src={process.env.NEXT_PUBLIC_BASE_URL + e?.attributes.url}
-              // sx={{ cursor:"pointer" }}
             />
           </SwiperSlide>
         ))}

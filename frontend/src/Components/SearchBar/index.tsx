@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Box, Stack, Paper, Input, Typography } from "@mui/material";
 import { Search } from "@mui/icons-material";
-import Link from "next/link"
-export default function SearchBar({ endpoint }) {
+import Link from "next/link";
+import { Single_Product } from "Types/api";
+
+type props = {
+  endpoint: string;
+};
+export default function SearchBar({ endpoint }: props) {
   const [search, setSearch] = useState("");
-  const [result, setResult] = useState();
+  const [result, setResult] = useState<Single_Product[]>();
   useEffect(() => {
     if (search.length > 2) {
       fetch(
@@ -16,12 +21,14 @@ export default function SearchBar({ endpoint }) {
         .catch((err) => console.log(err));
     }
   }, [search]);
+
   return (
-    (<Stack
+    <Stack
       sx={{
         width: "100%",
-        gap: 3
-      }}>
+        gap: 3,
+      }}
+    >
       <Typography variant="h3">Search</Typography>
       <Stack
         direction={"row"}
@@ -32,8 +39,9 @@ export default function SearchBar({ endpoint }) {
           borderColor: "coloes.lightblack",
           py: "5px",
           borderRadius: "5px",
-          position: "relative"
-        }}>
+          position: "relative",
+        }}
+      >
         <Input
           type="text"
           placeholder="Search here..."
@@ -52,7 +60,7 @@ export default function SearchBar({ endpoint }) {
               border: "none !important",
             },
           }}
-          onKeyUp={(e) => setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
         />
         <Stack
           sx={{
@@ -62,8 +70,8 @@ export default function SearchBar({ endpoint }) {
             alignItems: "center",
             borderLeft: "1px solid",
             borderColor: "colors.lightblack",
-            width: "60px"
-          }}>
+          }}
+        >
           <Search
             sx={{
               transition: "all 0.3s",
@@ -79,7 +87,9 @@ export default function SearchBar({ endpoint }) {
             visibility: `${search.length > 1 ? "visible" : "hidden"}`,
             opacity: `${search.length > 1 ? "1" : "0"}`,
             transformOrigin: "top center",
-            transform: `${search.length > 1 ? "rotateX(0deg)" : "rotateX(90deg)"}`,
+            transform: `${
+              search.length > 1 ? "rotateX(0deg)" : "rotateX(90deg)"
+            }`,
             backgroundColor: "colors.lightgray",
             padding: "10px",
             top: "110%",
@@ -92,15 +102,25 @@ export default function SearchBar({ endpoint }) {
           }}
         >
           {result?.map((e, i) => (
-            <Link key={i} href={`/product/${e?.id}/${e.attributes?.title.toLowerCase().trim().replace(/ /g,"-")}`}>
+            <Link
+              key={i}
+              href={`/product/${e?.id}/${e.attributes?.title
+                .toLowerCase()
+                .trim()
+                .replace(/ /g, "-")}`}
+            >
               <Stack
                 direction={"row"}
                 sx={{
                   width: "100%",
                   alignItems: "center",
                   gap: 1,
-                  "&:hover p":{transition:"all 0.3s",color:"colors.violet"}
-                }}>
+                  "&:hover p": {
+                    transition: "all 0.3s",
+                    color: "colors.violet",
+                  },
+                }}
+              >
                 <Box
                   component={"img"}
                   src={
@@ -120,6 +140,6 @@ export default function SearchBar({ endpoint }) {
           ))}
         </Paper>
       </Stack>
-    </Stack>)
+    </Stack>
   );
 }

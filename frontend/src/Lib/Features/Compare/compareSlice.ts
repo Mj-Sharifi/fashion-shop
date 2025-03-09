@@ -13,7 +13,7 @@ const compareSlice = createSlice({
           add = false;
         }
       });
-      add && state.compareList.push(action.payload.product);
+      if(add) state.compareList.push(action.payload.product);
     },
     removeFromCompare: (state, action) => {
       state.compareList = state.compareList.filter((e) => {

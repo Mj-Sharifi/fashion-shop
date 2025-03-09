@@ -29,7 +29,12 @@ import { useParams } from "next/navigation";
 import PaginationContainer from "Components/Pagination";
 import { productPerPage } from "Utils/utils";
 import { Shop_Layout } from "Types/shop";
-import { Single_Color, Single_Product, Single_Size, Single_Subcategory } from "Types/api";
+import {
+  Single_Color,
+  Single_Product,
+  Single_Size,
+  Single_Subcategory,
+} from "Types/api";
 
 export default function Category() {
   const params = useParams<{ category: string }>();
@@ -37,7 +42,7 @@ export default function Category() {
 
   // Page Layout
   const [layout, setLayout] = useState<Shop_Layout>("card");
-  const handleLayout = (event: React.MouseEvent, newLayout: Shop_Layout) => {
+  const handleLayout = (_: React.MouseEvent, newLayout: Shop_Layout) => {
     if (newLayout) {
       setLayout(newLayout);
     }
@@ -50,7 +55,7 @@ export default function Category() {
   // Pagination
   const [productsCount, setProductsCount] = useState<number>();
   const [page, setPage] = useState(1);
-  const handlePagination = (event: ChangeEvent, value: number) => {
+  const handlePagination = (_: ChangeEvent, value: number) => {
     setPage(value);
   };
   //**** Filters ****//
@@ -61,12 +66,12 @@ export default function Category() {
   };
   // Price
   const [price, setPrice] = useState([10, 1000]);
-  const handlePrice = (event: Event, newValue: number[]) => {
+  const handlePrice = (_: Event, newValue: number[]) => {
     setPrice(newValue);
   };
   // Category
   const [category, setCategory] = useState("All");
-  const handleCategory = (event:React.ChangeEvent,value:string) => {
+  const handleCategory = (_: React.ChangeEvent, value: string) => {
     setCategory(value);
   };
   const [categoryExpanded, setCategoryExpanded] = useState(false);
@@ -75,7 +80,7 @@ export default function Category() {
   };
   // Colors
   const [color, setColor] = useState("All");
-  const handleColor = (event:React.ChangeEvent,value:string) => {
+  const handleColor = (_: React.ChangeEvent, value: string) => {
     setColor(value);
   };
   const [colorsExpanded, setColorsExpanded] = useState(false);
@@ -84,7 +89,7 @@ export default function Category() {
   };
   // Size
   const [size, setSize] = useState("All");
-  const handleSize = (event:React.ChangeEvent,value:string) => {
+  const handleSize = (_: React.ChangeEvent, value: string) => {
     setSize(value);
   };
   const [sizeExpanded, setSizeExpanded] = useState(false);
@@ -238,9 +243,7 @@ export default function Category() {
                     fontSize: { xs: "14px !important", sm: "16px !important" },
                     fontWeight: "400",
                   },
-
                   "& .Mui-checked": { color: "colors.violet" },
-
                   "& .MuiFormLabel-root": {
                     color: "text.black",
                     fontWeight: "500",
@@ -612,7 +615,7 @@ export default function Category() {
                   {products?.map((e, i) => (
                     <Grid2 key={i} size={{ xs: 10, sm: 6, lg: 4 }}>
                       <ProductCard
-                      product={e}
+                        product={e}
                         // id={e?.id}
                         // title={e?.attributes.title}
                         // rating={e?.attributes.rating?.slice(1)}

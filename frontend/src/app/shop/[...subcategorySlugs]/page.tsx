@@ -17,7 +17,6 @@ import {
   Select,
   MenuItem,
   Collapse,
-  Pagination,
 } from "@mui/material";
 import { Apps, ExpandMore, FormatListBulleted } from "@mui/icons-material";
 import ProductCard from "Components/ProductCard";
@@ -38,7 +37,7 @@ export default function Subcategory() {
 
   // Page Layout
   const [layout, setLayout] = useState<Shop_Layout>("card");
-  const handleLayout = (event: React.MouseEvent, newLayout: Shop_Layout) => {
+  const handleLayout = (_: React.MouseEvent, newLayout: Shop_Layout) => {
     if (newLayout) {
       setLayout(newLayout);
     }
@@ -59,7 +58,7 @@ export default function Subcategory() {
   };
   // Price
   const [price, setPrice] = useState([10, 1000]);
-  const handlePrice = (event: Event, newValue: number[]) => {
+  const handlePrice = (_: Event, newValue: number[]) => {
     setPrice(newValue);
   };
   // Colors

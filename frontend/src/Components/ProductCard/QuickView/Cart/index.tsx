@@ -1,7 +1,14 @@
 import React, { useState } from "react";
-import { toast,Slide } from "react-toastify";
+import { toast, Slide } from "react-toastify";
 // MUI components
-import { Box, Button, Stack, Typography, IconButton,useMediaQuery } from "@mui/material";
+import {
+  Box,
+  Button,
+  Stack,
+  Typography,
+  IconButton,
+  useMediaQuery,
+} from "@mui/material";
 import {
   Add,
   Remove,
@@ -14,40 +21,25 @@ import { addToWishlist } from "Lib/Features/Wishlist/wishSlice";
 import { addItem } from "Lib/Features/Cart/cartSlice";
 import { addToCompare } from "Lib/Features/Compare/compareSlice";
 import { useAppDispatch, useAppSelector } from "Hooks/redux";
+import { isInComparelist, isInWishlist } from "Utils/utils";
+import { Single_Product } from "Types/api";
 
-const isInWishlist = (id, wishlist) => {
-  let isIn = false;
-  for (const w of wishlist) {
-    if (id == w.id) {
-      isIn = true;
-      break;
-    }
-  }
-  return isIn;
+type props = {
+  product: Single_Product;
 };
-const isInComparelist = (id, compareList) => {
-  let isIn = false;
-  for (const c of compareList) {
-    if (id == c.id) {
-      isIn = true;
-      break;
-    }
-  }
-  return isIn;
-};
-export default function ProductCart({ product}) {
+export default function ProductCart({ product }: props) {
   const mobileSize = useMediaQuery("(max-width:580px)");
   // Hanlde Size
-  const [size, setSize] = useState();
+  const [size, setSize] = useState<string>();
   //Handle Color
-  const [color, setColor] = useState();
+  const [color, setColor] = useState<string>();
   //Handle Quantity
   const [quantity, setQuantity] = useState(1);
   const handleIncrease = () => {
     setQuantity(quantity + 1);
   };
   const handleDecrease = () => {
-    quantity > 1 && setQuantity(quantity - 1);
+    if (quantity > 1) setQuantity(quantity - 1);
   };
 
   const addToCart = () => {
@@ -56,7 +48,7 @@ export default function ProductCart({ product}) {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      
+
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -76,7 +68,7 @@ export default function ProductCart({ product}) {
       addToWishlist({
         id: product.id,
         title: product.attributes.title,
-        imageprimary: product?.attributes?.imageprimary,       
+        imageprimary: product?.attributes?.imageprimary,
         price: product.attributes.price,
         discount: product.attributes.discount,
         isAvailable: product.attributes.isAvailable,
@@ -86,7 +78,7 @@ export default function ProductCart({ product}) {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      
+
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -96,16 +88,14 @@ export default function ProductCart({ product}) {
       theme: "light",
       transition: Slide,
     });
-
   };
   const handleCompare = () => {
-  
     dispatch(addToCompare({ product }));
     toast.success(`${product.attributes.title} added to compare`, {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      
+
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -115,242 +105,262 @@ export default function ProductCart({ product}) {
       theme: "light",
       transition: Slide,
     });
-
   };
-  return (<>
-    {/* Color and Size Selection */}
-    {product?.attributes.isAvailable && (
-      <Stack direction={"row"} sx={{
-        gap: 5
-      }}>
-        {/* Color */}
-        {product?.attributes.colors.data.length ? (
-          <Stack direction={"column"} sx={{
-            gap: 2
-          }}>
-            <Typography variant="body2">Color</Typography>
-            <Stack direction={"row"} sx={{
-              gap: 1
-            }}>
-              {product?.attributes.colors?.data?.map((e, i) => (
-                <Stack
-                  key={i}
-                  sx={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "25px",
-                    height: "25px",
-                    padding: "2px",
-                    borderRadius: "100%",
-                    border: `${
-                      color === e?.attributes.color
-                        ? "3px solid"
-                        : "1px solid"
-                    }`,
-                    borderColor: "colors.lightblack",
-                    overflow: "hidden",
-                  }}
-                >
-                  <Box
-                    id={e?.attributes.color}
+  return (
+    <>
+      {/* Color and Size Selection */}
+      {product?.attributes.isAvailable && (
+        <Stack
+          direction={"row"}
+          sx={{
+            gap: 5,
+          }}
+        >
+          {/* Color */}
+          {product?.attributes.colors.data.length ? (
+            <Stack
+              direction={"column"}
+              sx={{
+                gap: 2,
+              }}
+            >
+              <Typography variant="body2">Color</Typography>
+              <Stack
+                direction={"row"}
+                sx={{
+                  gap: 1,
+                }}
+              >
+                {product?.attributes.colors?.data?.map((e, i) => (
+                  <Stack
+                    key={i}
+                    sx={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      width: "25px",
+                      height: "25px",
+                      padding: "2px",
+                      borderRadius: "100%",
+                      border: `${
+                        color === e?.attributes.color
+                          ? "3px solid"
+                          : "1px solid"
+                      }`,
+                      borderColor: "colors.lightblack",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <Box
+                      id={e?.attributes.color}
+                      sx={{
+                        cursor: "pointer",
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "100%",
+                        bgcolor: e?.attributes.color
+                          .toLowerCase()
+                          .replace(/ /g, ""),
+                      }}
+                      onClick={() => setColor(e.attributes.color)}
+                    ></Box>
+                  </Stack>
+                ))}
+              </Stack>
+            </Stack>
+          ) : (
+            ""
+          )}
+
+          {/* Size */}
+          {product?.attributes.sizes?.data.length ? (
+            <Stack
+              direction={"column"}
+              sx={{
+                gap: 2,
+              }}
+            >
+              <Typography variant="body2">Size</Typography>
+              <Stack
+                direction={"row"}
+                sx={{
+                  gap: 1,
+                }}
+              >
+                {product?.attributes.sizes?.data?.map((s, i) => (
+                  <Stack
+                    key={i}
                     sx={{
                       cursor: "pointer",
-                      width: "100%",
-                      height: "100%",
-                      borderRadius: "100%",
-                      bgcolor: e?.attributes.color
-                      .toLowerCase()
-                      .replace(/ /g, ""),
+                      px: "5px",
+                      height: "25px",
+                      justifyContent: "center",
+                      borderRadius: "5px",
+                      fontSize: "14px",
+                      color: "cream",
+                      bgcolor: `${
+                        size === s?.attributes.size
+                          ? "colors.purple"
+                          : "colors.lightgray"
+                      }`,
                     }}
-                    onClick={(e) => setColor(e.target.id)}
-                  ></Box>
-                </Stack>
-              ))}
+                    onClick={() => setSize(s?.attributes.size)}
+                  >
+                    {s?.attributes.size}
+                  </Stack>
+                ))}
+              </Stack>
             </Stack>
-          </Stack>
-        ) : (
-          ""
-        )}
-
-        {/* Size */}
-        {product?.attributes.sizes?.data.length ? (
-          <Stack direction={"column"} sx={{
-            gap: 2
-          }}>
-            <Typography variant="body2">Size</Typography>
-            <Stack direction={"row"} sx={{
-              gap: 1
-            }}>
-              {product?.attributes.sizes?.data?.map((e, i) => (
-                <Stack
-                  key={i}
-                  sx={{
-                    cursor: "pointer",
-                    px: "5px",
-                    height: "25px",
-                    justifyContent: "center",
-                    borderRadius: "5px",
-                    fontSize: "14px",
-                    color: "cream",
-                    bgcolor: `${
-                      size === e?.attributes.size
-                        ? "colors.purple"
-                        : "colors.lightgray"
-                    }`,
-                  }}
-                  onClick={(e) => setSize(e.target.innerHTML)}
-                >
-                  {e?.attributes.size}
-                </Stack>
-              ))}
-            </Stack>
-          </Stack>
-        ) : (
-          ""
-        )}
-      </Stack>
-    )}
-    <Stack
-      direction={"row"}
-      sx={{
-        gap: 4,
-        marginY: 3
-      }}>
+          ) : (
+            ""
+          )}
+        </Stack>
+      )}
       <Stack
         direction={"row"}
         sx={{
-          alignItems: "center",
-          justifyContent: "space-between",
-          border: "1px solid",
-          borderColor: "colors.lightgray",
-          borderRadius: "5px",
-          height: "50px",
-          width: "80px",
+          gap: 4,
+          marginY: 3,
         }}
       >
-        <IconButton
-          disableRipple
-          sx={{ padding: "0" }}
-          onClick={handleIncrease}
-          disabled={!product?.attributes.isAvailable}
-        >
-          <Add
-            sx={{
-              transition: "all 0.3s",
-              color: "colors.darkgray",
-              "&:hover": { color: "colors.violet" },
-            }}
-          />
-        </IconButton>
-        <Typography>{quantity}</Typography>
-        <IconButton
-          disableRipple
-          sx={{ padding: "0" }}
-          onClick={handleDecrease}
-          disabled={quantity === 1 || !product?.attributes.isAvailable}
-        >
-          <Remove
-            sx={{
-              transition: "all 0.3s",
-              color: "colors.darkgray",
-              "&:hover": { color: "colors.violet" },
-            }}
-          />
-        </IconButton>
-      </Stack>
-      <Button
-        onClick={addToCart}
-        disableRipple
-        disabled={
-          !product?.attributes.isAvailable ||
-          (product?.attributes.colors.data.length && !color) ||
-          (product?.attributes.colors.data.length && !size)
-        }
-        sx={{
-          height: "50px",
-          width: "150px",
-          borderRadius: "5px",
-          color: "text.white",
-          bgcolor: "colors.lightblack",
-          isolation: "isolate",
-          position: "relative",
-          transition: "all 0.5s ease-in-out 0s",
-          "&::before": {
-            bottom: "0",
-            content: "''",
-            height: "100%",
-            left: "0",
-            position: " absolute",
-            transition: "all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1)",
-            width: "100%",
-            zIndex: "-1",
-          },
-          "&::after": {
-            backgroundColor: "colors.violet",
-            left: "auto",
-            right: "0",
-            width: "0",
-            bottom: "0",
-            content: "''",
-            height: "100%",
+        <Stack
+          direction={"row"}
+          sx={{
+            alignItems: "center",
+            justifyContent: "space-between",
+            border: "1px solid",
+            borderColor: "colors.lightgray",
             borderRadius: "5px",
-            position: "absolute",
-            transition: "all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1)",
-            zIndex: "-1",
-          },
-          "&:hover::after": {
-            left: `${product?.attributes.isAvailable && "0"}`,
-            right: `${product?.attributes.isAvailable && "auto"}`,
-            width: `${product?.attributes.isAvailable && "100%"}`,
-          },
-        }}
-      >
-        {product?.attributes.isAvailable ? "Add to Cart" : "Out of Stock"}
-      </Button>
-      <Stack direction={"row"} sx={{
-        gap: 1
-      }}>
-        <IconButton
-          disableRipple
-          sx={{ padding: "0" }}
-          onClick={handleWishlist}
+            height: "50px",
+            width: "80px",
+          }}
         >
-          <FavoriteBorderOutlined
-            sx={{
-              transition: "all 0.3s",
-              cursor: `${
-                isInWishlist(product.id, wishlist) ? "not-allowed" : "pointer"
-              }`,
-              color: `${
-                isInWishlist(product.id, wishlist) ? "colors.violet" : ""
-              }`,
-              "&:hover": { color: "colors.violet" },
-            }}
-          />
-        </IconButton>
-        <IconButton
+          <IconButton
+            disableRipple
+            sx={{ padding: "0" }}
+            onClick={handleIncrease}
+            disabled={!product?.attributes.isAvailable}
+          >
+            <Add
+              sx={{
+                transition: "all 0.3s",
+                color: "colors.darkgray",
+                "&:hover": { color: "colors.violet" },
+              }}
+            />
+          </IconButton>
+          <Typography>{quantity}</Typography>
+          <IconButton
+            disableRipple
+            sx={{ padding: "0" }}
+            onClick={handleDecrease}
+            disabled={quantity === 1 || !product?.attributes.isAvailable}
+          >
+            <Remove
+              sx={{
+                transition: "all 0.3s",
+                color: "colors.darkgray",
+                "&:hover": { color: "colors.violet" },
+              }}
+            />
+          </IconButton>
+        </Stack>
+        <Button
+          onClick={addToCart}
           disableRipple
-          sx={{ padding: "0" }}
-          onClick={handleCompare}
+          disabled={
+            !product?.attributes.isAvailable ||
+            (product?.attributes.colors.data.length && !color) ||
+            (product?.attributes.colors.data.length && !size)
+          }
+          sx={{
+            height: "50px",
+            width: "150px",
+            borderRadius: "5px",
+            color: "text.white",
+            bgcolor: "colors.lightblack",
+            isolation: "isolate",
+            position: "relative",
+            transition: "all 0.5s ease-in-out 0s",
+            "&::before": {
+              bottom: "0",
+              content: "''",
+              height: "100%",
+              left: "0",
+              position: " absolute",
+              transition: "all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1)",
+              width: "100%",
+              zIndex: "-1",
+            },
+            "&::after": {
+              backgroundColor: "colors.violet",
+              left: "auto",
+              right: "0",
+              width: "0",
+              bottom: "0",
+              content: "''",
+              height: "100%",
+              borderRadius: "5px",
+              position: "absolute",
+              transition: "all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1)",
+              zIndex: "-1",
+            },
+            "&:hover::after": {
+              left: `${product?.attributes.isAvailable && "0"}`,
+              right: `${product?.attributes.isAvailable && "auto"}`,
+              width: `${product?.attributes.isAvailable && "100%"}`,
+            },
+          }}
         >
-          <CompareArrows
-            sx={{
-              transition: "all 0.3s",
-              cursor: `${
-                isInComparelist(product.id, compareList)
-                  ? "not-allowed"
-                  : "pointer"
-              }`,
-              color: `${
-                isInComparelist(product.id, compareList)
-                  ? "colors.violet"
-                  : ""
-              }`,
-              "&:hover": { color: "colors.violet" },
-            }}
-          />
-        </IconButton>
+          {product?.attributes.isAvailable ? "Add to Cart" : "Out of Stock"}
+        </Button>
+        <Stack
+          direction={"row"}
+          sx={{
+            gap: 1,
+          }}
+        >
+          <IconButton
+            disableRipple
+            sx={{ padding: "0" }}
+            onClick={handleWishlist}
+          >
+            <FavoriteBorderOutlined
+              sx={{
+                transition: "all 0.3s",
+                cursor: `${
+                  isInWishlist(product.id, wishlist) ? "not-allowed" : "pointer"
+                }`,
+                color: `${
+                  isInWishlist(product.id, wishlist) ? "colors.violet" : ""
+                }`,
+                "&:hover": { color: "colors.violet" },
+              }}
+            />
+          </IconButton>
+          <IconButton
+            disableRipple
+            sx={{ padding: "0" }}
+            onClick={handleCompare}
+          >
+            <CompareArrows
+              sx={{
+                transition: "all 0.3s",
+                cursor: `${
+                  isInComparelist(product.id, compareList)
+                    ? "not-allowed"
+                    : "pointer"
+                }`,
+                color: `${
+                  isInComparelist(product.id, compareList)
+                    ? "colors.violet"
+                    : ""
+                }`,
+                "&:hover": { color: "colors.violet" },
+              }}
+            />
+          </IconButton>
+        </Stack>
       </Stack>
-    </Stack>
-  </>);
+    </>
+  );
 }

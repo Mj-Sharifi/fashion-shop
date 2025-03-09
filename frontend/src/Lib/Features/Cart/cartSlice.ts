@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Single_Product } from "Types/api";
 
-const initialState:{list:(Single_Product&{quantity:number,color:string,size:string})[]} = { list: [] };
+const initialState: { list: (Single_Product & { quantity: number, color: string, size: string })[] } = { list: [] };
 const cartSlise = createSlice({
   name: "cart",
   initialState,
@@ -35,13 +35,15 @@ const cartSlise = createSlice({
         }
         return e;
       });
-      add &&
+      if (add) {
         state.list.push({
           ...action.payload.product,
           quantity: action.payload.quantity,
           color: action.payload.color,
           size: action.payload.size,
         });
+      }
+
     },
     increaseQuantity: (state, action) => {
       state.list = state.list.map((e) => {

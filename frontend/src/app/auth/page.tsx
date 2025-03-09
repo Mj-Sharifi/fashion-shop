@@ -3,9 +3,7 @@ import React, { useState } from "react";
 import { Divider, Stack, Typography } from "@mui/material";
 import Login from "./login";
 import Register from "./register";
-// import { useAppSelector } from "../../Hooks/redux";
 export default function Auth() {
-  // const { token } = useAppSelector((state) => state.auth);
   const [pageType, setPageType] = useState(true);
   const handlePageType = (bool: boolean) => {
     setPageType(bool);

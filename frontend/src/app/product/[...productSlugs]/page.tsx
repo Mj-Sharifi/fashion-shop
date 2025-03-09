@@ -35,7 +35,8 @@ import { Single_Product } from "Types/api";
 import { useParams } from "next/navigation";
 
 export default function ProductDetail() {
-  const params = useParams();
+  const {productSlugs} = useParams<{productSlugs:string[]}>();
+  console.log(productSlugs);
   const [product, setProduct] = useState<Single_Product>();
   const [relatedProducts, setRelatedProducts] = useState<Single_Product[]>();
   useEffect(() => {
@@ -43,9 +44,10 @@ export default function ProductDetail() {
       try {
         const res = await fetch(
           process.env.NEXT_PUBLIC_BASE_API +
-            `products/${params?.productSlugs[0]}?populate=*`
+            `products/${productSlugs[0]}?populate=*`
         );
         const data = await res.json();
+        console.log(data);
         const category =
           data.data.attributes.categories.data[0].attributes.title;
         const subCategory =

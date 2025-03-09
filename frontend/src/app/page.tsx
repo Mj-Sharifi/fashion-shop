@@ -22,7 +22,7 @@ import { Fetch_RES, Single_Product } from "Types/api";
 export default function Home() {
   //Tabs
   const [tab, setTab] = useState(0);
-  const handleTab = (event: SyntheticEvent, newtab: number) => {
+  const handleTab = (_: SyntheticEvent, newtab: number) => {
     setTab(newtab);
   };
   // Products

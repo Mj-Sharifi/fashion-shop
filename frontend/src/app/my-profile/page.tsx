@@ -16,7 +16,7 @@ export default function MyProfile() {
   const [expanded, setExpanded] = useState<"panel1"|"panel2"|"panel3" | false>("panel1");
 
   const handleChange =
-    (panel: "panel1"|"panel2"|"panel3") => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    (panel: "panel1"|"panel2"|"panel3") => (_: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
 

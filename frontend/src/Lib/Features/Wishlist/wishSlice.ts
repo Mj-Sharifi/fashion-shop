@@ -1,6 +1,7 @@
 
 import { createSlice } from "@reduxjs/toolkit"
-const initialState = { wishlist:[] };
+import { Wishlist_Item } from "Types/shop";
+const initialState:{wishlist:Wishlist_Item[]} = { wishlist:[] };
 const wishSlice = createSlice({
     initialState,
     name:'wishlist',
@@ -12,7 +13,8 @@ const wishSlice = createSlice({
                     add = false
                 }
             })
-            add && state.wishlist.push(action.payload)
+            console.log(action.payload);
+            if(add) state.wishlist.push(action.payload)
         },
         removeAllWishlist:(state)=>{
             state.wishlist = []

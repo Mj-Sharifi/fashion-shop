@@ -41,7 +41,7 @@ export default function Collection() {
   const mobileSize = useMediaQuery("(max-width:580px)");
   // Page Layout
   const [layout, setLayout] = useState<Shop_Layout>("card");
-  const handleLayout = (event: React.MouseEvent, newLayout: Shop_Layout) => {
+  const handleLayout = (_: React.MouseEvent, newLayout: Shop_Layout) => {
     if (newLayout) {
       setLayout(newLayout);
     }
@@ -55,7 +55,7 @@ export default function Collection() {
   // Pagination
   const [productsCount, setProductCount] = useState<number>();
   const [page, setPage] = useState(1);
-  const handlePagination = (event: SyntheticEvent, value: number) => {
+  const handlePagination = (_: SyntheticEvent, value: number) => {
     setPage(value);
   };
   //**** Filters ****//
@@ -66,12 +66,12 @@ export default function Collection() {
   };
   // Price
   const [price, setPrice] = useState([10, 1000]);
-  const handlePrice = (event: Event, newValue: number[]) => {
+  const handlePrice = (_: Event, newValue: number[]) => {
     setPrice(newValue);
   };
   // Category
   const [category, setCategory] = useState("All");
-  const handleCategory = (event: ChangeEvent, value: string) => {
+  const handleCategory = (_: ChangeEvent, value: string) => {
     setCategory(value);
   };
   const [categoryExpanded, setCategoryExpanded] = useState(false);
@@ -80,7 +80,7 @@ export default function Collection() {
   };
   // SubCategory
   const [subcategory, setSubcategory] = useState("All");
-  const handleSubcategory = (event: ChangeEvent, value: string) => {
+  const handleSubcategory = (_: ChangeEvent, value: string) => {
     setSubcategory(value);
   };
   const [subcategoryExpanded, setSubcategoryExpanded] = useState(false);
@@ -90,7 +90,7 @@ export default function Collection() {
 
   // Colors
   const [color, setColor] = useState("All");
-  const handleColor = (event: React.ChangeEvent, value: string) => {
+  const handleColor = (_: React.ChangeEvent, value: string) => {
     setColor(value);
   };
   const [colorsExpanded, setColorsExpanded] = useState(false);
@@ -99,7 +99,7 @@ export default function Collection() {
   };
   // Size
   const [size, setSize] = useState("All");
-  const handleSize = (event: React.ChangeEvent, value: string) => {
+  const handleSize = (_: React.ChangeEvent, value: string) => {
     setSize(value);
   };
   const [sizeExpanded, setSizeExpanded] = useState(false);
@@ -739,25 +739,6 @@ export default function Collection() {
                     <Grid2 key={i} size={{ xs: 10, sm: 6, lg: 4 }}>
                       <ProductCard
                         product={e}
-                        // id={e?.id}
-                        // title={e?.attributes.title}
-                        // rating={e?.attributes.rating?.slice(1)}
-                        // imgAll={e?.attributes?.imagesall?.data}
-                        // imgPrimary={
-                        //   process.env.NEXT_PUBLIC_BASE_URL +
-                        //   e?.attributes.imageprimary.data.attributes.url
-                        // }
-                        // imgSecondary={
-                        //   process.env.NEXT_PUBLIC_BASE_URL +
-                        //   e?.attributes.imagesecondary.data.attributes.url
-                        // }
-                        // shortDescription={e?.attributes.shortDescription}
-                        // colors={e.attributes.colors.data}
-                        // sizes={e.attributes.sizes.data}
-                        // discount={e?.attributes.discount}
-                        // price={e?.attributes.price}
-                        // isNew={e?.attributes.isNew}
-                        // isAvailable={e?.attributes.isAvailable}
                       />
                     </Grid2>
                   ))}

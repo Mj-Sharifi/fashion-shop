@@ -20,62 +20,20 @@ import QuickView from "./QuickView";
 import { toast, Slide } from "react-toastify";
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "Hooks/redux";
-import {
-  Image_Api,
-  Single_Color,
-  Single_Product,
-  Single_Size,
-} from "Types/api";
+import { Single_Product } from "Types/api";
+import { isInWishlist } from "Utils/utils";
 
 type props = {
   product: Single_Product;
-  // id:number
-  // title:string
-  // imgAll:Image_Api[]
-  // imgPrimary:string
-  // imgSecondary:string
-  // rating:string
-  // price:number
-  // discount:number
-  // isNew:boolean
-  // isAvailable:boolean
-  // colors:Single_Color[]
-  // sizes:Single_Size[]
-  // shortDescription:string
-};
-const isInWishlist = (id, wishlist) => {
-  let isIn = false;
-  for (const w of wishlist) {
-    if (id == w.id) {
-      isIn = true;
-      break;
-    }
-  }
-  return isIn;
 };
 
-export default function ProductCard({
-  product,
-}: // id,
-// title,
-// imgAll,
-// imgPrimary,
-// imgSecondary,
-// rating,
-// price,
-// discount,
-// isNew,
-// isAvailable,
-// colors,
-// sizes,
-// shortDescription,
-props) {
+
+export default function ProductCard({ product }: props) {
   const {
     id,
     attributes: {
       title,
       imageprimary,
-      imagesall,
       imagesecondary,
       rating,
       price,

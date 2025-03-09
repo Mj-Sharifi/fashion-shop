@@ -36,7 +36,7 @@ export default function Login() {
       })
         .then((res) => res.json())
         .then((data) => dispatch(handleLogin(data)))
-        .then((path) => router.push("/my-profile"))
+        .then(() => router.push("/my-profile"))
         .catch((err) => console.log(err));
     },
   });

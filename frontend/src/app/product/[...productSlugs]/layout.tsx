@@ -1,8 +1,10 @@
 import Footer from "Components/Footer";
 import Navbar from "Components/Navbar";
 import StoreProvider from "app/StoreProvider";
+import { ReactNode } from "react";
 
-export default function Layout({ children }) {
+type props = {children:ReactNode}
+export default function Layout({ children }:props) {
   return (
     <StoreProvider>
       <Navbar />

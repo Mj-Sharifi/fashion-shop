@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -13,7 +13,7 @@ import { removeItem } from "Lib/Features/Cart/cartSlice";
 import { toast, Slide } from "react-toastify";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "Hooks/redux";
-export default function NavCart({  }) {
+export default function NavCart() {
   const mobileSize = useMediaQuery("(max-width:580px)");
   // importing Shopping List from Redux
   const { list } = useAppSelector((state) => state.cart);
@@ -37,14 +37,16 @@ export default function NavCart({  }) {
 
   };
   // Calculating the total price
-  let totalPrice = 0;
+  const [totalPrice, setTotalPrice] = useState<number>(0);
   useEffect(() => {
+    let newTotalPrice = 0;
     for (const i of list) {
-      totalPrice +=
+      newTotalPrice +=
         i.quantity *
         (i.attributes.price -
           (i.attributes.discount / 100) * i.attributes.price);
     }
+    setTotalPrice(newTotalPrice);
   }, [list]);
   return (<>
     {list.length ? (
