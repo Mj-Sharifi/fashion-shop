@@ -1,5 +1,5 @@
 export interface Fetch_RES<T> {
-    data: T[],
+    data: T,
     meta: {
         pagination: {
             start: number,
@@ -119,13 +119,23 @@ export interface Single_Size {
         products: { data: Single_Product[] }
     }
 }
-interface Single_Comment {
+export interface Single_Comment {
     id: number,
     attributes: General_Attributes & {
         authorName: string
         email: string
         content: string
-        rating: number
+        rating: number,
+        replies: {
+            data: {
+                id: number, attributes: General_Attributes & {
+                    authorName: string
+                    email: string
+                    content: string
+                    rating: number,
+                }
+            }[]
+        }
 
     }
 

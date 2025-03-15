@@ -13,17 +13,16 @@ import ProductSlider from "./ProductSlider";
 import ProductCart from "./Cart";
 import { Single_Product } from "Types/api";
 
-type props ={
-  quickView:boolean,
-  product:Single_Product,
-  handleQuickViewClose:()=>void,
-}
+type props = {
+  quickView: boolean;
+  product: Single_Product;
+  handleQuickViewClose: () => void;
+};
 export default function QuickView({
   quickView,
   product,
   handleQuickViewClose,
-}:props) {
-
+}: props) {
   return (
     <Dialog
       open={quickView}
@@ -70,6 +69,7 @@ export default function QuickView({
         <Stack
           sx={{
             width: { xs: "100%", md: "50%" },
+            gap: 0,
           }}
         >
           <Typography component={"h2"} variant="h3" gutterBottom>
@@ -103,10 +103,11 @@ export default function QuickView({
             )}`}</Typography>
           )}
           <Rating
+            size="small"
             readOnly
             precision={0.5}
-            value={+product?.attributes.rating}
-            sx={{ marginY: "25px" }}
+            value={+product?.attributes.rating.slice(1)}
+            sx={{ marginY: "10px" }}
           />
           <Typography variant="body2">
             {product?.attributes.shortDescription}

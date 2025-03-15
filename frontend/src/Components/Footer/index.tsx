@@ -31,12 +31,15 @@ export default function Footer() {
               alignItems: { xs: "center", sm: "start" },
             }}
           >
-            <Image
-              src="/assets/fashion-logo.png"
-              width={80}
-              height={80}
-              alt="Fashion Logo"
-            />
+            <Link href={"/"}>
+              <Image
+                src="/assets/fashion-logo.png"
+                width={80}
+                height={80}
+                alt="Fashion Logo"
+              />
+            </Link>
+
             <Typography>Fashion Shop</Typography>
           </Grid2>
           <Grid2

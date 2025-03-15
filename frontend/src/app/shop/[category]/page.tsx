@@ -19,7 +19,6 @@ import {
 } from "@mui/material";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import ProductCard from "Components/ProductCard";
-import Loading from "Components/Loading";
 import { Apps, ExpandMore, FormatListBulleted } from "@mui/icons-material";
 import DetailedProductCard from "Components/DetailedProductCard";
 import GoUp from "Components/GoUp";
@@ -35,6 +34,7 @@ import {
   Single_Size,
   Single_Subcategory,
 } from "Types/api";
+import Loader from "Components/Loader";
 
 export default function Category() {
   const params = useParams<{ category: string }>();
@@ -237,10 +237,10 @@ export default function Category() {
             <Grid2 size={{ xs: 12, sm: 3 }}>
               <Stack
                 sx={{
-                  rowGap: 4,
+                  rowGap: {xs:2,md:3},
 
                   "& .MuiTypography-root ": {
-                    fontSize: { xs: "14px !important", sm: "16px !important" },
+                    fontSize: { xs: "12px !important", md: "14px !important",xl:"16px !important" },
                     fontWeight: "400",
                   },
                   "& .Mui-checked": { color: "colors.violet" },
@@ -265,6 +265,7 @@ export default function Category() {
                     max={1000}
                     step={10}
                     sx={{
+                      "& MuiSlider-root": { width: "100%" },
                       color: "colors.violet",
                     }}
                     slotProps={{
@@ -614,28 +615,7 @@ export default function Category() {
                 >
                   {products?.map((e, i) => (
                     <Grid2 key={i} size={{ xs: 10, sm: 6, lg: 4 }}>
-                      <ProductCard
-                        product={e}
-                        // id={e?.id}
-                        // title={e?.attributes.title}
-                        // rating={e?.attributes.rating?.slice(1)}
-                        // imgAll={e?.attributes?.imagesall.data}
-                        // imgPrimary={
-                        //   process.env.NEXT_PUBLIC_BASE_URL +
-                        //   e?.attributes.imageprimary.data.attributes.url
-                        // }
-                        // imgSecondary={
-                        //   process.env.NEXT_PUBLIC_BASE_URL +
-                        //   e?.attributes.imagesecondary.data.attributes.url
-                        // }
-                        // shortDescription={e?.attributes.shortDescription}
-                        // colors={e.attributes.colors.data}
-                        // sizes={e.attributes.sizes.data}
-                        // discount={e?.attributes.discount}
-                        // price={e?.attributes.price}
-                        // isNew={e?.attributes.isNew}
-                        // isAvailable={e?.attributes.isAvailable}
-                      />
+                      <ProductCard product={e} />
                     </Grid2>
                   ))}
                 </Grid2>
@@ -667,7 +647,16 @@ export default function Category() {
           <ToastContainer />
         </>
       ) : (
-        <Loading />
+        <Stack
+          sx={{
+            minHeight: "70vh",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Loader type="MoonLoader" />
+        </Stack>
       )}
     </Container>
   );

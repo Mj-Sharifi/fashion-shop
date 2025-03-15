@@ -57,7 +57,7 @@ export default function DetailedProductCard({ product }: props) {
       position: mobileSize ? "bottom-center" : "bottom-left",
       autoClose: 3000,
       hideProgressBar: true,
-      
+
       closeOnClick: false,
       closeButton: false,
       rtl: false,
@@ -98,7 +98,6 @@ export default function DetailedProductCard({ product }: props) {
           width: { xs: "100%", md: "30%" },
           position: "relative",
           overflow: "hidden",
-
           "&:hover": {
             "img:nth-child(1)": {
               transform: "translateX(-100%)",
@@ -113,23 +112,31 @@ export default function DetailedProductCard({ product }: props) {
       >
         <Box
           component={"img"}
-          src={process.env.NEXT_PUBLIC_BASE_URL +
-            imageprimary?.data?.attributes.url}
+          src={
+            process.env.NEXT_PUBLIC_BASE_URL +
+            imageprimary?.data?.attributes.url
+          }
           sx={{
-            width: "100%",
             transition: "0.5s",
+            width: "100%",
+            maxHeight: { xs: "150px", md: "250px" },
             objectFit: "contain",
           }}
         />
         <Box
           component={"img"}
-          src={process.env.NEXT_PUBLIC_BASE_URL +imagesecondary.data.attributes.url}
+          src={
+            process.env.NEXT_PUBLIC_BASE_URL +
+            imagesecondary.data.attributes.url
+          }
           sx={{
             transition: "0.5s",
             position: "absolute",
             top: "0",
             right: "0",
             width: "100%",
+            maxHeight: { xs: "150px", md: "250px" },
+            objectFit: "contain",
             visibility: "hidden",
             opacity: "0.8",
             transform: "translateX(100%)",
@@ -148,13 +155,14 @@ export default function DetailedProductCard({ product }: props) {
               variant="filled"
               label="New"
               sx={{
-                width: "65px",
-                paddingY: "3px",
+                width: "42px",
+                height: "26px",
                 borderRadius: "5px",
                 bgcolor: "colors.violet",
                 color: "text.white",
-                fontSize: "14px",
+                fontSize: "12px",
                 fontWeight: "500",
+                "& .MuiChip-label": { padding: "0" },
               }}
             />
           )}
@@ -163,13 +171,14 @@ export default function DetailedProductCard({ product }: props) {
               variant="filled"
               label={`-${discount}%`}
               sx={{
-                width: "65px",
-                paddingY: "3px",
+                width: "42px",
+                height: "26px",
                 borderRadius: "5px",
                 bgcolor: "colors.pink",
                 color: "text.white",
-                fontSize: "14px",
+                fontSize: "12px",
                 fontWeight: "500",
+                "& .MuiChip-label": { padding: "0" },
               }}
             />
           ) : undefined}
@@ -205,7 +214,12 @@ export default function DetailedProductCard({ product }: props) {
         ) : (
           <Typography variant="h4">{`$${price.toFixed(2)}`}</Typography>
         )}
-        <Rating readOnly precision={0.5} value={+rating.slice(1)} />
+        <Rating
+          readOnly
+          precision={0.5}
+          value={+rating.slice(1)}
+          size="small"
+        />
         <Typography
           variant="body2"
           sx={{

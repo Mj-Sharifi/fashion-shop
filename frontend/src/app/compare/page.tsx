@@ -58,7 +58,7 @@ export default function Compare() {
               sx={{ minWidth: 320 }}
               aria-label="compare table"
             >
-              <TableBody>
+              <TableBody sx={{"& .MuiTableCell-root	": {padding: "8px"}}}>
                 <TableRow
                   sx={{
                     "&:last-child td, &:last-child th": { border: 0 },
@@ -100,8 +100,7 @@ export default function Compare() {
                           }`}
                           alt={m.attributes.title}
                           sx={{
-                            width: "100%",
-                            maxHeight: "400px",
+                            maxHeight: "200px",
                             objectFit: "contain",
                           }}
                         />
@@ -119,8 +118,8 @@ export default function Compare() {
                           }
                           disableRipple
                           sx={{
-                            width: "135px",
-                            widht: "35px",
+                            paddingY:"4px",
+                            paddingX:"12px",
                             borderRadius: "35px",
                             backgroundColor: `${
                               m.attributes.isAvailable
@@ -218,6 +217,7 @@ export default function Compare() {
                   {compareList.map((e, i) => (
                     <TableCell key={e.id + i} align="center">
                       <Rating
+                        size="small"
                         readOnly
                         precision={0.5}
                         value={

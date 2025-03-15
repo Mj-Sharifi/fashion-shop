@@ -21,7 +21,6 @@ import {
 import { Apps, ExpandMore, FormatListBulleted } from "@mui/icons-material";
 import ProductCard from "Components/ProductCard";
 import DetailedProductCard from "Components/DetailedProductCard";
-import Loading from "Components/Loading";
 import GoUp from "Components/GoUp";
 import SearchBar from "Components/SearchBar";
 import { ToastContainer } from "react-toastify";
@@ -30,6 +29,7 @@ import { useParams } from "next/navigation";
 import { Shop_Layout } from "Types/shop";
 import PaginationContainer from "Components/Pagination";
 import { productPerPage } from "Utils/utils";
+import Loader from "Components/Loader";
 
 export default function Subcategory() {
   const params: { subcategorySlugs: string[] } = useParams();
@@ -204,7 +204,11 @@ export default function Subcategory() {
                   rowGap: 4,
 
                   "& .MuiTypography-root ": {
-                    fontSize: { xs: "14px !important", sm: "16px !important" },
+                    fontSize: {
+                      xs: "12px !important",
+                      md: "14px !important",
+                      xl: "16px !important",
+                    },
                     fontWeight: "400",
                   },
 
@@ -231,6 +235,7 @@ export default function Subcategory() {
                     max={1000}
                     step={10}
                     sx={{
+                      "& MuiSlider-root": { width: "100%" },
                       color: "colors.violet",
                     }}
                     slotProps={{
@@ -241,14 +246,6 @@ export default function Subcategory() {
                         },
                       },
                     }}
-                    // slotProps={{
-                    //   valueLabel: {
-                    //     sx: {
-                    //       color: "text.white",
-                    //       backgroundColor: "colors.violet",
-                    //     },
-                    //   },
-                    // }}
                   />
                 </Stack>
                 {/* Colors Selection */}
@@ -565,7 +562,16 @@ export default function Subcategory() {
           <ToastContainer />
         </>
       ) : (
-        <Loading />
+        <Stack
+          sx={{
+            minHeight: "70vh",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Loader type="MoonLoader" />
+        </Stack>
       )}
     </Container>
   );

@@ -36,6 +36,8 @@ export default function ProductSlider({ images, discount }:props) {
         alt=""
         sx={{
           width: "100%",
+          maxHeight:{xs:"250px",md:"400px"},
+          objectFit: "contain",
           px: "10%",
           pb: "30px"
         }} />
@@ -47,13 +49,12 @@ export default function ProductSlider({ images, discount }:props) {
             position: "absolute",
             top: "5%",
             left: "15%",
-            width: "65px",
-            paddingY: "3px",
-            borderRadius: "5px",
+            borderRadius: "8px",
             bgcolor: "colors.pink",
             color: "text.white",
             fontSize: "14px",
             fontWeight: "500",
+            "& .MuiChip-label": { padding: "2px 8px" },
           }}
         />
       ) : undefined}
@@ -74,7 +75,7 @@ export default function ProductSlider({ images, discount }:props) {
             <Box
               component={"img"}
               src={process.env.NEXT_PUBLIC_BASE_URL + e?.attributes.url}
-              sx={{ cursor:"pointer" }}
+              sx={{ cursor:"pointer",width: "100%", maxHeight:{xs:"100px",md:"150px"},objectFit: "contain" }}
             />
           </SwiperSlide>
         ))}

@@ -19,7 +19,6 @@ import {
 } from "@mui/material";
 import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import ProductCard from "Components/ProductCard";
-import Loading from "Components/Loading";
 import { Apps, ExpandMore, FormatListBulleted } from "@mui/icons-material";
 import DetailedProductCard from "Components/DetailedProductCard";
 import GoUp from "Components/GoUp";
@@ -36,6 +35,7 @@ import {
 import PaginationContainer from "Components/Pagination";
 import { productPerPage } from "Utils/utils";
 import { Shop_Layout } from "Types/shop";
+import Loader from "Components/Loader";
 
 export default function Collection() {
   const mobileSize = useMediaQuery("(max-width:580px)");
@@ -126,7 +126,7 @@ export default function Collection() {
               price[1]
             }&sort=${sortMethod}&pagination[page]=${page}&pagination[pageSize]=12`
         );
-        const data: Fetch_RES<Single_Product> = await res.json();
+        const data: Fetch_RES<Single_Product[]> = await res.json();
         setProductCount(data.meta.pagination.total);
         setProducts(data.data);
       } catch (error) {
@@ -282,14 +282,11 @@ export default function Collection() {
               <Stack
                 sx={{
                   rowGap: 4,
-
                   "& .MuiTypography-root ": {
-                    fontSize: { xs: "14px !important", sm: "16px !important" },
+                    fontSize: { xs: "12px !important", md: "14px !important",xl:"16px !important" },
                     fontWeight: "400",
                   },
-
                   "& .Mui-checked": { color: "colors.violet" },
-
                   "& .MuiFormLabel-root": {
                     color: "text.black",
                     fontWeight: "500",
@@ -311,6 +308,7 @@ export default function Collection() {
                     max={1000}
                     step={10}
                     sx={{
+                      "& MuiSlider-root": { width: "100%" },
                       color: "colors.violet",
                     }}
                     slotProps={{
@@ -737,9 +735,7 @@ export default function Collection() {
                 >
                   {products.map((e, i) => (
                     <Grid2 key={i} size={{ xs: 10, sm: 6, lg: 4 }}>
-                      <ProductCard
-                        product={e}
-                      />
+                      <ProductCard product={e} />
                     </Grid2>
                   ))}
                 </Grid2>
@@ -772,7 +768,16 @@ export default function Collection() {
           <ToastContainer />
         </>
       ) : (
-        <Loading />
+        <Stack
+          sx={{
+            minHeight: "70vh",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Loader type="MoonLoader" />
+        </Stack>
       )}
     </Container>
   );

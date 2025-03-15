@@ -29,9 +29,9 @@ import { createProductSlug } from "Utils/utils";
 export default function Wishlist() {
   const mobileSize = useMediaQuery("(max-width:580px)");
   const { wishlist } = useAppSelector((state) => state.wishlist);
-  const router = useRouter()
+  const router = useRouter();
   const dispatch = useAppDispatch();
-  const handleRemoveFromWishlist = (id:number, title:string) => {
+  const handleRemoveFromWishlist = (id: number, title: string) => {
     dispatch(removeFromWishlist({ id }));
     toast.error(`${title} removed from wishlist`, {
       position: mobileSize ? "bottom-center" : "bottom-left",
@@ -95,7 +95,7 @@ export default function Wishlist() {
                   </TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
+              <TableBody sx={{"& .MuiTableCell-root	": {padding: "8px"}}}>
                 {wishlist.map((e, i) => (
                   <TableRow
                     key={i}
@@ -112,10 +112,15 @@ export default function Wishlist() {
                     <TableCell align="center">
                       <Box
                         component="img"
-                        src={process.env.NEXT_PUBLIC_BASE_URL+e.imageprimary.data.attributes.url}
+                        src={
+                          process.env.NEXT_PUBLIC_BASE_URL +
+                          e.imageprimary.data.attributes.url
+                        }
                         alt={e.title}
                         sx={{
-                          width: "100%",
+                          // width: "100%",
+                          maxHeight:"150px",
+                          objectFit:"contain"
                         }}
                       />
                     </TableCell>
@@ -151,12 +156,13 @@ export default function Wishlist() {
                     </TableCell>
 
                     <TableCell align="center">
-                      <Link href={`/product/${e.id}/${createProductSlug(e.title)}`}>
+                      <Link
+                        href={`/product/${e.id}/${createProductSlug(e.title)}`}
+                      >
                         <Button
                           disableRipple
                           sx={{
-                            width: "135px",
-                            widht: "35px",
+                            padding: "4px 12px",
                             borderRadius: "35px",
                             backgroundColor: `${
                               e.isAvailable

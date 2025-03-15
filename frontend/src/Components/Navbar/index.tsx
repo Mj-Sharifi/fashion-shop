@@ -100,8 +100,8 @@ export default function Navbar() {
         .then((res) => res.json())
         .then((data) => setSearchResult(data.data))
         .catch((err) => console.log(err));
-    }else{
-      setSearchResult([])
+    } else {
+      setSearchResult([]);
     }
   }, [searchText]);
   // Handle Mobile Menu
@@ -163,12 +163,15 @@ export default function Navbar() {
           paddingY: "5px",
         }}
       >
-        <Image
-          src={"/assets/fashion-logo.png"}
-          width={70}
-          height={70}
-          alt="Fasion Shop"
-        />
+        <Link href={"/"}>
+          <Image
+            src={"/assets/fashion-logo.png"}
+            width={70}
+            height={70}
+            alt="Fasion Shop"
+          />
+        </Link>
+
         {/* Menu Items (Home, Shop etc.) */}
         <Stack
           direction={"row"}
@@ -180,7 +183,10 @@ export default function Navbar() {
           {menuItems.map((item, i) => {
             if (item != "Shop") {
               return (
-                <Link key={i} href={`/${item != "Home" ? item.toLowerCase() : ""}`}>
+                <Link
+                  key={i}
+                  href={`/${item != "Home" ? item.toLowerCase() : ""}`}
+                >
                   <Typography
                     variant="body2"
                     sx={{

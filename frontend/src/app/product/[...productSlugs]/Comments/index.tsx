@@ -7,12 +7,11 @@ import {
   Input,
   Box,
   Button,
-  useMediaQuery,
 } from "@mui/material";
+import { Single_Comment } from "Types/api";
 type props = { productId: number };
 export default function Comments({ productId }: props) {
-  const mobileSize = useMediaQuery("(max-width:580px)");
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState<Single_Comment[]>([]);
   useEffect(() => {
     fetch(
       process.env.NEXT_PUBLIC_BASE_API +
@@ -22,7 +21,7 @@ export default function Comments({ productId }: props) {
       .then((data) => setComments(data?.data))
       .catch((err) => console.log(err));
   }, [productId]);
-
+  
   return (
     <Grid2 container columnSpacing={4} rowSpacing={2}>
       <Grid2 size={{ xs: 12, md: 7 }}>
@@ -78,10 +77,7 @@ export default function Comments({ productId }: props) {
                       <Typography variant="h5">
                         {e.attributes.authorName}
                       </Typography>
-                      <Rating
-                        size={mobileSize ? "small" : "medium"}
-                        value={+e.attributes.rating}
-                      />
+                      <Rating size="small" value={+e.attributes?.rating} />
                     </Stack>
                     <Button
                       sx={{
@@ -155,10 +151,7 @@ export default function Comments({ productId }: props) {
                         <Typography variant="h5">
                           {m.attributes.authorName}
                         </Typography>
-                        <Rating
-                          size={mobileSize ? "small" : "medium"}
-                          value={+m.attributes.rating}
-                        />
+                        <Rating size="small" value={+m.attributes.rating} />
                       </Stack>
                       <Button
                         sx={{
@@ -201,7 +194,7 @@ export default function Comments({ productId }: props) {
           }}
         >
           <Typography variant="h5">Add a Review</Typography>
-          <Rating value={5} />
+          <Rating value={5} size="small" />
           <Stack
             direction={{ xs: "column", sm: "row" }}
             sx={{

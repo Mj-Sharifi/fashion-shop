@@ -88,7 +88,6 @@ export default function ProductCard({ product }: props) {
           overflow: "hidden",
           position: "relative",
           alignItems: "center",
-
           "&:hover": {
             "img:nth-child(1)": {
               transform: "translateX(-100%)",
@@ -110,7 +109,7 @@ export default function ProductCard({ product }: props) {
             width: "100%",
             position: "relative",
             overflow: "hidden",
-            mb: 4,
+            mb: 1,
           }}
         >
           <Link
@@ -130,7 +129,7 @@ export default function ProductCard({ product }: props) {
                 process.env.NEXT_PUBLIC_BASE_URL +
                 imageprimary.data.attributes.url
               }
-              sx={{ width: "100%", transition: "0.5s", objectFit: "contain" }}
+              sx={{maxHeight:{xs:"150px",md:"200px"},width:"100%", transition: "0.5s", objectFit: "contain" }}
             />
           </Link>
 
@@ -242,7 +241,7 @@ export default function ProductCard({ product }: props) {
           </Stack>
         </Box>
         <Typography component={"h2"}>{title}</Typography>
-        <Rating readOnly precision={0.5} value={+rating} />
+        <Rating readOnly precision={0.5} value={+rating.slice(1)} size="small"/>
         <Stack direction={"row"}>
           {discount ? (
             <Typography>
@@ -273,13 +272,14 @@ export default function ProductCard({ product }: props) {
               variant="filled"
               label="New"
               sx={{
-                width: "65px",
-                paddingY: "3px",
+                width: "42px",
+                height:"26px",
                 borderRadius: "5px",
                 bgcolor: "colors.violet",
                 color: "text.white",
-                fontSize: "14px",
+                fontSize: "12px",
                 fontWeight: "500",
+                "& .MuiChip-label": { padding: "0" },
               }}
             />
           )}
@@ -288,13 +288,14 @@ export default function ProductCard({ product }: props) {
               variant="filled"
               label={`-${discount}%`}
               sx={{
-                width: "65px",
-                paddingY: "3px",
+                width: "40px",
+                height:"25px",
                 borderRadius: "5px",
                 bgcolor: "colors.pink",
                 color: "text.white",
-                fontSize: "14px",
+                fontSize: "12px",
                 fontWeight: "500",
+                "& .MuiChip-label": { padding: "0" },
               }}
             />
           ) : undefined}

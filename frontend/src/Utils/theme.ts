@@ -105,12 +105,12 @@ theme.typography.h5 = {
 theme.typography.body2 = {
   fontFamily: poppins.style.fontFamily,
   color: "#222",
-  fontSize: "14px",
+  fontSize: "12px",
   lineHeight: "24px",
   fontWeight: "400",
   [theme.breakpoints.up("sm")]: {
     fontFamily: poppins.style.fontFamily,
-    fontSize: "16px",
+    fontSize: "14px",
   },
 };
 theme.typography.menuItems = {
